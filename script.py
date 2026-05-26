@@ -34,7 +34,7 @@ INSTRUMENTAL_BLACKLIST = ["type beat", "instrumental", "version", "edit", "riddi
 CHUTNEY_BLACKLIST = ["chutney", "ravi b", "karma", "raymond ramnarine", "dil-e-nadan", "ki & the band", "ki and the band", "omardath", "reshma ramlal", "gundilal", "boodram", "drupatee"]
 GLOBAL_CLUTTER_BLACKLIST = ["the voice blind audition", "the voice battle", "full movie", "movie clip", "trailer", "season finale", "rihanna", "chinese"]
 
-# Regex Patterns for exact word matching (Prevents "mix" from blocking "remix")
+# Regex Patterns
 MIX_PATTERN = re.compile(r'\b(mix|mixes|mixtape|mixtapes)\b')
 SOCA_ROAD_MIX_PATTERN = re.compile(r'\b(road\s?mix)\b')
 
@@ -64,69 +64,95 @@ master_list = []
 for genre in genres:
     genre_tracks = []
     
-    # API-level exclusion for mixes
     search_query = f"{SEARCH_QUERIES[genre]} -mix -mixes -mixtape -mixtapes -compilation"
     if genre == "soca":
         search_query += " -roadmix"
         
-    params = {
-        "part": "snippet", 
-        "q": search_query, 
-        "type": "video", 
-        "order": "viewCount", 
-        "publishedAfter": published_after, 
-        "maxResults": 50, 
-        "key": API_KEY
-    }
+    next_page_token = None
+    pages_fetched = 0
+    MAX_PAGES = 5 # Prevents infinite loops, checks up to 250 raw videos per genre
     
-    with urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/search?{urllib.parse.urlencode(params)}") as r:
-        res = json.loads(r.read().decode())
-        ids = [i["id"]["videoId"] for i in res.get("items", [])]
+    # Loop until we have 50 valid tracks or hit the page limit
+    while len(genre_tracks) < 50 and pages_fetched < MAX_PAGES:
+        params = {
+            "part": "snippet", 
+            "q": search_query, 
+            "type": "video", 
+            "order": "viewCount", 
+            "publishedAfter": published_after, 
+            "maxResults": 50, 
+            "key": API_KEY
+        }
+        
+        if next_page_token:
+            params["pageToken"] = next_page_token
+            
+        with urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/search?{urllib.parse.urlencode(params)}") as r:
+            res = json.loads(r.read().decode())
+            ids = [i["id"]["videoId"] for i in res.get("items", [])]
+            next_page_token = res.get("nextPageToken")
+            
+        pages_fetched += 1
 
-    if not ids:
-        final_charts["charts"][genre] = []
-        continue
+        if not ids:
+            if not next_page_token: break
+            continue
 
-    with urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id={','.join(ids)}&key={API_KEY}") as r:
-        stats = json.loads(r.read().decode())
-        for item in stats.get("items", []):
-            dur = get_seconds(item["contentDetails"].get("duration", ""))
-            
-            # Strict Single Format: No shorts, no extended mixes (1 to 5 mins max)
-            if dur < 60 or dur > 300: 
-                continue
-            
-            t = next(x for x in res["items"] if x["id"]["videoId"] == item["id"])
-            title_lower = t["snippet"]["title"].lower()
-            channel_lower = t["snippet"]["channelTitle"].lower()
-            
-            # Mix / Mixtape filtering
-            if MIX_PATTERN.search(title_lower): continue
-            if genre == "soca" and SOCA_ROAD_MIX_PATTERN.search(title_lower): continue
-            
-            # Apply standard blacklists
-            if any(c in title_lower for c in GLOBAL_CLUTTER_BLACKLIST): continue
-            if any(ch in title_lower or ch in channel_lower for ch in CHUTNEY_BLACKLIST): continue
-            
-            if genre != "bouyon":
-                if any(b in title_lower or b in channel_lower for b in INSTRUMENTAL_BLACKLIST): continue
-            else:
-                if "type beat" in title_lower or "free beat" in title_lower: continue
+        with urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id={','.join(ids)}&key={API_KEY}") as r:
+            stats = json.loads(r.read().decode())
+            for item in stats.get("items", []):
+                # Stop if we hit our 50 track goal
+                if len(genre_tracks) >= 50:
+                    break
+                    
+                # Prevent duplicates
+                if any(t['id'] == item['id'] for t in genre_tracks):
+                    continue
+                    
+                dur = get_seconds(item["contentDetails"].get("duration", ""))
+                
+                # Strict Single Format
+                if dur < 60 or dur > 300: 
+                    continue
+                
+                t = next((x for x in res["items"] if x["id"]["videoId"] == item["id"]), None)
+                if not t: continue
+                
+                title_lower = t["snippet"]["title"].lower()
+                channel_lower = t["snippet"]["channelTitle"].lower()
+                
+                # Mix / Mixtape filtering
+                if MIX_PATTERN.search(title_lower): continue
+                if genre == "soca" and SOCA_ROAD_MIX_PATTERN.search(title_lower): continue
+                
+                # Apply standard blacklists
+                if any(c in title_lower for c in GLOBAL_CLUTTER_BLACKLIST): continue
+                if any(ch in title_lower or ch in channel_lower for ch in CHUTNEY_BLACKLIST): continue
+                
+                if genre != "bouyon":
+                    if any(b in title_lower or b in channel_lower for b in INSTRUMENTAL_BLACKLIST): continue
+                else:
+                    if "type beat" in title_lower or "free beat" in title_lower: continue
 
-            views = int(item["statistics"].get("viewCount", 0))
-            if views < 5000: continue
-            
-            track = {
-                "id": item["id"], 
-                "title": t["snippet"]["title"], 
-                "channel": t["snippet"]["channelTitle"],
-                "url": f"https://www.youtube.com/watch?v={item['id']}",
-                "thumbnail": t["snippet"]["thumbnails"]["high"]["url"],
-                "lifetime_views": views,
-                "weekly_views": views if is_first_run else max(0, views - history.get(item["id"], 0))
-            }
-            genre_tracks.append(track)
+                views = int(item["statistics"].get("viewCount", 0))
+                if views < 5000: continue
+                
+                track = {
+                    "id": item["id"], 
+                    "title": t["snippet"]["title"], 
+                    "channel": t["snippet"]["channelTitle"],
+                    "url": f"https://www.youtube.com/watch?v={item['id']}",
+                    "thumbnail": t["snippet"]["thumbnails"]["high"]["url"],
+                    "lifetime_views": views,
+                    "weekly_views": views if is_first_run else max(0, views - history.get(item["id"], 0))
+                }
+                genre_tracks.append(track)
+                
+        # If there are no more pages to check from YouTube, break the loop early
+        if not next_page_token:
+            break
 
+    # Sort strictly by weekly views before finalizing the top 50
     genre_tracks.sort(key=lambda x: x["weekly_views"], reverse=True)
     final_charts["charts"][genre] = genre_tracks  
     master_list.extend(genre_tracks)
@@ -136,7 +162,7 @@ for genre in genres:
         ws = sheet.worksheet(genre)
         ws.batch_clear(["A2:G60"])
         if genre_tracks:
-            ws.update("A2", [[i+1, t["title"], t["channel"], t["weekly_views"], t["id"], t["url"], t["thumbnail"]] for i, t in enumerate(genre_tracks[:50])])
+            ws.update("A2", [[i+1, t["title"], t["channel"], t["weekly_views"], t["id"], t["url"], t["thumbnail"]] for i, t in enumerate(genre_tracks)])
     except Exception as e:
         print(f"Error updating sheet for {genre}: {e}")
 
