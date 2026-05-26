@@ -34,7 +34,7 @@ def get_duration_seconds(duration_str):
     seconds = int(match.group(3)) if match.group(3) else 0
     return (hours * 3600) + (minutes * 60) + seconds
 
-# 2. Connect to Google Sheets
+# 2. Connect to Google Sheets (With Diagnostic Traceback)
 try:
     scopes = [
         "https://www.googleapis.com/auth/spreadsheets",
@@ -47,6 +47,10 @@ try:
     print(f"Connected successfully to Google Sheet: {SPREADSHEET_NAME}")
 except Exception as e:
     print(f"Google Sheets connection failed: {e}")
+    print("\n[!] --- DIAGNOSTIC TRACEBACK START ---")
+    import traceback
+    traceback.print_exc()
+    print("[!] --- DIAGNOSTIC TRACEBACK END ---\n")
     exit(1)
 
 # 3. Load View History for Velocity Calculation
@@ -175,10 +179,8 @@ for genre in genres:
     top_50_genre = genre_tracks[:50]
     final_charts[genre] = top_50_genre
 
-    # 5. Push Directly to Google Sheets Tab
     try:
         worksheet = sheet.worksheet(genre)
-        # Retain headers on Row 1, wipe everything else cleanly
         worksheet.batch_clear(["A2:G60"])
         
         sheet_rows = []
@@ -199,7 +201,6 @@ for genre in genres:
     except Exception as sheet_err:
         print(f"Error writing to spreadsheet tab '{genre}': {sheet_err}")
 
-# Assemble master combined charts for local JSON backup tracking
 for genre_key in genres:
     for t in final_charts.get(genre_key, []):
         if t["id"] not in master_track_fingerprints:
