@@ -16,7 +16,6 @@ four_months_ago = today - timedelta(days=120)
 published_after = four_months_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
 current_year = today.year
 
-# Added Chutney as its own official genre
 genres = ["soca", "chutney", "dancehall", "reggae", "bouyon", "afrobeats"]
 history = {}
 is_first_run = True
@@ -30,7 +29,6 @@ def get_duration_seconds(duration_str):
     seconds = int(match.group(3)) if match.group(3) else 0
     return (hours * 3600) + (minutes * 60) + seconds
 
-# Load history
 try:
     if os.path.exists("data.json"):
         with open("data.json", "r", encoding="utf-8") as f:
@@ -44,14 +42,14 @@ except Exception:
 
 final_charts = {}
 all_tracks_master = []
-global_claimed_ids = set() # To prevent duplicates completely across ALL charts
+master_track_fingerprints = set() # For the combined All Genres view
 
-# Search and process each genre
 for genre in genres:
     print(f"Fetching pages for {genre.upper()}...")
     genre_tracks = []
     video_ids = []
     video_snippets = {}
+    genre_claimed_ids = set() # FIXED: Prevents duplicates INSIDE this specific chart without starving others
     
     search_query = f"{genre} {current_year}"
     next_page_token = None
@@ -94,7 +92,6 @@ for genre in genres:
     if not video_ids:
         continue
 
-    # Process details and filter
     chunk_size = 50
     chunks = [video_ids[i:i + chunk_size] for i in range(0, len(video_ids), chunk_size)]
 
@@ -114,34 +111,35 @@ for genre in genres:
                     title_lower = track["title"].lower()
                     channel_lower = track["channel"].lower()
                     
-                    # 1. DUPES FILTER: If another genre claimed it already, skip it
-                    if vid in global_claimed_ids:
+                    # 1. Intra-genre duplicate filter
+                    if vid in genre_claimed_ids:
                         continue
 
-                    # 2. FLUFF FILTER: Block instrumentals, riddim versions, and edits
+                    # 2. Fluff filter
                     if any(bad_word in title_lower for bad_word in ["instrumental", "version", "edit"]):
                         continue
                         
-                    # 3. CHUTNEY FILTER: Route chutney away from soca completely
+                    # 3. Chutney isolation routing
                     if "chutney" in title_lower or "chutney" in channel_lower:
                         if genre != "chutney":
-                            continue # Ignore here; let the chutney loop pick it up naturally
+                            continue
 
-                    # 4. ANTI-BLEEDING FILTERS: Strict crossover protection
+                    # 4. Anti-Bleeding filters
                     if genre == "soca" and "dancehall" in title_lower and "soca" not in title_lower:
                         continue
                     if genre == "reggae" and "dancehall" in title_lower and "reggae" not in title_lower:
                         continue
                     if genre == "soca" and "reggae" in title_lower and "soca" not in title_lower:
                         continue
+                    if genre == "afrobeats" and "dancehall" in title_lower and "afrobeats" not in title_lower:
+                        continue
                     
-                    # 5. DURATION FILTER (90s to 5 mins)
+                    # 5. Duration filter
                     duration_raw = item["contentDetails"].get("duration", "")
                     duration_seconds = get_duration_seconds(duration_raw)
                     if duration_seconds < 90 or duration_seconds > 300:
                         continue
                         
-                    # Calculate weekly view parameters
                     current_views = int(item["statistics"].get("viewCount", 0))
                     track["lifetime_views"] = current_views
                     
@@ -152,7 +150,7 @@ for genre in genres:
                         
                     track["weekly_views"] = weekly_views
                     genre_tracks.append(track)
-                    global_claimed_ids.add(vid)
+                    genre_claimed_ids.add(vid)
                     
         except Exception as e:
             print(f"Stats chunk processing error: {e}")
@@ -161,11 +159,12 @@ for genre in genres:
     final_charts[genre] = genre_tracks[:50]
     print(f"Cleaned and secured {len(final_charts[genre])} tracks for {genre.upper()}.")
 
-# Build the global master chart from all unique tracks caught
+# Build the Master Chart safely without master duplicates
 for genre_key in genres:
     for t in final_charts.get(genre_key, []):
-        if t not in all_tracks_master:
+        if t["id"] not in master_track_fingerprints:
             all_tracks_master.append(t)
+            master_track_fingerprints.add(t["id"])
 
 all_tracks_master.sort(key=lambda x: x["weekly_views"], reverse=True)
 final_charts["all_genres"] = all_tracks_master[:50]
@@ -178,4 +177,4 @@ final_output = {
 with open("data.json", "w", encoding="utf-8") as f:
     json.dump(final_output, f, indent=4)
 
-print("Carib50 Core Engine Successfully updated!")
+print("Carib50 Engine Updated Successfully!")
