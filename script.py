@@ -28,6 +28,9 @@ BLACKLIST = ["mix", "mixtape", "compilation", "dj", "type beat", "instrumental",
 
 def get_seconds(d):
     m = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', d)
+    # Safeguard against malformed duration strings or live-stream edge cases
+    if not m:
+        return 0
     return (int(m.group(1) or 0) * 3600) + (int(m.group(2) or 0) * 60) + (int(m.group(3) or 0))
 
 # 2. Initialization
@@ -39,7 +42,6 @@ if os.path.exists("data.json"):
         data = json.load(f)
         for g in data.get("charts", {}):
             for t in data["charts"][g]: 
-                # Use .get() to prevent KeyError if the key is missing from a previous run
                 history[t["id"]] = t.get("lifetime_views", 0)
             is_first_run = False
 
@@ -77,13 +79,13 @@ for genre in genres:
                 "channel": t["snippet"]["channelTitle"],
                 "url": f"https://www.youtube.com/watch?v={item['id']}",
                 "thumbnail": t["snippet"]["thumbnails"]["high"]["url"],
-                "lifetime_views": views, # Added this back so it saves properly
+                "lifetime_views": views,
                 "weekly_views": views if is_first_run else max(0, views - history.get(item["id"], 0))
             }
             genre_tracks.append(track)
 
     genre_tracks.sort(key=lambda x: x["weekly_views"], reverse=True)
-    final_charts["charts"][genre] = genre_tracks  # Keep all 50 for Sheets
+    final_charts["charts"][genre] = genre_tracks  
     master_list.extend(genre_tracks)
     
     # Update Sheet (50 rows)
@@ -96,7 +98,6 @@ for genre in genres:
         print(f"Error updating sheet for {genre}: {e}")
 
 # 4. Master Sort & Save (25 for Website)
-# Remove duplicates from the master list before sorting
 unique_master = {t["id"]: t for t in master_list}.values()
 sorted_master = sorted(unique_master, key=lambda x: x["weekly_views"], reverse=True)
 
