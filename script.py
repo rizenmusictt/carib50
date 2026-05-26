@@ -4,11 +4,16 @@ import urllib.request
 import urllib.parse
 import re
 from datetime import datetime, timedelta
+import gspread
+from google.oauth2.service_account import Credentials
 
+# 1. System Auth & Setup
 API_KEY = os.environ.get("YOUTUBE_API_KEY")
+GOOGLE_CREDS_JSON = os.environ.get("GOOGLE_CREDENTIALS")
+SPREADSHEET_NAME = os.environ.get("SPREADSHEET_NAME", "Carib25 CMS")
 
-if not API_KEY:
-    print("Error: YOUTUBE_API_KEY missing.")
+if not API_KEY or not GOOGLE_CREDS_JSON:
+    print("Error: Missing required YOUTUBE_API_KEY or GOOGLE_CREDENTIALS environment variables.")
     exit(1)
 
 today = datetime.utcnow()
@@ -29,6 +34,19 @@ def get_duration_seconds(duration_str):
     seconds = int(match.group(3)) if match.group(3) else 0
     return (hours * 3600) + (minutes * 60) + seconds
 
+# 2. Connect to Google Sheets
+try:
+    scopes = ["https://www.googleapis.com/auth/spreadsheets"]
+    creds_dict = json.loads(GOOGLE_CREDS_JSON)
+    creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+    gc = gspread.authorize(creds)
+    sheet = gc.open(SPREADSHEET_NAME)
+    print(f"Connected successfully to Google Sheet: {SPREADSHEET_NAME}")
+except Exception as e:
+    print(f"Google Sheets connection failed: {e}")
+    exit(1)
+
+# 3. Load View History for Velocity Calculation
 try:
     if os.path.exists("data.json"):
         with open("data.json", "r", encoding="utf-8") as f:
@@ -39,26 +57,24 @@ try:
                         history[track["id"]] = track["lifetime_views"]
         is_first_run = False
 except Exception:
-    print("Running as Week 1 Baseline.")
+    print("Running as Week 1 Baseline (No local data.json history found).")
 
 final_charts = {}
 all_tracks_master = []
 master_track_fingerprints = set()
 
+# 4. Processing Loops
 for genre in genres:
-    print(f"Fetching pages for {genre.upper()}...")
+    print(f"Processing YouTube data for {genre.upper()}...")
     genre_tracks = []
     video_ids = []
     video_snippets = {}
     genre_claimed_ids = set()
     
     final_charts[genre] = []
-    
-    # FIXED: Added negative search terms to ban long-form mixes right at the source
     search_query = f"{genre} {current_year} -mix -mixtape -compilation -dj"
     next_page_token = None
     
-    # FIXED: Expanded from 3 to 4 pages to scan 200 deep-tier individual singles per genre
     for page in range(4):
         search_query_params = {
             "part": "snippet", "q": search_query, "type": "video",
@@ -153,9 +169,34 @@ for genre in genres:
             print(f"Stats chunk processing error: {e}")
                     
     genre_tracks.sort(key=lambda x: x["weekly_views"], reverse=True)
-    final_charts[genre] = genre_tracks[:50]
-    print(f"Successfully processed {len(final_charts[genre])} tracks for {genre.upper()}.")
+    top_50_genre = genre_tracks[:50]
+    final_charts[genre] = top_50_genre
 
+    # 5. Push Directly to Google Sheets Tab
+    try:
+        worksheet = sheet.worksheet(genre)
+        # Retain headers on Row 1, wipe everything else cleanly
+        worksheet.batch_clear(["A2:G60"])
+        
+        sheet_rows = []
+        for index, track in enumerate(top_50_genre):
+            sheet_rows.append([
+                index + 1,
+                track["title"],
+                track["channel"],
+                track["weekly_views"],
+                track["id"],
+                track["url"],
+                track["thumbnail"]
+            ])
+            
+        if sheet_rows:
+            worksheet.update("A2", sheet_rows)
+            print(f"Successfully synced {len(sheet_rows)} tracks to Google Sheet tab: '{genre}'")
+    except Exception as sheet_err:
+        print(f"Error writing to spreadsheet tab '{genre}': {sheet_err}")
+
+# Assemble master combined charts for local JSON backup tracking
 for genre_key in genres:
     for t in final_charts.get(genre_key, []):
         if t["id"] not in master_track_fingerprints:
@@ -173,4 +214,4 @@ final_output = {
 with open("data.json", "w", encoding="utf-8") as f:
     json.dump(final_output, f, indent=4)
 
-print("Carib50 Core Engine Optimized for High-Velocity Singles!")
+print("Carib25 Data Matrix and Google Sheet CMS Synchronized Perfectly!")
