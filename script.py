@@ -25,6 +25,20 @@ genres = ["soca", "dancehall", "bouyon", "afrobeats"]
 history = {}
 is_first_run = True
 
+# 2. Curation Rules: Advanced Target Queries & Blacklists
+GENRE_QUERIES = {
+    "soca": 'soca 2026 OR "Machel Montano" OR "Bunji Garlin" OR "Kes" OR "Voice" OR "Patrice Roberts" OR "Nadia Batson" OR "Skinny Fabulous" OR "Lyrikal" OR "Nailah Blackman"',
+    "dancehall": 'dancehall 2026 OR "Shenseea" OR "Skillibeng" OR "Ayetian" OR "Valiant" OR "Masicka" OR "Vybz Kartel" OR "Popcaan" OR "Alkaline" OR "Skeng" OR "Teejay"',
+    "bouyon": 'bouyon 2026 OR "Triple Kay" OR "Asa Bantan" OR "Ridge" OR "Reo" OR "Signal Band" OR "WCK" OR "Gotta7"',
+    "afrobeats": 'afrobeats 2026 OR "Burna Boy" OR "Wizkid" OR "Davido" OR "Rema" OR "Asake" OR "Tems" OR "Omah Lay" OR "Ayra Starr" OR "Seyi Vibez" OR "Kizz Daniel"'
+}
+
+# Strict filter targeting Chutney artists who hide behind generic "Soca" titles
+CHUTNEY_BLACKLIST = [
+    "chutney", "ravi b", "karma", "raymond ramnarine", "dil-e-nadan", "ki & the band", 
+    "ki and the band", "omardath", "reshma ramlal", "gundilal", "boodram", "drupatee"
+]
+
 def get_duration_seconds(duration_str):
     match = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', duration_str)
     if not match:
@@ -34,7 +48,7 @@ def get_duration_seconds(duration_str):
     seconds = int(match.group(3)) if match.group(3) else 0
     return (hours * 3600) + (minutes * 60) + seconds
 
-# 2. Connect to Google Sheets by Key ID
+# 3. Connect to Google Sheets by Key ID
 try:
     scopes = [
         "https://www.googleapis.com/auth/spreadsheets",
@@ -47,13 +61,9 @@ try:
     print(f"Connected successfully to Google Sheet ID: {SPREADSHEET_ID}")
 except Exception as e:
     print(f"Google Sheets connection failed: {e}")
-    print("\n[!] --- DIAGNOSTIC TRACEBACK START ---")
-    import traceback
-    traceback.print_exc()
-    print("[!] --- DIAGNOSTIC TRACEBACK END ---\n")
     exit(1)
 
-# 3. Load View History for Velocity Calculation
+# 4. Load View History for Velocity Calculation
 try:
     if os.path.exists("data.json"):
         with open("data.json", "r", encoding="utf-8") as f:
@@ -64,22 +74,25 @@ try:
                         history[track["id"]] = track["lifetime_views"]
         is_first_run = False
 except Exception:
-    print("Running as Week 1 Baseline (No local data.json history found).")
+    print("Running as Week 1 Baseline.")
 
 final_charts = {}
 all_tracks_master = []
 master_track_fingerprints = set()
 
-# 4. Processing Loops
+# 5. Data Gathering Processing Loops
 for genre in genres:
-    print(f"Processing YouTube data for {genre.upper()}...")
+    print(f"Gathering metrics for {genre.upper()} using deep artist mapping...")
     genre_tracks = []
     video_ids = []
     video_snippets = {}
     genre_claimed_ids = set()
     
     final_charts[genre] = []
-    search_query = f"{genre} {current_year} -mix -mixtape -compilation -dj"
+    
+    # Injects the complex seed query and appends standard anti-mix rules
+    base_query = GENRE_QUERIES.get(genre, f"{genre} {current_year}")
+    search_query = f"{base_query} -mix -mixtape -compilation -dj"
     next_page_token = None
     
     for page in range(4):
@@ -114,7 +127,7 @@ for genre in genres:
                 if not next_page_token:
                     break
         except Exception as e:
-            print(f"Search error during {genre.upper()}: {e}")
+            print(f"Search API exception during {genre.upper()}: {e}")
             break
 
     if not video_ids:
@@ -142,14 +155,18 @@ for genre in genres:
                     if vid in genre_claimed_ids:
                         continue
 
-                    if any(bad_word in title_lower for bad_word in ["instrumental", "version", "edit"]):
-                        continue
-                        
-                    if "chutney" in title_lower or "chutney" in channel_lower:
+                    # Global Quality Controls
+                    if any(bad_word in title_lower for bad_word in ["instrumental", "version", "edit", "riddim loop"]):
                         continue
                     if "reggae" in title_lower or "reggae" in channel_lower:
                         continue
 
+                    # Hard Chutney Elimination
+                    if any(chutney_bot in title_lower or chutney_bot in channel_lower for chutney_bot in CHUTNEY_BLACKLIST):
+                        print(f"-> Filtered out Chutney track: {track['title']} by {track['channel']}")
+                        continue
+
+                    # Cross-tab leaking protection
                     if genre == "soca" and "dancehall" in title_lower and "soca" not in title_lower:
                         continue
                     if genre == "afrobeats" and "dancehall" in title_lower and "afrobeats" not in title_lower:
@@ -173,12 +190,13 @@ for genre in genres:
                     genre_claimed_ids.add(vid)
                     
         except Exception as e:
-            print(f"Stats chunk processing error: {e}")
+            print(f"Stats evaluation failure: {e}")
                     
     genre_tracks.sort(key=lambda x: x["weekly_views"], reverse=True)
     top_50_genre = genre_tracks[:50]
     final_charts[genre] = top_50_genre
 
+    # 6. Push Synchronized Tracks to Sheets Tabs
     try:
         worksheet = sheet.worksheet(genre)
         worksheet.batch_clear(["A2:G60"])
@@ -197,10 +215,11 @@ for genre in genres:
             
         if sheet_rows:
             worksheet.update("A2", sheet_rows)
-            print(f"Successfully synced {len(sheet_rows)} tracks to Google Sheet tab: '{genre}'")
+            print(f"Successfully populated {len(sheet_rows)} tracks to spreadsheet tab: '{genre}'")
     except Exception as sheet_err:
-        print(f"Error writing to spreadsheet tab '{genre}': {sheet_err}")
+        print(f"Spreadsheet sync error on tab '{genre}': {sheet_err}")
 
+# Combine master database backup tracking
 for genre_key in genres:
     for t in final_charts.get(genre_key, []):
         if t["id"] not in master_track_fingerprints:
@@ -218,4 +237,4 @@ final_output = {
 with open("data.json", "w", encoding="utf-8") as f:
     json.dump(final_output, f, indent=4)
 
-print("Carib25 Data Matrix and Google Sheet CMS Synchronized Perfectly!")
+print("Carib25 Database Array and Google Sheet Curation tabs fully updated!")
