@@ -8,6 +8,10 @@ on:
   # This lets you click "Run" manually whenever you want
   workflow_dispatch:
 
+# Fixes the Node 20 deprecation warning by forcing Node 24
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: write
 
