@@ -146,21 +146,17 @@
     <div class="tabs" id="tabs-container">
         <button class="tab-btn active" onclick="switchTab('all_genres', this)">All Genres</button>
         <button class="tab-btn" onclick="switchTab('soca', this)">Soca</button>
-        <button class="tab-btn" onclick="switchTab('chutney', this)">Chutney</button>
         <button class="tab-btn" onclick="switchTab('dancehall', this)">Dancehall</button>
-        <button class="tab-btn" onclick="switchTab('reggae', this)">Reggae</button>
         <button class="tab-btn" onclick="switchTab('bouyon', this)">Bouyon</button>
         <button class="tab-btn" onclick="switchTab('afrobeats', this)">Afrobeats</button>
     </div>
 
     <div class="chart-container" id="chart-list">
-        <!-- Tracks inject here -->
-    </div>
+        </div>
 
     <script>
         let cachedCharts = {};
 
-        // FIXED: Added a timestamp parameter to force browser/CDN to fetch the newest data.json immediately
         fetch('data.json?v=' + Date.now())
             .then(response => response.json())
             .then(data => {
@@ -197,6 +193,7 @@
                 return;
             }
 
+            // Grabs a clean slice of the top 25 records
             const tracks = allTracks.slice(0, 25);
 
             tracks.forEach((track, index) => {
