@@ -185,4 +185,37 @@ for genre in genres:
         
         sheet_rows = []
         for index, track in enumerate(top_50_genre):
-            sheet_rows.append(
+            sheet_rows.append([
+                index + 1,
+                track["title"],
+                track["channel"],
+                track["weekly_views"],
+                track["id"],
+                track["url"],
+                track["thumbnail"]
+            ])
+            
+        if sheet_rows:
+            worksheet.update("A2", sheet_rows)
+            print(f"Successfully synced {len(sheet_rows)} tracks to Google Sheet tab: '{genre}'")
+    except Exception as sheet_err:
+        print(f"Error writing to spreadsheet tab '{genre}': {sheet_err}")
+
+for genre_key in genres:
+    for t in final_charts.get(genre_key, []):
+        if t["id"] not in master_track_fingerprints:
+            all_tracks_master.append(t)
+            master_track_fingerprints.add(t["id"])
+
+all_tracks_master.sort(key=lambda x: x["weekly_views"], reverse=True)
+final_charts["all_genres"] = all_tracks_master[:50]
+
+final_output = {
+    "last_updated": today.strftime('%Y-%m-%d'),
+    "charts": final_charts
+}
+
+with open("data.json", "w", encoding="utf-8") as f:
+    json.dump(final_output, f, indent=4)
+
+print("Carib25 Data Matrix and Google Sheet CMS Synchronized Perfectly!")
