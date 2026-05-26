@@ -38,7 +38,9 @@ if os.path.exists("data.json"):
     with open("data.json", "r") as f:
         data = json.load(f)
         for g in data.get("charts", {}):
-            for t in data["charts"][g]: history[t["id"]] = t["lifetime_views"]
+            for t in data["charts"][g]: 
+                # Use .get() to prevent KeyError if the key is missing from a previous run
+                history[t["id"]] = t.get("lifetime_views", 0)
             is_first_run = False
 
 final_charts = {"charts": {}}
@@ -53,6 +55,10 @@ for genre in genres:
         res = json.loads(r.read().decode())
         ids = [i["id"]["videoId"] for i in res.get("items", [])]
 
+    if not ids:
+        final_charts["charts"][genre] = []
+        continue
+
     with urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id={','.join(ids)}&key={API_KEY}") as r:
         stats = json.loads(r.read().decode())
         for item in stats.get("items", []):
@@ -66,9 +72,12 @@ for genre in genres:
             if views < 5000: continue
             
             track = {
-                "id": item["id"], "title": t["snippet"]["title"], "channel": t["snippet"]["channelTitle"],
+                "id": item["id"], 
+                "title": t["snippet"]["title"], 
+                "channel": t["snippet"]["channelTitle"],
                 "url": f"https://www.youtube.com/watch?v={item['id']}",
                 "thumbnail": t["snippet"]["thumbnails"]["high"]["url"],
+                "lifetime_views": views, # Added this back so it saves properly
                 "weekly_views": views if is_first_run else max(0, views - history.get(item["id"], 0))
             }
             genre_tracks.append(track)
@@ -78,14 +87,20 @@ for genre in genres:
     master_list.extend(genre_tracks)
     
     # Update Sheet (50 rows)
-    ws = sheet.worksheet(genre)
-    ws.batch_clear(["A2:G60"])
-    ws.update("A2", [[i+1, t["title"], t["channel"], t["weekly_views"], t["id"], t["url"], t["thumbnail"]] for i, t in enumerate(genre_tracks)])
+    try:
+        ws = sheet.worksheet(genre)
+        ws.batch_clear(["A2:G60"])
+        if genre_tracks:
+            ws.update("A2", [[i+1, t["title"], t["channel"], t["weekly_views"], t["id"], t["url"], t["thumbnail"]] for i, t in enumerate(genre_tracks)])
+    except Exception as e:
+        print(f"Error updating sheet for {genre}: {e}")
 
 # 4. Master Sort & Save (25 for Website)
-master_list.sort(key=lambda x: x["weekly_views"], reverse=True)
-final_charts["charts"]["all_genres"] = master_list[:25]
+# Remove duplicates from the master list before sorting
+unique_master = {t["id"]: t for t in master_list}.values()
+sorted_master = sorted(unique_master, key=lambda x: x["weekly_views"], reverse=True)
 
-# Trim genre charts to 25 for data.json if needed, or keep 50 for the sheet
+final_charts["charts"]["all_genres"] = sorted_master[:25]
+
 with open("data.json", "w") as f:
     json.dump(final_charts, f, indent=4)
