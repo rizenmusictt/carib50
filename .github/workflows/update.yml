@@ -2,9 +2,8 @@ name: Update Carib25 Charts
 
 on:
   schedule:
-    # Runs automatically every Monday at midnight UTC
     - cron: '0 0 * * 1'
-  workflow_dispatch: # Allows you to manually trigger it via the Actions tab anytime
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,7 +27,7 @@ jobs:
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-          SPREADSHEET_NAME: "Carib25 CMS"
+          SPREADSHEET_ID: "1B3aGPWfbzv5mX-coUN855AOVfRCdVFXy9O-434aKbOw"
         run: python script.py
 
       - name: Commit and push baseline data changes
