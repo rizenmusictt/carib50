@@ -25,15 +25,20 @@ genres = ["soca", "dancehall", "bouyon", "afrobeats"]
 history = {}
 is_first_run = True
 
-# 2. Curation Rules: Advanced Target Queries & Blacklists
+# 2. Advanced Search Matrix (Optimized Year-Stamps + Exact Artist Roster)
 GENRE_QUERIES = {
-    "soca": 'soca 2026 OR "Machel Montano" OR "Bunji Garlin" OR "Kes" OR "Voice" OR "Patrice Roberts" OR "Nadia Batson" OR "Skinny Fabulous" OR "Lyrikal" OR "Nailah Blackman"',
-    "dancehall": 'dancehall 2026 OR "Shenseea" OR "Skillibeng" OR "Ayetian" OR "Valiant" OR "Masicka" OR "Vybz Kartel" OR "Popcaan" OR "Alkaline" OR "Skeng" OR "Teejay"',
-    "bouyon": 'bouyon 2026 OR "Triple Kay" OR "Asa Bantan" OR "Ridge" OR "Reo" OR "Signal Band" OR "WCK" OR "Gotta7"',
-    "afrobeats": 'afrobeats 2026 OR "Burna Boy" OR "Wizkid" OR "Davido" OR "Rema" OR "Asake" OR "Tems" OR "Omah Lay" OR "Ayra Starr" OR "Seyi Vibez" OR "Kizz Daniel"'
+    "soca": f'"soca {current_year}" OR "{current_year} soca" OR "Machel Montano" OR "Bunji Garlin" OR "Kes" OR "Voice" OR "Patrice Roberts" OR "Nadia Batson" OR "Skinny Fabulous" OR "Lyrikal" OR "Nailah Blackman"',
+    "dancehall": f'"dancehall {current_year}" OR "{current_year} dancehall" OR "Shenseea" OR "Skeng" OR "Ayetian" OR "Valiant" OR "Skillibeng" OR "Vybz Kartel" OR "Mavado" OR "Masicka" OR "Popcaan" OR "Teejay"',
+    "bouyon": f'"bouyon {current_year}" OR "{current_year} bouyon" OR "Triple Kay" OR "Asa Bantan" OR "Ridge" OR "Reo" OR "Signal Band" OR "WCK" OR "Gotta7" OR "Pudaz" OR "Trilla-G"',
+    "afrobeats": f'"afrobeats {current_year}" OR "{current_year} afrobeats" OR "Burna Boy" OR "Wizkid" OR "Davido" OR "Rema" OR "Asake" OR "Tems" OR "Omah Lay" OR "Ayra Starr" OR "Seyi Vibez" OR "Kizz Daniel"'
 }
 
-# Strict filter targeting Chutney artists who hide behind generic "Soca" titles
+# Clutter control filters
+INSTRUMENTAL_BLACKLIST = [
+    "type beat", "instrumental", "version", "edit", "riddim loop", 
+    "prod by", "prod.", "free beat", "beat lyric", "karaoke"
+]
+
 CHUTNEY_BLACKLIST = [
     "chutney", "ravi b", "karma", "raymond ramnarine", "dil-e-nadan", "ki & the band", 
     "ki and the band", "omardath", "reshma ramlal", "gundilal", "boodram", "drupatee"
@@ -82,7 +87,7 @@ master_track_fingerprints = set()
 
 # 5. Data Gathering Processing Loops
 for genre in genres:
-    print(f"Gathering metrics for {genre.upper()} using deep artist mapping...")
+    print(f"Gathering metrics for {genre.upper()} using structured indexing parameters...")
     genre_tracks = []
     video_ids = []
     video_snippets = {}
@@ -90,7 +95,6 @@ for genre in genres:
     
     final_charts[genre] = []
     
-    # Injects the complex seed query and appends standard anti-mix rules
     base_query = GENRE_QUERIES.get(genre, f"{genre} {current_year}")
     search_query = f"{base_query} -mix -mixtape -compilation -dj"
     next_page_token = None
@@ -155,15 +159,19 @@ for genre in genres:
                     if vid in genre_claimed_ids:
                         continue
 
-                    # Global Quality Controls
-                    if any(bad_word in title_lower for bad_word in ["instrumental", "version", "edit", "riddim loop"]):
-                        continue
+                    # Dynamic Instrumental Shield (Protects Bouyon, screens out Dancehall/Soca/Afrobeats type beats)
+                    if genre != "bouyon":
+                        if any(bad_word in title_lower or bad_word in channel_lower for bad_word in INSTRUMENTAL_BLACKLIST):
+                            continue
+                    else:
+                        if "type beat" in title_lower or "free beat" in title_lower:
+                            continue
+
                     if "reggae" in title_lower or "reggae" in channel_lower:
                         continue
 
                     # Hard Chutney Elimination
                     if any(chutney_bot in title_lower or chutney_bot in channel_lower for chutney_bot in CHUTNEY_BLACKLIST):
-                        print(f"-> Filtered out Chutney track: {track['title']} by {track['channel']}")
                         continue
 
                     # Cross-tab leaking protection
