@@ -13,10 +13,14 @@ GOOGLE_CREDS_JSON = os.environ.get("GOOGLE_CREDENTIALS")
 SPREADSHEET_ID = os.environ.get("SPREADSHEET_ID")
 CURRENT_YEAR = datetime.utcnow().year
 
-# Explicitly tracking only your three primary genres
 genres = ["soca", "dancehall", "bouyon"]
 history = {}
 is_first_run = True
+
+# Explicitly calculating the strict historical release boundary window
+today = datetime.utcnow()
+four_months_ago = today - timedelta(days=120)  # Restored 4-month date barrier limit
+published_after = four_months_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
 
 # Pinpoint Search Matrix (Artists strictly bound to their genres to prevent global leaks)
 SEARCH_QUERIES = {
@@ -44,7 +48,6 @@ if os.path.exists("data.json"):
     with open("data.json", "r") as f:
         data = json.load(f)
         for g in data.get("charts", {}):
-            # Skip old afrobeats keys that might still live in historic data files
             if g not in genres: continue
             for t in data["charts"][g]: 
                 history[t["id"]] = t.get("lifetime_views", 0)
@@ -57,7 +60,17 @@ master_list = []
 for genre in genres:
     genre_tracks = []
     search_query = f"{SEARCH_QUERIES[genre]} -mix -mixtape -compilation -dj"
-    params = {"part": "snippet", "q": search_query, "type": "video", "order": "viewCount", "maxResults": 50, "key": API_KEY}
+    
+    # Restored 'publishedAfter' directly back into the search payload matrix array parameters
+    params = {
+        "part": "snippet", 
+        "q": search_query, 
+        "type": "video", 
+        "order": "viewCount", 
+        "publishedAfter": published_after, 
+        "maxResults": 50, 
+        "key": API_KEY
+    }
     
     with urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/search?{urllib.parse.urlencode(params)}") as r:
         res = json.loads(r.read().decode())
