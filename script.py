@@ -16,11 +16,11 @@ four_months_ago = today - timedelta(days=120)
 published_after = four_months_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
 current_year = today.year
 
-genres = ["soca", "dancehall", "reggae", "bouyon", "afrobeats"]
+# Added Chutney as its own official genre
+genres = ["soca", "chutney", "dancehall", "reggae", "bouyon", "afrobeats"]
 history = {}
 is_first_run = True
 
-# Helper function to convert ISO 8601 duration (e.g., PT3M45S) to total seconds
 def get_duration_seconds(duration_str):
     match = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', duration_str)
     if not match:
@@ -30,7 +30,7 @@ def get_duration_seconds(duration_str):
     seconds = int(match.group(3)) if match.group(3) else 0
     return (hours * 3600) + (minutes * 60) + seconds
 
-# Load previous week's data to calculate velocity/momentum
+# Load history
 try:
     if os.path.exists("data.json"):
         with open("data.json", "r", encoding="utf-8") as f:
@@ -44,11 +44,11 @@ except Exception:
 
 final_charts = {}
 all_tracks_master = []
-processed_video_ids = set()
+global_claimed_ids = set() # To prevent duplicates completely across ALL charts
 
 # Search and process each genre
 for genre in genres:
-    print(f"Fetching pages for {genre}...")
+    print(f"Fetching pages for {genre.upper()}...")
     genre_tracks = []
     video_ids = []
     video_snippets = {}
@@ -56,7 +56,6 @@ for genre in genres:
     search_query = f"{genre} {current_year}"
     next_page_token = None
     
-    # PAGES LOOP: Pull 3 pages deep to fetch up to 150 raw records per genre
     for page in range(3):
         search_query_params = {
             "part": "snippet", "q": search_query, "type": "video",
@@ -87,15 +86,15 @@ for genre in genres:
                 
                 next_page_token = search_data.get("nextPageToken")
                 if not next_page_token:
-                    break # Break early if there are no further pages
+                    break
         except Exception as e:
-            print(f"Search error on page {page} for {genre}: {e}")
+            print(f"Search error: {e}")
             break
 
     if not video_ids:
         continue
 
-    # Get exact views AND content details (duration) in batches of 50
+    # Process details and filter
     chunk_size = 50
     chunks = [video_ids[i:i + chunk_size] for i in range(0, len(video_ids), chunk_size)]
 
@@ -111,18 +110,39 @@ for genre in genres:
                 
                 for item in stats_data.get("items", []):
                     vid = item["id"]
+                    track = video_snippets[vid]
+                    title_lower = track["title"].lower()
+                    channel_lower = track["channel"].lower()
                     
-                    # 1. Filter out shorts, skits, and extended DJ mixes
+                    # 1. DUPES FILTER: If another genre claimed it already, skip it
+                    if vid in global_claimed_ids:
+                        continue
+
+                    # 2. FLUFF FILTER: Block instrumentals, riddim versions, and edits
+                    if any(bad_word in title_lower for bad_word in ["instrumental", "version", "edit"]):
+                        continue
+                        
+                    # 3. CHUTNEY FILTER: Route chutney away from soca completely
+                    if "chutney" in title_lower or "chutney" in channel_lower:
+                        if genre != "chutney":
+                            continue # Ignore here; let the chutney loop pick it up naturally
+
+                    # 4. ANTI-BLEEDING FILTERS: Strict crossover protection
+                    if genre == "soca" and "dancehall" in title_lower and "soca" not in title_lower:
+                        continue
+                    if genre == "reggae" and "dancehall" in title_lower and "reggae" not in title_lower:
+                        continue
+                    if genre == "soca" and "reggae" in title_lower and "soca" not in title_lower:
+                        continue
+                    
+                    # 5. DURATION FILTER (90s to 5 mins)
                     duration_raw = item["contentDetails"].get("duration", "")
                     duration_seconds = get_duration_seconds(duration_raw)
-                    
-                    # Skip if shorter than 1 min 30s (90s) OR longer than 5 mins (300s)
                     if duration_seconds < 90 or duration_seconds > 300:
                         continue
                         
-                    # 2. Extract stats and measure movement
+                    # Calculate weekly view parameters
                     current_views = int(item["statistics"].get("viewCount", 0))
-                    track = video_snippets[vid]
                     track["lifetime_views"] = current_views
                     
                     if is_first_run:
@@ -132,25 +152,24 @@ for genre in genres:
                         
                     track["weekly_views"] = weekly_views
                     genre_tracks.append(track)
+                    global_claimed_ids.add(vid)
                     
-                    # Prevent tracking a track double-time if it overlaps genres
-                    if vid not in processed_video_ids:
-                        all_tracks_master.append(track)
-                        processed_video_ids.add(vid)
         except Exception as e:
             print(f"Stats chunk processing error: {e}")
                     
-    # Sort and clip to the Top 50 elite tracks per genre
     genre_tracks.sort(key=lambda x: x["weekly_views"], reverse=True)
     final_charts[genre] = genre_tracks[:50]
-    print(f"Secured {len(final_charts[genre])} cleanly filtered tracks for {genre.upper()}.")
+    print(f"Cleaned and secured {len(final_charts[genre])} tracks for {genre.upper()}.")
 
-# Build the overall combined "All Genres" Top 50
-print("Building combined Master Chart...")
+# Build the global master chart from all unique tracks caught
+for genre_key in genres:
+    for t in final_charts.get(genre_key, []):
+        if t not in all_tracks_master:
+            all_tracks_master.append(t)
+
 all_tracks_master.sort(key=lambda x: x["weekly_views"], reverse=True)
 final_charts["all_genres"] = all_tracks_master[:50]
 
-# Write database output out to data.json
 final_output = {
     "last_updated": today.strftime('%Y-%m-%d'),
     "charts": final_charts
@@ -159,4 +178,4 @@ final_output = {
 with open("data.json", "w", encoding="utf-8") as f:
     json.dump(final_output, f, indent=4)
 
-print("Carib50 data engine processing fully complete!")
+print("Carib50 Core Engine Successfully updated!")
