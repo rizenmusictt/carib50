@@ -1,72 +1,10 @@
 {
     "last_updated": "2026-05-26",
     "charts": {
-        "soca": [
-            {
-                "id": "pd2BEGg0WXs",
-                "title": "Ranking Best The Voice Covers Moments -  #trending #funny #thevoice",
-                "channel": "RCS Ranking",
-                "genre": "soca",
-                "url": "https://www.youtube.com/watch?v=pd2BEGg0WXs",
-                "thumbnail": "https://i.ytimg.com/vi/pd2BEGg0WXs/hqdefault.jpg",
-                "lifetime_views": 7680335,
-                "weekly_views": 7680335
-            },
-            {
-                "id": "6Bbly5QsWJs",
-                "title": "Her Voice And Confidence \ud83d\udc80\ud83d\udd25\ud83d\udcc8\ud83d\udc69\u200d\u2708\ufe0f Deepak Sir | Upsc Interview",
-                "channel": "IAS Illumine",
-                "genre": "soca",
-                "url": "https://www.youtube.com/watch?v=6Bbly5QsWJs",
-                "thumbnail": "https://i.ytimg.com/vi/6Bbly5QsWJs/hqdefault.jpg",
-                "lifetime_views": 5622154,
-                "weekly_views": 5622154
-            },
-            {
-                "id": "R2LvRKLZg2k",
-                "title": "\u0baa\u0bc6\u0ba3\u0bcd\u0b95\u0bb3\u0bc8 \u0bae\u0baf\u0b95\u0bcd\u0b95\u0bc1\u0bae\u0bcd \u0bb5\u0bbe\u0b9a\u0ba9\u0bc8 \u0ba4\u0bbf\u0bb0\u0bb5\u0bbf\u0baf\u0bae\u0bcd   |Vijay&#39;s Voice Over|Movies explained in tamil",
-                "channel": "Vijay's Voice Over 2",
-                "genre": "soca",
-                "url": "https://www.youtube.com/watch?v=R2LvRKLZg2k",
-                "thumbnail": "https://i.ytimg.com/vi/R2LvRKLZg2k/hqdefault.jpg",
-                "lifetime_views": 5246109,
-                "weekly_views": 5246109
-            }
-        ],
+        "soca": [],
         "dancehall": [],
         "bouyon": [],
         "afrobeats": [],
-        "all_genres": [
-            {
-                "id": "pd2BEGg0WXs",
-                "title": "Ranking Best The Voice Covers Moments -  #trending #funny #thevoice",
-                "channel": "RCS Ranking",
-                "genre": "soca",
-                "url": "https://www.youtube.com/watch?v=pd2BEGg0WXs",
-                "thumbnail": "https://i.ytimg.com/vi/pd2BEGg0WXs/hqdefault.jpg",
-                "lifetime_views": 7680335,
-                "weekly_views": 7680335
-            },
-            {
-                "id": "6Bbly5QsWJs",
-                "title": "Her Voice And Confidence \ud83d\udc80\ud83d\udd25\ud83d\udcc8\ud83d\udc69\u200d\u2708\ufe0f Deepak Sir | Upsc Interview",
-                "channel": "IAS Illumine",
-                "genre": "soca",
-                "url": "https://www.youtube.com/watch?v=6Bbly5QsWJs",
-                "thumbnail": "https://i.ytimg.com/vi/6Bbly5QsWJs/hqdefault.jpg",
-                "lifetime_views": 5622154,
-                "weekly_views": 5622154
-            },
-            {
-                "id": "R2LvRKLZg2k",
-                "title": "\u0baa\u0bc6\u0ba3\u0bcd\u0b95\u0bb3\u0bc8 \u0bae\u0baf\u0b95\u0bcd\u0b95\u0bc1\u0bae\u0bcd \u0bb5\u0bbe\u0b9a\u0ba9\u0bc8 \u0ba4\u0bbf\u0bb0\u0bb5\u0bbf\u0baf\u0bae\u0bcd   |Vijay&#39;s Voice Over|Movies explained in tamil",
-                "channel": "Vijay's Voice Over 2",
-                "genre": "soca",
-                "url": "https://www.youtube.com/watch?v=R2LvRKLZg2k",
-                "thumbnail": "https://i.ytimg.com/vi/R2LvRKLZg2k/hqdefault.jpg",
-                "lifetime_views": 5246109,
-                "weekly_views": 5246109
-            }
-        ]
+        "all_genres": []
     }
 }
