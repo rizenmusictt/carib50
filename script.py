@@ -16,7 +16,8 @@ four_months_ago = today - timedelta(days=120)
 published_after = four_months_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
 current_year = today.year
 
-genres = ["soca", "chutney", "dancehall", "reggae", "bouyon", "afrobeats"]
+# Streamlined core high-energy genres
+genres = ["soca", "dancehall", "bouyon", "afrobeats"]
 history = {}
 is_first_run = True
 
@@ -33,24 +34,26 @@ try:
     if os.path.exists("data.json"):
         with open("data.json", "r", encoding="utf-8") as f:
             old_data = json.load(f)
-            if "charts" in old_data and "all_genres" in old_data["charts"]:
-                for track in old_data["charts"]["all_genres"]:
-                    history[track["id"]] = track["lifetime_views"]
+            if "charts" in old_data:
+                for existing_genre in old_data["charts"]:
+                    for track in old_data["charts"][existing_genre]:
+                        history[track["id"]] = track["lifetime_views"]
         is_first_run = False
 except Exception:
     print("Running as Week 1 Baseline.")
 
 final_charts = {}
 all_tracks_master = []
-master_track_fingerprints = set() # For the combined All Genres view
+master_track_fingerprints = set()
 
 for genre in genres:
     print(f"Fetching pages for {genre.upper()}...")
     genre_tracks = []
     video_ids = []
     video_snippets = {}
-    genre_claimed_ids = set() # FIXED: Prevents duplicates INSIDE this specific chart without starving others
+    genre_claimed_ids = set()
     
+    final_charts[genre] = []
     search_query = f"{genre} {current_year}"
     next_page_token = None
     
@@ -86,7 +89,7 @@ for genre in genres:
                 if not next_page_token:
                     break
         except Exception as e:
-            print(f"Search error: {e}")
+            print(f"Search error during {genre.upper()}: {e}")
             break
 
     if not video_ids:
@@ -111,30 +114,25 @@ for genre in genres:
                     title_lower = track["title"].lower()
                     channel_lower = track["channel"].lower()
                     
-                    # 1. Intra-genre duplicate filter
                     if vid in genre_claimed_ids:
                         continue
 
-                    # 2. Fluff filter
                     if any(bad_word in title_lower for bad_word in ["instrumental", "version", "edit"]):
                         continue
                         
-                    # 3. Chutney isolation routing
+                    # CRITICAL: Complete Chutney and Reggae Filter 
+                    # If it says chutney or reggae anywhere in the title/channel, drop it instantly
                     if "chutney" in title_lower or "chutney" in channel_lower:
-                        if genre != "chutney":
-                            continue
+                        continue
+                    if "reggae" in title_lower or "reggae" in channel_lower:
+                        continue
 
-                    # 4. Anti-Bleeding filters
+                    # Anti-Bleeding cross filters
                     if genre == "soca" and "dancehall" in title_lower and "soca" not in title_lower:
-                        continue
-                    if genre == "reggae" and "dancehall" in title_lower and "reggae" not in title_lower:
-                        continue
-                    if genre == "soca" and "reggae" in title_lower and "soca" not in title_lower:
                         continue
                     if genre == "afrobeats" and "dancehall" in title_lower and "afrobeats" not in title_lower:
                         continue
                     
-                    # 5. Duration filter
                     duration_raw = item["contentDetails"].get("duration", "")
                     duration_seconds = get_duration_seconds(duration_raw)
                     if duration_seconds < 90 or duration_seconds > 300:
@@ -157,9 +155,8 @@ for genre in genres:
                     
     genre_tracks.sort(key=lambda x: x["weekly_views"], reverse=True)
     final_charts[genre] = genre_tracks[:50]
-    print(f"Cleaned and secured {len(final_charts[genre])} tracks for {genre.upper()}.")
+    print(f"Successfully processed {len(final_charts[genre])} tracks for {genre.upper()}.")
 
-# Build the Master Chart safely without master duplicates
 for genre_key in genres:
     for t in final_charts.get(genre_key, []):
         if t["id"] not in master_track_fingerprints:
@@ -177,4 +174,4 @@ final_output = {
 with open("data.json", "w", encoding="utf-8") as f:
     json.dump(final_output, f, indent=4)
 
-print("Carib50 Engine Updated Successfully!")
+print("Carib50 Master Engine Successfully Synced (Chutney & Reggae Removed)!")
