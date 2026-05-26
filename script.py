@@ -17,12 +17,12 @@ genres = ["soca", "dancehall", "bouyon"]
 history = {}
 is_first_run = True
 
-# Explicitly calculating the strict historical release boundary window
+# 4-month date barrier limit
 today = datetime.utcnow()
-four_months_ago = today - timedelta(days=120)  # Restored 4-month date barrier limit
+four_months_ago = today - timedelta(days=120)  
 published_after = four_months_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
 
-# Pinpoint Search Matrix (Artists strictly bound to their genres to prevent global leaks)
+# Pinpoint Search Matrix
 SEARCH_QUERIES = {
     "soca": f'("soca {CURRENT_YEAR}" OR "{CURRENT_YEAR} soca") OR "soca Machel Montano" OR "soca Bunji Garlin" OR "soca Kes" OR "soca Voice" OR "soca Patrice Roberts"',
     "dancehall": f'("dancehall {CURRENT_YEAR}" OR "{CURRENT_YEAR} dancehall") OR "dancehall Shenseea" OR "dancehall Skeng" OR "dancehall Ayetian" OR "dancehall Valiant" OR "dancehall Skillibeng" OR "dancehall Vybz Kartel" OR "dancehall Mavado" OR "dancehall Masicka" OR "dancehall Popcaan" OR "dancehall Teejay"',
@@ -33,6 +33,10 @@ SEARCH_QUERIES = {
 INSTRUMENTAL_BLACKLIST = ["type beat", "instrumental", "version", "edit", "riddim loop", "prod by", "prod.", "free beat", "beat lyric", "karaoke", "clean loop"]
 CHUTNEY_BLACKLIST = ["chutney", "ravi b", "karma", "raymond ramnarine", "dil-e-nadan", "ki & the band", "ki and the band", "omardath", "reshma ramlal", "gundilal", "boodram", "drupatee"]
 GLOBAL_CLUTTER_BLACKLIST = ["the voice blind audition", "the voice battle", "full movie", "movie clip", "trailer", "season finale", "rihanna", "chinese"]
+
+# Regex Patterns for exact word matching (Prevents "mix" from blocking "remix")
+MIX_PATTERN = re.compile(r'\b(mix|mixes|mixtape|mixtapes)\b')
+SOCA_ROAD_MIX_PATTERN = re.compile(r'\b(road\s?mix)\b')
 
 def get_seconds(d):
     m = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', d)
@@ -59,9 +63,12 @@ master_list = []
 # 3. Processing
 for genre in genres:
     genre_tracks = []
-    search_query = f"{SEARCH_QUERIES[genre]} -mix -mixtape -compilation -dj"
     
-    # Restored 'publishedAfter' directly back into the search payload matrix array parameters
+    # API-level exclusion for mixes
+    search_query = f"{SEARCH_QUERIES[genre]} -mix -mixes -mixtape -mixtapes -compilation"
+    if genre == "soca":
+        search_query += " -roadmix"
+        
     params = {
         "part": "snippet", 
         "q": search_query, 
@@ -93,7 +100,11 @@ for genre in genres:
             title_lower = t["snippet"]["title"].lower()
             channel_lower = t["snippet"]["channelTitle"].lower()
             
-            # Apply strict blacklists
+            # Mix / Mixtape filtering
+            if MIX_PATTERN.search(title_lower): continue
+            if genre == "soca" and SOCA_ROAD_MIX_PATTERN.search(title_lower): continue
+            
+            # Apply standard blacklists
             if any(c in title_lower for c in GLOBAL_CLUTTER_BLACKLIST): continue
             if any(ch in title_lower or ch in channel_lower for ch in CHUTNEY_BLACKLIST): continue
             
@@ -120,7 +131,7 @@ for genre in genres:
     final_charts["charts"][genre] = genre_tracks  
     master_list.extend(genre_tracks)
     
-    # Update Google Sheet (Stores up to 50 tracks)
+    # Update Google Sheet
     try:
         ws = sheet.worksheet(genre)
         ws.batch_clear(["A2:G60"])
@@ -129,7 +140,7 @@ for genre in genres:
     except Exception as e:
         print(f"Error updating sheet for {genre}: {e}")
 
-# 4. Master Sort & Save (Limits data.json output to top 25 overall hits)
+# 4. Master Sort & Save
 unique_master = {t["id"]: t for t in master_list}.values()
 sorted_master = sorted(unique_master, key=lambda x: x["weekly_views"], reverse=True)
 
