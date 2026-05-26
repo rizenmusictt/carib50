@@ -1,0 +1,36 @@
+name: Update Carib100 Chart
+
+on:
+  schedule:
+    # Runs at midnight (00:00 UTC) every Thursday
+    - cron: '0 0 * * 4'
+  
+  # This lets you click "Run" manually whenever you want
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run Python Script
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python script.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Automated Weekly Chart Update" && git push)
