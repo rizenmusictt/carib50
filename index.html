@@ -32,7 +32,7 @@
             flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 30px;
-            max-width: 800px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -84,9 +84,9 @@
             width: 40px;
             text-align: center;
         }
-        .track:nth-child(1) .rank { color: #ffd700; font-size: 1.6rem; } /* Gold for #1 */
-        .track:nth-child(2) .rank { color: #c0c0c0; } /* Silver for #2 */
-        .track:nth-child(3) .rank { color: #cd7f32; } /* Bronze for #3 */
+        .track:nth-child(1) .rank { color: #ffd700; font-size: 1.6rem; } 
+        .track:nth-child(2) .rank { color: #c0c0c0; } 
+        .track:nth-child(3) .rank { color: #cd7f32; } 
 
         .thumbnail-container {
             position: relative;
@@ -146,6 +146,7 @@
     <div class="tabs" id="tabs-container">
         <button class="tab-btn active" onclick="switchTab('all_genres', this)">All Genres</button>
         <button class="tab-btn" onclick="switchTab('soca', this)">Soca</button>
+        <button class="tab-btn" onclick="switchTab('chutney', this)">Chutney</button>
         <button class="tab-btn" onclick="switchTab('dancehall', this)">Dancehall</button>
         <button class="tab-btn" onclick="switchTab('reggae', this)">Reggae</button>
         <button class="tab-btn" onclick="switchTab('bouyon', this)">Bouyon</button>
@@ -159,18 +160,13 @@
     <script>
         let cachedCharts = {};
 
-        // Fetch data from data.json
         fetch('data.json')
             .then(response => response.json())
             .then(data => {
                 cachedCharts = data.charts;
-                
-                // Format and present update timestamp
                 if (data.last_updated) {
                     document.getElementById('update-date').innerText = "WEEKLY VELOCITY CHART • UPDATED: " + data.last_updated;
                 }
-                
-                // Load default baseline tab (All Genres combined)
                 renderChart('all_genres');
             })
             .catch(error => {
@@ -184,17 +180,14 @@
             });
 
         function switchTab(genreKey, buttonElement) {
-            // Manage active button layout states
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             buttonElement.classList.add('active');
-            
-            // Build the specific chart view
             renderChart(genreKey);
         }
 
         function renderChart(genreKey) {
             const container = document.getElementById('chart-list');
-            container.innerHTML = ''; // Clean old tracks
+            container.innerHTML = ''; 
 
             const tracks = cachedCharts[genreKey];
 
@@ -206,8 +199,6 @@
             tracks.forEach((track, index) => {
                 const item = document.createElement('div');
                 item.className = 'track';
-
-                // Format count nicely (e.g., 1,500,000)
                 const formattedViews = track.weekly_views.toLocaleString();
 
                 item.innerHTML = `
