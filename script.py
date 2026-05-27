@@ -22,11 +22,11 @@ today = datetime.utcnow()
 four_months_ago = today - timedelta(days=120)  
 published_after = four_months_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
 
-# Clean, flat queries. No parentheses to break the YouTube API parser.
+# Restored Bouyon artists using a flat OR structure (No parentheses)
 SEARCH_QUERIES = {
     "soca": f"{CURRENT_YEAR} soca",
     "dancehall": f"{CURRENT_YEAR} dancehall",
-    "bouyon": f"{CURRENT_YEAR} bouyon"
+    "bouyon": f'bouyon {CURRENT_YEAR} OR "Asa Bantan" OR "Triple Kay" OR "Ridge" OR "Signal Band"'
 }
 
 # Watertight Content Filtering
