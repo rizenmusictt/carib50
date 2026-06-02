@@ -9,6 +9,7 @@
       --bg-color: #0b0c10;
       --card-bg: #1f2833;
       --accent-green: #1db954;
+      --accent-hover: #1ed760;
       --text-main: #ffffff;
       --text-muted: #c5c6c7;
       --border-color: #2c3540;
@@ -25,6 +26,7 @@
       background-color: var(--bg-color);
       color: var(--text-main);
       padding: 20px;
+      -webkit-font-smoothing: antialiased;
     }
 
     .container {
@@ -41,13 +43,15 @@
       font-size: 2.5rem;
       letter-spacing: 1px;
       margin-bottom: 5px;
+      font-weight: 800;
     }
 
     header p {
       color: var(--text-muted);
+      font-size: 1rem;
     }
 
-    /* Tab Layout Switcher */
+    /* Tab Switcher Interface Structure */
     .tabs {
       display: flex;
       justify-content: center;
@@ -78,7 +82,7 @@
       border-bottom: 3px solid var(--accent-green);
     }
 
-    /* Chart Container Structure */
+    /* Chart Container Structural Grid */
     .chart-list {
       background-color: var(--card-bg);
       border-radius: 8px;
@@ -93,6 +97,7 @@
       padding: 14px 20px;
       border-bottom: 1px solid var(--border-color);
       transition: background-color 0.2s;
+      gap: 15px;
     }
 
     .track-row:hover {
@@ -103,13 +108,13 @@
       border-bottom: none;
     }
 
-    /* Left side structure (Rank + Art + Text Meta) */
+    /* Left Frame: Index Rank mapping, Artwork, Metadata text block */
     .left-side {
       display: flex;
       align-items: center;
       gap: 16px;
       flex: 1;
-      min-width: 0; /* Prevents text overflow breaks */
+      min-width: 0; 
     }
 
     .rank-num {
@@ -117,9 +122,10 @@
       font-weight: 800;
       min-width: 35px;
       color: var(--text-muted);
+      text-align: left;
     }
 
-    /* Top 3 rank highlight styling alternatives */
+    /* Structural designators for top tier track listings */
     .track-row:nth-child(1) .rank-num { color: #ffd700; }
     .track-row:nth-child(2) .rank-num { color: #c0c0c0; }
     .track-row:nth-child(3) .rank-num { color: #cd7f32; }
@@ -130,6 +136,7 @@
       border-radius: 4px;
       object-fit: cover;
       background-color: #111;
+      flex-shrink: 0;
     }
 
     .meta-data {
@@ -153,9 +160,12 @@
       text-overflow: ellipsis;
     }
 
-    /* Center Playback Elements */
+    /* Center Section: Core Media Player Control Anchor */
     .player-controls {
-      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     .play-btn {
@@ -169,55 +179,70 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.9rem;
+      line-height: 1;
       transition: transform 0.1s, background-color 0.2s;
     }
 
     .play-btn:hover {
       transform: scale(1.06);
-      background-color: #1ed760;
+      background-color: var(--accent-hover);
     }
 
     .no-preview {
-      color: #444;
+      color: #3e4756;
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      user-select: none;
     }
 
-    /* Right side movement status wrappers */
+    /* Right Frame: Historic delta movement state values */
     .right-side {
       text-align: right;
-      min-width: 110px;
+      min-width: 115px;
+      flex-shrink: 0;
     }
 
     .status-badge {
       display: inline-block;
       font-size: 0.8rem;
       font-weight: 700;
-      padding: 5px 10px;
+      padding: 5px 12px;
       border-radius: 20px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
 
     .badge-new {
-      background-color: rgba(74, 222, 128, 0.15);
+      background-color: rgba(74, 222, 128, 0.12);
       color: #4ade80;
-      border: 1px solid rgba(74, 222, 128, 0.3);
+      border: 1px solid rgba(74, 222, 128, 0.25);
     }
 
     .badge-stable {
-      background-color: rgba(255, 255, 255, 0.05);
+      background-color: rgba(255, 255, 255, 0.04);
       color: var(--text-muted);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .error-msg {
       padding: 40px;
       text-align: center;
       color: #ff6b6b;
+      font-weight: 500;
+    }
+
+    /* Mobile Adaptations */
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      header h1 { font-size: 2rem; }
+      .track-row { padding: 10px 12px; gap: 10px; }
+      .right-side { min-width: 95px; }
+      .status-badge { font-size: 0.75rem; padding: 4px 8px; }
+      .rank-num { min-width: 25px; font-size: 1.1rem; }
     }
   </style>
 </head>
@@ -229,7 +254,7 @@
       <p>Top 25 Sound System Velocity Charts</p>
     </header>
 
-    <!-- Navigation Tab Selectors Engine -->
+    <!-- Genre Navigation Core -->
     <nav class="tabs" id="genreTabs">
       <button class="tab-btn active" onclick="switchGenre('soca')">Soca</button>
       <button class="tab-btn" onclick="switchGenre('dancehall')">Dancehall</button>
@@ -237,9 +262,9 @@
       <button class="tab-btn" onclick="switchGenre('bouyon')">Bouyon</button>
     </nav>
 
-    <!-- Main Chart Rendering List Target Context -->
+    <!-- Target injection node for script array components -->
     <main class="chart-list" id="chartContainer">
-      <!-- Track components injected via Javascript engine routine -->
+      <!-- Generated rows load here -->
     </main>
   </div>
 
@@ -249,22 +274,22 @@
     let currentAudio = null;
     let currentButton = null;
 
-    // Async data fetch runtime ingestion routine
+    // Async Fetch Runtime
     async function initChartEngine() {
       const container = document.getElementById('chartContainer');
       try {
         const response = await fetch('data/charts.json');
-        if (!response.ok) throw new Error('Data file mapping access execution failed');
+        if (!response.ok) throw new Error('Data file mapping access failed');
         
-        chartDatabase = await response.ok ? await response.json() : null;
+        chartDatabase = await response.json();
         renderGenreTracks(currentGenre);
       } catch (err) {
-        console.error("Initialization breakdown error:", err);
-        container.innerHTML = `<div class="error-msg">Failed to load chart database records. Make sure script.py has completed executing.</div>`;
+        console.error("Initialization error:", err);
+        container.innerHTML = `<div class="error-msg">Failed to load chart database records. Verify that script.py has run successfully.</div>`;
       }
     }
 
-    // UI Render parsing engine
+    // Dom Renderer Target
     function renderGenreTracks(genre) {
       const container = document.getElementById('chartContainer');
       if (!chartDatabase || !chartDatabase[genre]) {
@@ -272,20 +297,19 @@
         return;
       }
 
-      // Safeguard execution path if an element remains playing while tabs switch
+      // Drop references instantly before shifting layouts
       killActiveAudioInstances();
 
       const tracks = chartDatabase[genre];
       let htmlPayload = '';
 
       tracks.forEach(track => {
-        // Resolve parsing classes for context styles dynamically
         const isNew = track.history === 'New';
         const badgeClass = isNew ? 'badge-new' : 'badge-stable';
 
         htmlPayload += `
           <div class="track-row">
-            <!-- LEFT CELL: Explicit 1-25 layout tracking frame data indices -->
+            <!-- Left Side: Rank Index, Cover, Titles -->
             <div class="left-side">
               <span class="rank-num">${track.rank}</span>
               <img class="album-art" src="${track.image || 'https://placehold.co/60'}" alt="${track.name}" loading="lazy">
@@ -295,7 +319,7 @@
               </div>
             </div>
 
-            <!-- CENTER CELL: Inline HTML5 Sound System Audio Runtime Controllers -->
+            <!-- Center: Custom Web Native Audio Element Trigger -->
             <div class="player-controls">
               ${track.preview ? `
                 <button class="play-btn" onclick="toggleAudioPlayback(this, '${track.preview}')" title="Play Preview">
@@ -306,7 +330,7 @@
               `}
             </div>
 
-            <!-- RIGHT CELL: Historic tracking signature data logs -->
+            <!-- Right Side: State Delta Tracking Position Marks -->
             <div class="right-side">
               <span class="status-badge ${badgeClass}">
                 ${track.history}
@@ -319,11 +343,11 @@
       container.innerHTML = htmlPayload;
     }
 
-    // Tab control tracking execution routine
+    // Switch Management Routing Engine
     function switchGenre(selectedGenre) {
+      if (currentGenre === selectedGenre) return;
       currentGenre = selectedGenre;
       
-      // Update styling tags across nav node lists
       const buttons = document.querySelectorAll('.tab-btn');
       buttons.forEach(btn => {
         if (btn.innerText.toLowerCase() === selectedGenre) {
@@ -336,9 +360,9 @@
       renderGenreTracks(selectedGenre);
     }
 
-    // High performance native custom audio player logical execution unit
+    // Audio State Machine Controller
     function toggleAudioPlayback(button, url) {
-      // Logic block mapping if target action points to the same track loop entity
+      // Handle active track toggle execution paths
       if (currentAudio && currentButton === button) {
         if (currentAudio.paused) {
           currentAudio.play();
@@ -350,17 +374,21 @@
         return;
       }
 
-      // Reset standard running thread tasks elsewhere on index nodes
+      // Clear processing locks across alternative track row spaces
       killActiveAudioInstances();
 
-      // Spin up fresh single audio instance engine block mapping pointers
+      // Instantiate structural media stream instance
       currentAudio = new Audio(url);
       currentButton = button;
 
-      currentAudio.play();
+      currentAudio.play().catch(err => {
+        console.error("Playback blocked or failed:", err);
+        killActiveAudioInstances();
+      });
+      
       button.innerText = "⏸";
 
-      // Self healing loop hooks to restore defaults gracefully on termination
+      // On-ended hook cleanup garbage collector
       currentAudio.onended = () => {
         button.innerText = "▶";
         currentAudio = null;
@@ -371,6 +399,7 @@
     function killActiveAudioInstances() {
       if (currentAudio) {
         currentAudio.pause();
+        currentAudio.onended = null; // Unbind events to avoid memory leaks
         currentAudio = null;
       }
       if (currentButton) {
@@ -379,7 +408,6 @@
       }
     }
 
-    // Trigger initial startup execution routine on DOM load ready states
     window.addEventListener('DOMContentLoaded', initChartEngine);
   </script>
 </body>
