@@ -1,810 +1,225 @@
 {
-  "soca": [
-    {
-      "name": "Hit & Run (feat. Masicka & Di Genius)",
-      "artist": "Shenseea",
-      "image": "https://i.scdn.co/image/ab67616d0000b2730e7b3aa4875bea21b4785fb5",
-      "badge": null,
-      "score": 660,
-      "rank": 1
-    },
-    {
-      "name": "In Di Corner",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734431d73da54375299918144b",
-      "badge": null,
-      "score": 660,
-      "rank": 2
-    },
-    {
-      "name": "Melisa I'M Drunk And Outside",
-      "artist": "Afroplugs",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734f47e91c68523ae1c5b444dc",
-      "badge": "Fresh On De Scene",
-      "score": 650,
-      "rank": 3
-    },
-    {
-      "name": "Panic",
-      "artist": "Vybz Kartel",
-      "image": "https://i.scdn.co/image/ab67616d0000b2738fa5003688e272b203a400e7",
-      "badge": null,
-      "score": 650,
-      "rank": 4
-    },
-    {
-      "name": "The Greatest Bend Over (Take It Easy)",
-      "artist": "Full Blown",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d8ba9d37abe0e1e9713686c6",
-      "badge": null,
-      "score": 640,
-      "rank": 5
-    },
-    {
-      "name": "Bouw\u00e9y",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b273bc7ae724db41d04f2167772f",
-      "badge": null,
-      "score": 590,
-      "rank": 6
-    },
-    {
-      "name": "Cocoa Tea",
-      "artist": "Kes",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f9b3f2a486d89a14b58a684f",
-      "badge": null,
-      "score": 590,
-      "rank": 7
-    },
-    {
-      "name": "Ballerina (with Rema, Skillibeng, & Disco Neil)",
-      "artist": "Silent Addy",
-      "image": "https://i.scdn.co/image/ab67616d0000b273596b0cc59aa4905fb4053519",
-      "badge": null,
-      "score": 590,
-      "rank": 8
-    },
-    {
-      "name": "Melissa I'M Drunk And Outside",
-      "artist": "Afroplugs",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d01c43a1d86eb4c3d2a4f375",
-      "badge": "Fresh On De Scene",
-      "score": 580,
-      "rank": 9
-    },
-    {
-      "name": "Rum & Coca-Cola",
-      "artist": "Kes",
-      "image": "https://i.scdn.co/image/ab67616d0000b27345118cb325256e980a30ad3d",
-      "badge": null,
-      "score": 560,
-      "rank": 10
-    },
-    {
-      "name": "Respectfully Yours",
-      "artist": "Full Blown",
-      "image": "https://i.scdn.co/image/ab67616d0000b273425d134980872c79e6ed1a05",
-      "badge": null,
-      "score": 560,
-      "rank": 11
-    },
-    {
-      "name": "Inch by Inch",
-      "artist": "Yung Bredda",
-      "image": "https://i.scdn.co/image/ab67616d0000b273da495e8355ae2ac15e27be45",
-      "badge": null,
-      "score": 540,
-      "rank": 12
-    },
-    {
-      "name": "Masterpiece",
-      "artist": "Kes",
-      "image": "https://i.scdn.co/image/ab67616d0000b273eca00e8af07580a4218024d3",
-      "badge": "Fresh On De Scene",
-      "score": 530,
-      "rank": 13
-    },
-    {
-      "name": "WANNA PARTY",
-      "artist": "Ding Dong",
-      "image": "https://i.scdn.co/image/ab67616d0000b27342ee1d5f9f7ab72bc9dc82c0",
-      "badge": null,
-      "score": 520,
-      "rank": 14
-    },
-    {
-      "name": "Overdue",
-      "artist": "Erphaan Alves",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d4df46e5b592f936cfe8c7da",
-      "badge": null,
-      "score": 520,
-      "rank": 15
-    },
-    {
-      "name": "Carnival Friend",
-      "artist": "Kes",
-      "image": "https://i.scdn.co/image/ab67616d0000b273a9c3c752f3c43bcd1f791a59",
-      "badge": null,
-      "score": 510,
-      "rank": 16
-    },
-    {
-      "name": "Wedding Band",
-      "artist": "Coutain",
-      "image": "https://i.scdn.co/image/ab67616d0000b2735d4ff7b3462e7b5bed73527a",
-      "badge": null,
-      "score": 510,
-      "rank": 17
-    },
-    {
-      "name": "Castries",
-      "artist": "Meryl",
-      "image": "https://i.scdn.co/image/ab67616d0000b27341dd05e63de1761df09d45bd",
-      "badge": null,
-      "score": 510,
-      "rank": 18
-    },
-    {
-      "name": "Ring Finger",
-      "artist": "Lady Lava",
-      "image": "https://i.scdn.co/image/ab67616d0000b273726197866cb03b6415d1f62a",
-      "badge": null,
-      "score": 500,
-      "rank": 19
-    },
-    {
-      "name": "Last Train",
-      "artist": "Mical Teja",
-      "image": "https://i.scdn.co/image/ab67616d0000b273585bf2b78c2f2f73f1d6d5ed",
-      "badge": null,
-      "score": 500,
-      "rank": 20
-    },
-    {
-      "name": "STEAM",
-      "artist": "Najeeriii",
-      "image": "https://i.scdn.co/image/ab67616d0000b27334460b226532a8759c9a6346",
-      "badge": null,
-      "score": 500,
-      "rank": 21
-    },
-    {
-      "name": "Still A Road Man",
-      "artist": "Bunji Garlin",
-      "image": "https://i.scdn.co/image/ab67616d0000b27361909b87de3a49d7378fe02d",
-      "badge": null,
-      "score": 490,
-      "rank": 22
-    },
-    {
-      "name": "Yeezy Bro",
-      "artist": "Bunji Garlin",
-      "image": "https://i.scdn.co/image/ab67616d0000b273de2b30d51573483cdf35e950",
-      "badge": null,
-      "score": 490,
-      "rank": 23
-    },
-    {
-      "name": "Jamtown",
-      "artist": "Tano",
-      "image": "https://i.scdn.co/image/ab67616d0000b273fb09f5c0c87d20d2109478ef",
-      "badge": null,
-      "score": 490,
-      "rank": 24
-    },
-    {
-      "name": "Doux Doux Darlin",
-      "artist": "Christo",
-      "image": "https://i.scdn.co/image/ab67616d0000b273e5d88e90132aaf58a1bebef4",
-      "badge": null,
-      "score": 490,
-      "rank": 25
-    }
-  ],
+  "soca": [],
   "dancehall": [
     {
-      "name": "Temperature",
-      "artist": "Sean Paul",
-      "image": "https://i.scdn.co/image/ab67616d0000b273b82dd1e42423a9bfb6a478a4",
-      "badge": null,
-      "score": 870,
-      "rank": 1
-    },
-    {
-      "name": "Amazing Shape (feat. Popcaan)",
-      "artist": "Drake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273539bb112d7c970545dd971e3",
-      "badge": "Fresh On De Scene",
-      "score": 780,
-      "rank": 2
-    },
-    {
-      "name": "Murder She Wrote",
-      "artist": "Chaka Demus & Pliers",
-      "image": "https://i.scdn.co/image/ab67616d0000b2736ede9997b1c47f6891a25671",
-      "badge": null,
-      "score": 750,
-      "rank": 3
-    },
-    {
-      "name": "Hold You - Hold Yuh",
-      "artist": "Gyptian",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f86ee651c3c96b28664d4d16",
-      "badge": null,
-      "score": 750,
-      "rank": 4
-    },
-    {
-      "name": "Fuck and Party (feat. Vybz Kartel)",
-      "artist": "Chris Brown",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734b28d4d23dc56dc3ceda4b5d",
-      "badge": "Fresh On De Scene",
-      "score": 710,
-      "rank": 5
-    },
-    {
-      "name": "What I Like (with Moliy, Ayetian, & Tyga)",
-      "artist": "Rvssian",
-      "image": "https://i.scdn.co/image/ab67616d0000b273820effb56284edc7dd20659b",
-      "badge": null,
-      "score": 700,
-      "rank": 6
-    },
-    {
-      "name": "Toast",
-      "artist": "Original Koffee",
-      "image": "https://i.scdn.co/image/ab67616d0000b273b34fb6773b5b8bcb1edd9397",
-      "badge": null,
-      "score": 700,
-      "rank": 7
-    },
-    {
-      "name": "No Letting Go",
-      "artist": "Wayne Wonder",
-      "image": "https://i.scdn.co/image/ab67616d0000b27349adb6d18ddb1af4dfa27dc4",
-      "badge": null,
-      "score": 700,
-      "rank": 8
-    },
-    {
-      "name": "No Games",
-      "artist": "Serani",
-      "image": "https://i.scdn.co/image/ab67616d0000b2739728e82ae6bd9188aa5daca2",
-      "badge": null,
-      "score": 680,
-      "rank": 9
-    },
-    {
+      "rank": 1,
+      "artist": "Shenseea",
       "name": "Talk To Me Nuh",
-      "artist": "Shenseea",
       "image": "https://i.scdn.co/image/ab67616d0000b2739a6aba6198ce21687be21e4a",
-      "badge": null,
-      "score": 670,
-      "rank": 10
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/57OHpXh84fu4FwL02ykMoI",
+      "badge": "Fresh On De Scene"
     },
     {
-      "name": "Passenger Princess",
-      "artist": "Valiant",
-      "image": "https://i.scdn.co/image/ab67616d0000b2738b6325a08a40992b48977272",
-      "badge": null,
-      "score": 660,
-      "rank": 11
-    },
-    {
-      "name": "Hit & Run (feat. Masicka & Di Genius)",
-      "artist": "Shenseea",
-      "image": "https://i.scdn.co/image/ab67616d0000b2730e7b3aa4875bea21b4785fb5",
-      "badge": null,
-      "score": 660,
-      "rank": 12
-    },
-    {
-      "name": "Whine & Kotch",
-      "artist": "J Capri",
-      "image": "https://i.scdn.co/image/ab67616d0000b27331118e1715cc8367c46d153e",
-      "badge": null,
-      "score": 660,
-      "rank": 13
-    },
-    {
-      "name": "Panic",
+      "rank": 2,
       "artist": "Vybz Kartel",
+      "name": "Panic",
       "image": "https://i.scdn.co/image/ab67616d0000b2738fa5003688e272b203a400e7",
-      "badge": null,
-      "score": 650,
-      "rank": 14
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/3n9KcMNRaUluDxwKzZAVA8",
+      "badge": "Fresh On De Scene"
     },
     {
-      "name": "Melisa I'M Drunk And Outside",
-      "artist": "Afroplugs",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734f47e91c68523ae1c5b444dc",
-      "badge": "Fresh On De Scene",
-      "score": 650,
-      "rank": 15
-    },
-    {
-      "name": "Nobody Has to Know",
-      "artist": "Kranium",
-      "image": "https://i.scdn.co/image/ab67616d0000b273a138385b32c0e35658814f07",
-      "badge": null,
-      "score": 640,
-      "rank": 16
-    },
-    {
-      "name": "Boom Body",
-      "artist": "Shaggy",
-      "image": "https://i.scdn.co/image/ab67616d0000b2738888105e24b602fcf70700ef",
-      "badge": null,
-      "score": 640,
-      "rank": 17
-    },
-    {
-      "name": "Gyal Good",
-      "artist": "Alkaline",
-      "image": "https://i.scdn.co/image/ab67616d0000b273198fb05418e9fede43800181",
-      "badge": null,
-      "score": 630,
-      "rank": 18
-    },
-    {
-      "name": "Passport Princess",
-      "artist": "Valiant",
-      "image": "https://i.scdn.co/image/ab67616d0000b273ed756b68b91d5e5cbc496dd7",
-      "badge": null,
-      "score": 630,
-      "rank": 19
-    },
-    {
-      "name": "So Mi Like It",
-      "artist": "Spice",
-      "image": "https://i.scdn.co/image/ab67616d0000b273a103c270d3b0c99e72a13791",
-      "badge": null,
-      "score": 630,
-      "rank": 20
-    },
-    {
-      "name": "GINGER U",
-      "artist": "Mack H.D",
-      "image": "https://i.scdn.co/image/ab67616d0000b273881e7aab38fa3f3ca09b44b7",
-      "badge": null,
-      "score": 630,
-      "rank": 21
-    },
-    {
-      "name": "Who Am I",
-      "artist": "Beenie Man",
-      "image": "https://i.scdn.co/image/ab67616d0000b27392bb71b119b720e255a599d0",
-      "badge": null,
-      "score": 630,
-      "rank": 22
-    },
-    {
-      "name": "Everyone Falls in Love",
-      "artist": "Tanto Metro & Devonte",
-      "image": "https://i.scdn.co/image/ab67616d0000b2730af51a113bbbbf5f08d76577",
-      "badge": null,
-      "score": 630,
-      "rank": 23
-    },
-    {
-      "name": "Slip & Slide",
+      "rank": 3,
       "artist": "Masicka",
+      "name": "Slip & Slide",
       "image": "https://i.scdn.co/image/ab67616d0000b2730366310bea47fb21bad40b5e",
-      "badge": "New Heat",
-      "score": 610,
-      "rank": 24
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5EJIznVELUzwHmEEAylB0M",
+      "badge": "Fresh On De Scene"
     },
     {
-      "name": "WYFL",
-      "artist": "Skippa",
-      "image": "https://i.scdn.co/image/ab67616d0000b273bc5b88c21420e41e4d4e5cb2",
-      "badge": null,
-      "score": 610,
-      "rank": 25
+      "rank": 4,
+      "artist": "Silent Addy",
+      "name": "Ballerina (with Rema, Skillibeng, & Disco Neil)",
+      "image": "https://i.scdn.co/image/ab67616d0000b273596b0cc59aa4905fb4053519",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/7wI4jzM1fIGoysnGJSpHZY",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 5,
+      "artist": "Masicka",
+      "name": "Boasty",
+      "image": "https://i.scdn.co/image/ab67616d0000b273f6768c7f20bfd3ea66be11fd",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5QNkPqJgBEVWp8cOvYnudA",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 6,
+      "artist": "Popcaan",
+      "name": "Life Still a Gwaan",
+      "image": "https://i.scdn.co/image/ab67616d0000b273bf7fa4773b374880505fa95c",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5hVt9i2AV0LMbxldseAf3a",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 7,
+      "artist": "Masicka",
+      "name": "Life of Sin",
+      "image": "https://i.scdn.co/image/ab67616d0000b273980e2197b1b05e706e0cac1a",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/15VxVtaB8tQ0o4nnUOzOnN",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 8,
+      "artist": "Vybz Kartel",
+      "name": "SYM",
+      "image": "https://i.scdn.co/image/ab67616d0000b273088509470c70ef0decbd99d6",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/6wRA4ZODTUFBAX61GuBfla",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 9,
+      "artist": "Protoje",
+      "name": "Ting Loud (with Masicka)",
+      "image": "https://i.scdn.co/image/ab67616d0000b273e239a46cd544cc42e887564a",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/0SXhAXeKf5QuSsCUWoxRsH",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 10,
+      "artist": "Vybz Kartel",
+      "name": "Hype Life",
+      "image": "https://i.scdn.co/image/ab67616d0000b273c07d0c5c012b1d866897a390",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/2gZ6vwRkNTC46QoLgk5D4M",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 11,
+      "artist": "Vybz Kartel",
+      "name": "Born Ready",
+      "image": "https://i.scdn.co/image/ab67616d0000b273c70d71d2c49948df5058c54e",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/7oBz3mXAJsjHgtlWBw1zhO",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 12,
+      "artist": "Vybz Kartel",
+      "name": "GOD Says",
+      "image": "https://i.scdn.co/image/ab67616d0000b2736c040c76f70aa91f6cbe525a",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/2IOGlR1oVPvhkV3zGtaCxz",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 13,
+      "artist": "Popcaan",
+      "name": "Chosen",
+      "image": "https://i.scdn.co/image/ab67616d0000b273ba4c2400d5fb08cda02b0dce",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/3TDytTZlC10HuaIRxRT2OR",
+      "badge": "Fresh On De Scene"
     }
   ],
   "afrobeats": [
     {
-      "name": "Raindance (feat. Tems)",
-      "artist": "Dave",
-      "image": "https://i.scdn.co/image/ab67616d0000b273fecaa7826bb0cbe139a8cb83",
-      "badge": null,
-      "score": 960,
-      "rank": 1
-    },
-    {
-      "name": "Janice STFU",
-      "artist": "Drake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273fe9d3ab9adb1d3b59835b81c",
-      "badge": "Fresh On De Scene",
-      "score": 960,
-      "rank": 2
-    },
-    {
-      "name": "NUEVAYoL",
-      "artist": "Bad Bunny",
-      "image": "https://i.scdn.co/image/ab67616d0000b273bbd45c8d36e0e045ef640411",
-      "badge": null,
-      "score": 950,
-      "rank": 3
-    },
-    {
-      "name": "Ran To Atlanta (feat. Future & Molly Santana)",
-      "artist": "Drake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273fe9d3ab9adb1d3b59835b81c",
-      "badge": "Fresh On De Scene",
-      "score": 930,
-      "rank": 4
-    },
-    {
-      "name": "Whisper My Name",
-      "artist": "Drake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273fe9d3ab9adb1d3b59835b81c",
-      "badge": "Fresh On De Scene",
-      "score": 930,
-      "rank": 5
-    },
-    {
-      "name": "No Broke Boys",
-      "artist": "Disco Lines",
-      "image": "https://i.scdn.co/image/ab67616d0000b273699b0363dda94e1f1e32eef5",
-      "badge": null,
-      "score": 920,
-      "rank": 6
-    },
-    {
-      "name": "Shabang",
-      "artist": "Drake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273fe9d3ab9adb1d3b59835b81c",
-      "badge": "Fresh On De Scene",
-      "score": 920,
-      "rank": 7
-    },
-    {
-      "name": "Make Them Cry",
-      "artist": "Drake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273fe9d3ab9adb1d3b59835b81c",
-      "badge": "Fresh On De Scene",
-      "score": 910,
-      "rank": 8
-    },
-    {
-      "name": "B's On The Table (feat. 21 Savage)",
-      "artist": "Drake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273fe9d3ab9adb1d3b59835b81c",
-      "badge": "Fresh On De Scene",
-      "score": 890,
-      "rank": 9
-    },
-    {
-      "name": "Body",
+      "rank": 1,
       "artist": "Don Toliver",
-      "image": "https://i.scdn.co/image/ab67616d0000b27325c28f3c9fbdbab1a88dd619",
-      "badge": null,
-      "score": 880,
-      "rank": 10
-    },
-    {
-      "name": "Not Like Us",
-      "artist": "Kendrick Lamar",
-      "image": "https://i.scdn.co/image/ab67616d0000b2731ea0c62b2339cbf493a999ad",
-      "badge": null,
-      "score": 880,
-      "rank": 11
-    },
-    {
-      "name": "like JENNIE",
-      "artist": "JENNIE",
-      "image": "https://i.scdn.co/image/ab67616d0000b273dcf27dec5e479b2e39c4c993",
-      "badge": null,
-      "score": 880,
-      "rank": 12
-    },
-    {
-      "name": "Dai Dai",
-      "artist": "Shakira",
-      "image": "https://i.scdn.co/image/ab67616d0000b27303cadf1b3fe324c1dc710ed4",
-      "badge": "Fresh On De Scene",
-      "score": 860,
-      "rank": 13
-    },
-    {
-      "name": "Water",
-      "artist": "Tyla",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d20231861e86a6f74ef2393e",
-      "badge": null,
-      "score": 860,
-      "rank": 14
-    },
-    {
-      "name": "SHE DID IT AGAIN (feat. Zara Larsson)",
-      "artist": "Tyla",
-      "image": "https://i.scdn.co/image/ab67616d0000b273564858dca5482e57c932782f",
-      "badge": "New Heat",
-      "score": 860,
-      "rank": 15
-    },
-    {
-      "name": "CHANEL",
-      "artist": "Tyla",
-      "image": "https://i.scdn.co/image/ab67616d0000b273cf267aa9842a1bbea5f501e9",
-      "badge": null,
-      "score": 860,
-      "rank": 16
-    },
-    {
       "name": "Secondhand (feat. Rema)",
-      "artist": "Don Toliver",
       "image": "https://i.scdn.co/image/ab67616d0000b27325c28f3c9fbdbab1a88dd619",
-      "badge": null,
-      "score": 850,
-      "rank": 17
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/4Z5KKoBGxpJo8YbDcGQXd5",
+      "badge": "Fresh On De Scene"
     },
     {
-      "name": "NOKIA",
-      "artist": "Drake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273b5a28a256eae6dc0424fef59",
-      "badge": null,
-      "score": 850,
-      "rank": 18
-    },
-    {
-      "name": "tv off (feat. lefty gunplay)",
-      "artist": "Kendrick Lamar",
-      "image": "https://i.scdn.co/image/ab67616d0000b273e2a0a166493a2bde5480a420",
-      "badge": null,
-      "score": 850,
-      "rank": 19
-    },
-    {
-      "name": "Bangaranga",
-      "artist": "DARA",
-      "image": "https://i.scdn.co/image/ab67616d0000b27335393ba8c40f9f165bbdc284",
-      "badge": null,
-      "score": 850,
-      "rank": 20
-    },
-    {
-      "name": "Show Me Love",
-      "artist": "WizTheMc",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f67307349b14986af73d4fa0",
-      "badge": null,
-      "score": 840,
-      "rank": 21
-    },
-    {
+      "rank": 2,
+      "artist": "Asake",
       "name": "Gratitude",
-      "artist": "Asake",
       "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
-      "badge": "New Heat",
-      "score": 830,
-      "rank": 22
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/7hiRlw64LXcHpGAVJ6eUzv",
+      "badge": "Fresh On De Scene"
     },
     {
+      "rank": 3,
+      "artist": "Asake",
       "name": "Forgiveness",
-      "artist": "Asake",
       "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
-      "badge": "New Heat",
-      "score": 830,
-      "rank": 23
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5u4rozuOBse9MgrAzGspQy",
+      "badge": "Fresh On De Scene"
     },
     {
-      "name": "COM\u00cb N GO",
-      "artist": "Yeat",
-      "image": "https://i.scdn.co/image/ab67616d0000b273e35aad7bbe4508513f36fd58",
-      "badge": null,
-      "score": 830,
-      "rank": 24
+      "rank": 4,
+      "artist": "Blaqbonez",
+      "name": "Chanel (feat. Asake)",
+      "image": "https://i.scdn.co/image/ab67616d0000b273a078c3b82c263fb88a83286a",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/6JVQBlA628faJmvQbeyBHT",
+      "badge": "Fresh On De Scene"
     },
     {
-      "name": "Sugar On My Tongue",
-      "artist": "Tyler, The Creator",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734b7fbb849ed845ddedcce346",
-      "badge": null,
-      "score": 830,
-      "rank": 25
+      "rank": 5,
+      "artist": "Asake",
+      "name": "WORSHIP",
+      "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/20KiwQQUDsuzAC8AZQJq26",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 6,
+      "artist": "Wizkid",
+      "name": "Jogodo",
+      "image": "https://i.scdn.co/image/ab67616d0000b27306206895bb91710b0cad3a80",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/2njWzPDRRhsXOUhiA42e62",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 7,
+      "artist": "Asake",
+      "name": "WHY LOVE",
+      "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/520i30ojT5W068M8KYqQwI",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 8,
+      "artist": "Wizkid",
+      "name": "Turbulence",
+      "image": "https://i.scdn.co/image/ab67616d0000b2732d9d222a08cb2e589cf4288e",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/6b5aOjZh1szuKcbfSU8YdK",
+      "badge": "Fresh On De Scene"
     }
   ],
   "bouyon": [
     {
-      "name": "Work",
-      "artist": "Rihanna",
-      "image": "https://i.scdn.co/image/ab67616d0000b2736be9bac15995f089579074de",
-      "badge": null,
-      "score": 830,
-      "rank": 1
+      "rank": 1,
+      "artist": "Bunji Garlin",
+      "name": "Still A Road Man",
+      "image": "https://i.scdn.co/image/ab67616d0000b27361909b87de3a49d7378fe02d",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/0MJNOVuKxLvQ0DxfP7zTaS",
+      "badge": "Fresh On De Scene"
     },
     {
-      "name": "Hold You - Hold Yuh",
-      "artist": "Gyptian",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f86ee651c3c96b28664d4d16",
-      "badge": null,
-      "score": 750,
-      "rank": 2
+      "rank": 2,
+      "artist": "Problem Child",
+      "name": "Go (Start Wine)",
+      "image": "https://i.scdn.co/image/ab67616d0000b273a3d1f206919366564214edc1",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/2YkB4czf9aoj7ONjTafHEi",
+      "badge": "Fresh On De Scene"
     },
     {
-      "name": "Murder She Wrote",
-      "artist": "Chaka Demus & Pliers",
-      "image": "https://i.scdn.co/image/ab67616d0000b2736ede9997b1c47f6891a25671",
-      "badge": null,
-      "score": 750,
-      "rank": 3
-    },
-    {
-      "name": "Turn Me On",
-      "artist": "Kevin Lyttle",
-      "image": "https://i.scdn.co/image/ab67616d0000b27373b8d34fa1ece5bb3cbf6bfb",
-      "badge": null,
-      "score": 750,
-      "rank": 4
-    },
-    {
-      "name": "No Letting Go",
-      "artist": "Wayne Wonder",
-      "image": "https://i.scdn.co/image/ab67616d0000b27349adb6d18ddb1af4dfa27dc4",
-      "badge": null,
-      "score": 700,
-      "rank": 5
-    },
-    {
-      "name": "In Di Corner",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734431d73da54375299918144b",
-      "badge": null,
-      "score": 660,
-      "rank": 6
-    },
-    {
-      "name": "Joga O Bum Bum Tam Tam",
-      "artist": "MC Fioti",
-      "image": "https://i.scdn.co/image/ab67616d0000b273e73c540376e667a5f6998e18",
-      "badge": null,
-      "score": 650,
-      "rank": 7
-    },
-    {
-      "name": "Laptop",
-      "artist": "Kalash",
-      "image": "https://i.scdn.co/image/ab67616d0000b273662a0200b8a1da583f535869",
-      "badge": null,
-      "score": 650,
-      "rank": 8
-    },
-    {
-      "name": "Paddle",
-      "artist": "TKS 2G",
-      "image": "https://i.scdn.co/image/ab67616d0000b27344fe120a35f8c71ec7b64775",
-      "badge": null,
-      "score": 650,
-      "rank": 9
-    },
-    {
-      "name": "Walking Trophy",
-      "artist": "Tina (Hoodcelebrityy)",
-      "image": "https://i.scdn.co/image/ab67616d0000b273ce8e51a79fa37501e3a07bdd",
-      "badge": null,
-      "score": 620,
-      "rank": 10
-    },
-    {
-      "name": "Dream Girl",
-      "artist": "Ir Sais",
-      "image": "https://i.scdn.co/image/ab67616d0000b273b18b6e009bd1bb0187de6aec",
-      "badge": null,
-      "score": 620,
-      "rank": 11
-    },
-    {
-      "name": "Vay",
-      "artist": "Dj Leska",
-      "image": "https://i.scdn.co/image/ab67616d0000b27377fd68dc6c47bdd5cb1a420c",
-      "badge": null,
-      "score": 620,
-      "rank": 12
-    },
-    {
-      "name": "S\u00e9 Miimii",
-      "artist": "Miimii KDS",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f428ee7c466071a522d1a5fd",
-      "badge": null,
-      "score": 600,
-      "rank": 13
-    },
-    {
-      "name": "Bouw\u00e9y",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b273bc7ae724db41d04f2167772f",
-      "badge": null,
-      "score": 590,
-      "rank": 14
-    },
-    {
-      "name": "Cocoa Tea",
-      "artist": "Kes",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f9b3f2a486d89a14b58a684f",
-      "badge": null,
-      "score": 590,
-      "rank": 15
-    },
-    {
-      "name": "Padtal",
-      "artist": "Denden",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f935991889cfb08e32309e5d",
-      "badge": null,
-      "score": 580,
-      "rank": 16
-    },
-    {
-      "name": "You're Perfect",
-      "artist": "Charly Black",
-      "image": "https://i.scdn.co/image/ab67616d0000b273c8cbc5c3ce252ea4646a5dcf",
-      "badge": null,
-      "score": 580,
-      "rank": 17
-    },
-    {
-      "name": "Levrette ou missionnaire",
-      "artist": "Perns",
-      "image": "https://i.scdn.co/image/ab67616d0000b273189a46e7659842f5c4562a4a",
-      "badge": null,
-      "score": 580,
-      "rank": 18
-    },
-    {
-      "name": "Woul\u00e9 La Fess",
-      "artist": "DJ Steri",
-      "image": "https://i.scdn.co/image/ab67616d0000b2737696836cf0812ce1670742f6",
-      "badge": null,
-      "score": 580,
-      "rank": 19
-    },
-    {
-      "name": "Leave Me Alone",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d6b1360993cf54278c2cf2ca",
-      "badge": null,
-      "score": 560,
-      "rank": 20
-    },
-    {
-      "name": "Respectfully Yours",
-      "artist": "Full Blown",
-      "image": "https://i.scdn.co/image/ab67616d0000b273425d134980872c79e6ed1a05",
-      "badge": null,
-      "score": 560,
-      "rank": 21
-    },
-    {
-      "name": "Rum & Coca-Cola",
-      "artist": "Kes",
-      "image": "https://i.scdn.co/image/ab67616d0000b27345118cb325256e980a30ad3d",
-      "badge": null,
-      "score": 560,
-      "rank": 22
-    },
-    {
-      "name": "FLOCAGE",
-      "artist": "Ino Casablanca",
-      "image": "https://i.scdn.co/image/ab67616d0000b273afd875f25866f070ab041a5a",
-      "badge": null,
-      "score": 550,
-      "rank": 23
-    },
-    {
-      "name": "Bruk It Down",
-      "artist": "Mr. Vegas",
-      "image": "https://i.scdn.co/image/ab67616d0000b273b9b2c79c998975fbd3159b07",
-      "badge": null,
-      "score": 550,
-      "rank": 24
-    },
-    {
-      "name": "Ova Dweet",
-      "artist": "Popcaan",
-      "image": "https://i.scdn.co/image/ab67616d0000b2730f39ef6f1cdde9cd53aca94d",
-      "badge": null,
-      "score": 550,
-      "rank": 25
+      "rank": 3,
+      "artist": "Problem Child",
+      "name": "Carnival Obsession",
+      "image": "https://i.scdn.co/image/ab67616d0000b273b06053a562acfbeef401217e",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/0cnGkvbpUe7eINNhCqCL6H",
+      "badge": "Fresh On De Scene"
     }
   ]
 }
