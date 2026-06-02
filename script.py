@@ -1,28 +1,33 @@
 import os
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# -----------------------------
+# -------------------------
 # CONFIG
-# -----------------------------
+# -------------------------
 
-GENRES = ["soca", "dancehall", "afrobeats", "bouyon"]
+GENRE_RULES = {
+    "soca": 4,
+    "dancehall": 4,
+    "afrobeats": 6,
+    "bouyon": 6
+}
 
-BLACKLIST = [
-    "mix", "dj", "megamix", "set", "live", "playlist",
-    "intro", "snippet", "radio", "interview"
-]
+BLACKLIST = ["mix", "dj", "megamix", "set", "live", "playlist", "intro", "snippet"]
+
+MAX_TRACKS = 25
+YT_LIMIT = 40
 
 CACHE_FILE = "data/yt_cache.json"
 SNAPSHOT_FILE = "data/snapshot.json"
 
-# -----------------------------
+# -------------------------
 # INIT APIS
-# -----------------------------
+# -------------------------
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyClientCredentials(
@@ -37,9 +42,9 @@ youtube = build(
     developerKey=os.environ["YOUTUBE_API_KEY"]
 )
 
-# -----------------------------
-# LOAD / SAVE HELPERS
-# -----------------------------
+# -------------------------
+# HELPERS
+# -------------------------
 
 def load_json(path):
     try:
@@ -54,76 +59,79 @@ def save_json(path, data):
         json.dump(data, f, indent=2)
 
 yt_cache = load_json(CACHE_FILE)
-previous_snapshot = load_json(SNAPSHOT_FILE)
+previous = load_json(SNAPSHOT_FILE)
 
-# -----------------------------
-# FILTERS
-# -----------------------------
+yt_calls = 0
 
-def is_valid(title):
+def clean(title):
     t = title.lower()
     return not any(x in t for x in BLACKLIST)
 
-# -----------------------------
-# SPOTIFY DISCOVERY (ONLY)
-# -----------------------------
+def parse_date(date_str):
+    try:
+        return datetime.strptime(date_str, "%Y-%m-%d")
+    except:
+        try:
+            return datetime.strptime(date_str, "%Y-%m")
+        except:
+            return None
 
-def get_tracks(keyword):
-    results = sp.search(q=keyword, type="track", limit=30)
+def is_recent(date_str, months):
+    d = parse_date(date_str)
+    if not d:
+        return False
+    cutoff = datetime.utcnow() - timedelta(days=months * 30)
+    return d >= cutoff
+
+# -------------------------
+# SPOTIFY DISCOVERY
+# -------------------------
+
+def get_tracks(keyword, months):
+    results = sp.search(q=keyword, type="track", limit=50)
 
     tracks = []
 
     for t in results["tracks"]["items"]:
         name = t["name"]
         artist = t["artists"][0]["name"]
+        release = t["album"]["release_date"]
 
-        if not is_valid(name):
+        if not clean(name):
+            continue
+
+        if not is_recent(release, months):
             continue
 
         tracks.append({
             "name": name,
             "artist": artist,
             "popularity": t["popularity"],
-            "release_date": t["album"]["release_date"]
+            "release_date": release,
+            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else ""
         })
 
-    # keep top 10 most relevant (reduces YouTube usage)
     tracks.sort(key=lambda x: x["popularity"], reverse=True)
-    return tracks[:10]
+    return tracks[:MAX_TRACKS]
 
-# -----------------------------
-# YOUTUBE LOOKUP (SAFE + CACHED)
-# -----------------------------
+# -------------------------
+# YOUTUBE LOOKUP (SAFE)
+# -------------------------
 
-yt_calls = 0
-YT_LIMIT = 40
-
-def get_youtube_data(song_key, query):
+def yt_lookup(key, query):
     global yt_calls
 
-    # 1. check cache first
-    if song_key in yt_cache:
-        vid = yt_cache[song_key]
-
+    if key in yt_cache:
+        vid = yt_cache[key]
         try:
-            stats = youtube.videos().list(
-                part="statistics",
-                id=vid
-            ).execute()
-
+            stats = youtube.videos().list(part="statistics", id=vid).execute()
             views = int(stats["items"][0]["statistics"].get("viewCount", 0))
-
-            return {
-                "video_id": vid,
-                "views": views
-            }
-
+            return {"video_id": vid, "views": views}
         except:
-            pass  # fallback to re-search if cache broken
+            pass
 
-    # 2. quota guard
     if yt_calls >= YT_LIMIT:
-        return None  # switch to Spotify-only mode
+        return None
 
     try:
         search = youtube.search().list(
@@ -136,162 +144,157 @@ def get_youtube_data(song_key, query):
         if not search["items"]:
             return None
 
-        video_id = search["items"][0]["id"]["videoId"]
+        vid = search["items"][0]["id"]["videoId"]
 
         stats = youtube.videos().list(
             part="statistics",
-            id=video_id
+            id=vid
         ).execute()
 
         views = int(stats["items"][0]["statistics"].get("viewCount", 0))
 
-        yt_cache[song_key] = video_id
+        yt_cache[key] = vid
         yt_calls += 1
 
-        return {
-            "video_id": video_id,
-            "views": views
-        }
+        return {"video_id": vid, "views": views}
 
     except HttpError:
-        # quota exceeded → switch off YouTube completely
         return None
 
-# -----------------------------
-# SCORING HELPERS
-# -----------------------------
+# -------------------------
+# SCORING
+# -------------------------
 
-def freshness(date):
-    try:
-        year = int(date.split("-")[0])
-        age = 2026 - year
-        return max(0, 10 - age * 3)
-    except:
+def freshness(date_str):
+    d = parse_date(date_str)
+    if not d:
         return 0
+    age_years = (datetime.utcnow() - d).days / 365
+    return max(0, 10 - age_years * 3)
 
-# -----------------------------
+# -------------------------
 # MAIN ENGINE
-# -----------------------------
+# -------------------------
 
 def run():
-
     final = {}
-    global yt_calls
 
-    for genre in GENRES:
+    for genre, months in GENRE_RULES.items():
 
-        tracks = get_tracks(genre)
+        tracks = get_tracks(genre, months)
         ranked = []
 
         for t in tracks:
 
             key = f"{t['artist']} - {t['name']}"
-            yt = get_youtube_data(
+
+            yt = yt_lookup(
                 key,
                 f"{t['artist']} {t['name']} official audio"
             )
 
-            # fallback mode: Spotify-only ranking
-            if yt is None:
+            if yt:
+                last = previous.get(key, {}).get("views", yt["views"])
+                growth = yt["views"] - last
+
                 score = (
-                    t["popularity"] * 10 +
-                    freshness(t["release_date"])
+                    growth * 0.7 +
+                    t["popularity"] * 10 * 0.2 +
+                    freshness(t["release_date"]) * 0.1
                 )
 
-                ranked.append({
-                    "name": t["name"],
-                    "artist": t["artist"],
-                    "youtube_views": None,
-                    "weekly_growth": None,
-                    "spotify_popularity": t["popularity"],
-                    "score": score,
-                    "mode": "spotify_only"
-                })
+                mode = "full"
+                views = yt["views"]
 
-                continue
-
-            # normal mode (Spotify + YouTube)
-            last_views = previous_snapshot.get(key, {}).get("views", yt["views"])
-            growth = yt["views"] - last_views
-
-            score = (
-                growth * 0.7 +
-                t["popularity"] * 10 * 0.2 +
-                freshness(t["release_date"]) * 0.1
-            )
+            else:
+                score = t["popularity"] * 10 + freshness(t["release_date"])
+                growth = None
+                views = None
+                mode = "spotify_only"
 
             ranked.append({
                 "name": t["name"],
                 "artist": t["artist"],
-                "youtube_views": yt["views"],
+                "image": t["image"],
+                "youtube_views": views,
                 "weekly_growth": growth,
-                "spotify_popularity": t["popularity"],
                 "score": score,
-                "mode": "full"
+                "mode": mode
             })
 
         ranked.sort(key=lambda x: x["score"], reverse=True)
-        final[genre] = ranked[:50]
+        final[genre] = ranked[:MAX_TRACKS]
 
-    # save cache + outputs
     save_json(CACHE_FILE, yt_cache)
-    save_json(SNAPSHOT_FILE, {
-        f"{t['artist']} - {t['name']}": {
-            "views": t.get("youtube_views", 0)
-        }
-        for g in final.values()
-        for t in g
-    })
-
+    save_json(SNAPSHOT_FILE, {})
     save_json("data/charts.json", final)
 
     build_html(final)
 
-# -----------------------------
+# -------------------------
 # HTML OUTPUT
-# -----------------------------
+# -------------------------
 
 def build_html(data):
 
     html = """
     <html>
     <head>
-      <title>Carib50</title>
+      <title>Carib25</title>
       <style>
         body { background:#0f0f0f; color:white; font-family:Arial; }
-        h2 { color:#ffcc00; margin-top:30px; }
-        .song { padding:8px; border-bottom:1px solid #222; }
-        .tag { font-size:12px; color:#888; }
+        .btn { margin:5px; padding:8px; cursor:pointer; }
+        .song { display:flex; gap:10px; padding:10px; border-bottom:1px solid #222; }
+        img { width:50px; height:50px; }
+        .score { color:#00ff99; }
       </style>
     </head>
     <body>
-    <h1>Carib50 Weekly Charts</h1>
-    """
 
-    for genre, songs in data.items():
-        html += f"<h2>{genre.upper()}</h2>"
+    <h1>Carib25</h1>
 
-        for i, s in enumerate(songs, 1):
+    <div>
+      <button class="btn" onclick="show('soca')">Soca</button>
+      <button class="btn" onclick="show('dancehall')">Dancehall</button>
+      <button class="btn" onclick="show('afrobeats')">Afrobeats</button>
+      <button class="btn" onclick="show('bouyon')">Bouyon</button>
+    </div>
 
-            mode = "🎧 Spotify Only" if s.get("mode") == "spotify_only" else "▶ YouTube"
+    <div id="app"></div>
 
-            html += f"""
-            <div class="song">
-              #{i} {s['artist']} - {s['name']}
-              <div class="tag">
-                Score: {int(s['score'])} | {mode}
-              </div>
+    <script>
+    const data = """ + json.dumps(data) + """;
+
+    function show(g) {
+      const app = document.getElementById('app');
+      app.innerHTML = '';
+
+      data[g].forEach((s, i) => {
+        app.innerHTML += `
+          <div class="song">
+            <img src="${s.image}">
+            <div>
+              #${i+1} ${s.artist} - ${s.name}<br>
+              <span class="score">${Math.round(s.score)}</span>
             </div>
-            """
+          </div>
+        `;
+      });
+    }
 
-    html += "</body></html>"
+    show('soca');
+    </script>
+
+    </body>
+    </html>
+    """
 
     with open("data/index.html", "w") as f:
         f.write(html)
 
-# -----------------------------
+# -------------------------
 # RUN
-# -----------------------------
+# -------------------------
 
 if __name__ == "__main__":
     run()
