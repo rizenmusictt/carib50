@@ -58,12 +58,13 @@ AFROBEATS_ARTISTS = [
     "Ayra Starr", "Fireboy DML", "Omah Lay", "Shallipopi", "SeyVez"
 ]
 
+# CRITICAL FIX: Added Tydi S and kept the list tight for total exclusion mapping
 BOUYON_ARTISTS = [
     "1T1", "Miimii KDS", "Blackboy",
     "Ridge", "Quan", "Jessie",
     "Triple Kay", "Reo",
     "Maureen", "Lé Will", "Deuspi", 
-    "O Banga", "Trixx", "Home Grown Studio"
+    "O Banga", "Trixx", "Home Grown Studio", "Tydi S"
 ]
 
 # ==========================================
@@ -85,7 +86,6 @@ def clean(name):
     return not any(x in name.lower() for x in BLACKLIST)
 
 def clean_string_signature(val):
-    """Generates an alphanumeric signature to prevent feature/title mapping bypasses"""
     return re.sub(r'[^a-z0-9]', '', val.lower())
 
 def parse_date(date_str):
@@ -93,7 +93,6 @@ def parse_date(date_str):
         return None
     date_str = date_str.strip()
     
-    # Strict checks against raw fallback years (e.g. "2024", "2025") to stop multi-year leaks
     if len(date_str) == 4 and date_str.isdigit():
         return datetime(int(date_str), 1, 1)
         
@@ -207,8 +206,6 @@ def get_playlist_tracks(pid):
 
 def run():
     final = {}
-    
-    # Ordered execution to map protected boundaries smoothly
     ordered_genres = ["soca", "dancehall", "afrobeats", "bouyon"]
     soca_locked_titles = set()
 
@@ -266,13 +263,15 @@ def run():
             all_artists_lower = t["all_artists"].lower()
             title_sig = clean_string_signature(t["name"])
 
+            # CRITICAL FIX: HARD BLOCK BOUYON LEAKAGE FROM ENTERING SOCA LISTS
+            if genre == "soca":
+                if any(b_art.lower() in all_artists_lower for b_art in BOUYON_ARTISTS):
+                    continue  # Drops Maureen, le will, o banga, trixx, tydi s, homegrown studio instantly
+
             # BOUYON EXCLUSION LOGIC
             if genre == "bouyon":
-                # Check for clean title signature cross-bleed matching
                 if title_sig in soca_locked_titles:
                     continue
-                
-                # Strip out pure Soca configurations unless protected by an explicit Bouyon artist feature
                 if any(s_art.lower() in all_artists_lower for s_art in SOCA_ARTISTS):
                     if not any(b_art.lower() in all_artists_lower for b_art in BOUYON_ARTISTS):
                         continue
@@ -293,16 +292,14 @@ def run():
             else:
                 combined_popularity = t["popularity"]
 
-            # Popularity provides the base weight scale; the genre match score functions strictly as a booster
+            # Pure play metrics drive the base sorting entirely
             t["final_score"] = combined_popularity + s
             candidates.append(t)
 
         # STEP 5: Sorting & Evaluation Trim
-        # FIX: The list is sorted globally across the ENTIRE harvesting pool, avoiding the pre-slice bug
         final_sorted = sorted(candidates, key=lambda x: x["final_score"], reverse=True)
         final_selection = final_sorted[:TARGET]
 
-        # Log selection string definitions if executing Soca processing loops
         if genre == "soca":
             for track in final_selection:
                 soca_locked_titles.add(clean_string_signature(track["name"]))
