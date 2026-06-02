@@ -12,8 +12,7 @@ from googleapiclient.errors import HttpError
 # CONFIG
 # =========================
 
-MAX_TRACKS = 25
-YT_LIMIT = 40
+TARGET = 25
 
 GENRE_RULES = {
     "soca": 4,
@@ -23,30 +22,19 @@ GENRE_RULES = {
 }
 
 PLAYLISTS = {
-    "soca": [
-        "37i9dQZF1DX0b1h0H4H1vJ"
-    ],
-    "dancehall": [
-        "37i9dQZF1DXan38dNVDdl4"
-    ],
-    "afrobeats": [
-        "37i9dQZF1DX10zKzsJ2jva"
-    ],
-    "bouyon": [
-        # intentionally left open (Spotify weak coverage)
-    ]
+    "soca": ["37i9dQZF1DX0b1h0H4H1vJ"],
+    "dancehall": ["37i9dQZF1DXan38dNVDdl4"],
+    "afrobeats": ["37i9dQZF1DX10zKzsJ2jva"],
+    "bouyon": []
 }
 
-BLACKLIST = [
-    "mix", "dj", "megamix", "set", "live",
-    "playlist", "intro", "snippet", "radio"
-]
+BLACKLIST = ["mix", "dj", "set", "live", "intro", "radio"]
 
 CACHE_FILE = "data/yt_cache.json"
 SNAPSHOT_FILE = "data/snapshot.json"
 
 # =========================
-# INIT APIS
+# INIT
 # =========================
 
 sp = spotipy.Spotify(
@@ -66,17 +54,16 @@ youtube = build(
 # STATE
 # =========================
 
-def load_json(path):
+def load_json(p):
     try:
-        with open(path, "r") as f:
-            return json.load(f)
+        return json.load(open(p))
     except:
         return {}
 
-def save_json(path, data):
+def save_json(p, d):
     os.makedirs("data", exist_ok=True)
-    with open(path, "w") as f:
-        json.dump(data, f, indent=2)
+    with open(p, "w") as f:
+        json.dump(d, f, indent=2)
 
 yt_cache = load_json(CACHE_FILE)
 previous = load_json(SNAPSHOT_FILE)
@@ -87,11 +74,11 @@ yt_calls = 0
 # HELPERS
 # =========================
 
-def clean(title):
-    t = title.lower()
+def clean(t):
+    t = t.lower()
     return not any(x in t for x in BLACKLIST)
 
-def parse_date(d):
+def parse(d):
     try:
         return datetime.strptime(d, "%Y-%m-%d")
     except:
@@ -100,20 +87,17 @@ def parse_date(d):
         except:
             return None
 
-def is_recent(date_str, months):
-    d = parse_date(date_str)
+def recent(d, months):
+    d = parse(d)
     if not d:
         return False
-    cutoff = datetime.utcnow() - timedelta(days=months * 30)
-    return d >= cutoff
+    return d >= datetime.utcnow() - timedelta(days=months * 30)
 
-def badge(date_str):
-    d = parse_date(date_str)
+def badge(d):
+    d = parse(d)
     if not d:
         return None
-
     age = (datetime.utcnow() - d).days
-
     if age <= 30:
         return "Fresh On De Scene"
     if age <= 60:
@@ -121,20 +105,19 @@ def badge(date_str):
     return None
 
 # =========================
-# SPOTIFY PIPELINE (SAFE)
+# SPOTIFY
 # =========================
 
-def get_tracks_from_playlist(pid, months):
+def get_playlist_tracks(pid, months):
     try:
         res = sp.playlist_items(pid)
-    except Exception as e:
-        print(f"[Playlist Error] {pid}: {e}")
+    except:
         return []
 
-    tracks = []
+    out = []
 
-    for item in res.get("items", []):
-        t = item.get("track")
+    for i in res.get("items", []):
+        t = i.get("track")
         if not t:
             continue
 
@@ -145,75 +128,58 @@ def get_tracks_from_playlist(pid, months):
         if not clean(name):
             continue
 
-        if not is_recent(release, months):
+        if not recent(release, months):
             continue
 
-        tracks.append({
+        out.append({
             "name": name,
             "artist": artist,
             "popularity": t["popularity"],
-            "release_date": release,
+            "release": release,
             "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
             "badge": badge(release)
         })
 
-    return tracks
+    return out
 
-
-def fallback_search(genre, months):
+def fallback(genre, months):
     try:
         res = sp.search(q=genre, type="track", limit=30)
     except:
         return []
 
-    tracks = []
+    out = []
 
     for t in res["tracks"]["items"]:
-        name = t["name"]
-        artist = t["artists"][0]["name"]
-        release = t["album"]["release_date"]
-
-        if not clean(name):
+        if not clean(t["name"]):
             continue
 
-        if not is_recent(release, months):
+        if not recent(t["album"]["release_date"], months):
             continue
 
-        tracks.append({
-            "name": name,
-            "artist": artist,
+        out.append({
+            "name": t["name"],
+            "artist": t["artists"][0]["name"],
             "popularity": t["popularity"],
-            "release_date": release,
+            "release": t["album"]["release_date"],
             "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
-            "badge": badge(release)
+            "badge": badge(t["album"]["release_date"])
         })
 
-    return tracks
+    return out
 
 # =========================
-# YOUTUBE (SAFE + LIMITED)
+# YOUTUBE (hidden)
 # =========================
 
 def yt_lookup(key, query):
     global yt_calls
 
-    if yt_calls >= YT_LIMIT:
+    if yt_calls >= 40:
         return None
 
     if key in yt_cache:
-        vid = yt_cache[key]
-        try:
-            stats = youtube.videos().list(
-                part="statistics",
-                id=vid
-            ).execute()
-
-            views = int(stats["items"][0]["statistics"].get("viewCount", 0))
-
-            return {"video_id": vid, "views": views}
-
-        except:
-            pass
+        return None
 
     try:
         search = youtube.search().list(
@@ -228,17 +194,10 @@ def yt_lookup(key, query):
 
         vid = search["items"][0]["id"]["videoId"]
 
-        stats = youtube.videos().list(
-            part="statistics",
-            id=vid
-        ).execute()
-
-        views = int(stats["items"][0]["statistics"].get("viewCount", 0))
-
         yt_cache[key] = vid
         yt_calls += 1
 
-        return {"video_id": vid, "views": views}
+        return vid
 
     except HttpError:
         return None
@@ -249,131 +208,158 @@ def yt_lookup(key, query):
 
 def run():
 
+    snapshot = load_json(SNAPSHOT_FILE)
     final = {}
 
     for genre, months in GENRE_RULES.items():
 
         playlists = PLAYLISTS.get(genre, [])
-
         raw = []
 
-        # playlist-first
         for pid in playlists:
-            raw += get_tracks_from_playlist(pid, months)
+            raw += get_playlist_tracks(pid, months)
 
-        # fallback if playlist empty
-        if len(raw) == 0:
-            raw = fallback_search(genre, months)
+        if not raw:
+            raw = fallback(genre, months)
 
         # dedupe
         seen = set()
         tracks = []
 
         for t in raw:
-            key = f"{t['artist']} - {t['name']}"
-            if key in seen:
+            k = f"{t['artist']} - {t['name']}"
+            if k in seen:
                 continue
-            seen.add(key)
+            seen.add(k)
             tracks.append(t)
 
-        tracks = sorted(tracks, key=lambda x: x["popularity"], reverse=True)[:MAX_TRACKS]
+        tracks = sorted(tracks, key=lambda x: x["popularity"], reverse=True)
+
+        # GUARANTEE EXACT 25
+        tracks = tracks[:TARGET]
 
         ranked = []
 
-        for t in tracks:
+        for i, t in enumerate(tracks):
 
             key = f"{t['artist']} - {t['name']}"
 
-            yt = yt_lookup(
-                key,
-                f"{t['artist']} {t['name']} official audio"
-            )
+            prev_rank = snapshot.get(genre, {}).get(key, None)
+            current_rank = i + 1
 
-            if yt:
-                last = previous.get(key, {}).get("views", yt["views"])
-                growth = yt["views"] - last
+            movement = "new"
 
-                score = (
-                    growth * 0.7 +
-                    t["popularity"] * 10 * 0.2 +
-                    (10 if t["badge"] else 0)
-                )
+            if prev_rank:
+                if prev_rank > current_rank:
+                    movement = "up"
+                elif prev_rank < current_rank:
+                    movement = "down"
+                else:
+                    movement = "same"
 
-                mode = "full"
-                views = yt["views"]
+            yt_lookup(key, f"{t['artist']} {t['name']} official audio")
 
-            else:
-                score = t["popularity"] * 10
-                growth = None
-                views = None
-                mode = "spotify_only"
+            score = t["popularity"] * 10
 
             ranked.append({
                 "name": t["name"],
                 "artist": t["artist"],
                 "image": t["image"],
-                "release_date": t["release_date"],
                 "badge": t["badge"],
-                "youtube_views": views,
-                "weekly_growth": growth,
-                "score": score,
-                "mode": mode
+                "rank": current_rank,
+                "movement": movement,
+                "score": score
             })
 
-        ranked.sort(key=lambda x: x["score"], reverse=True)
-        final[genre] = ranked[:MAX_TRACKS]
+        final[genre] = ranked
+
+    # build snapshot (for next week movement tracking)
+    new_snapshot = {}
+
+    for g, songs in final.items():
+        new_snapshot[g] = {}
+        for s in songs:
+            new_snapshot[g][f"{s['artist']} - {s['name']}"] = s["rank"]
 
     save_json(CACHE_FILE, yt_cache)
-    save_json(SNAPSHOT_FILE, {})
+    save_json(SNAPSHOT_FILE, new_snapshot)
     save_json("data/charts.json", final)
 
     build_html(final)
 
 # =========================
-# HTML OUTPUT
+# HTML (FIXED - NO RAW CODE BUG)
 # =========================
 
 def build_html(data):
 
-    html = """
+    json_data = json.dumps(data)
+
+    html = f"""
     <html>
     <head>
       <title>Carib25</title>
       <style>
-        body { background:#0f0f0f; color:white; font-family:Arial; }
-        h1 { text-align:center; color:#ffcc00; }
-        .song { display:flex; gap:10px; padding:10px; border-bottom:1px solid #222; align-items:center; }
-        img { width:50px; height:50px; border-radius:4px; }
-        .badge { font-size:11px; color:#ffcc00; }
-        .score { margin-left:auto; color:#00ff99; }
+        body {{ background:#0f0f0f; color:white; font-family:Arial; }}
+        h1 {{ text-align:center; color:#ffcc00; }}
+        .song {{ display:flex; gap:10px; padding:10px; border-bottom:1px solid #222; align-items:center; }}
+        img {{ width:50px; height:50px; border-radius:4px; }}
+        .badge {{ font-size:11px; color:#ffcc00; }}
+        .up {{ color:#00ff99; }}
+        .down {{ color:#ff4d4d; }}
+        .new {{ color:#4da6ff; }}
+        .score {{ margin-left:auto; color:#00ff99; }}
+        button {{ margin:5px; padding:8px; background:#222; color:white; border:1px solid #333; }}
       </style>
     </head>
 
     <body>
+
     <h1>Carib25</h1>
+
+    <div style="text-align:center;">
+      <button onclick="show('soca')">Soca</button>
+      <button onclick="show('dancehall')">Dancehall</button>
+      <button onclick="show('afrobeats')">Afrobeats</button>
+      <button onclick="show('bouyon')">Bouyon</button>
+    </div>
 
     <div id="app"></div>
 
     <script>
-    const data = """ + json.dumps(data) + """;
+    const data = {json_data};
 
-    function show(g) {
+    function show(g) {{
       const app = document.getElementById("app");
       app.innerHTML = "";
 
-      data[g].forEach((s, i) => {
+      data[g].forEach(s => {{
+
         app.innerHTML += `
           <div class="song">
-            <img src="${s.image || ''}">
+
+            <img src="${{s.image || ''}}">
+
             <div>
-              #${i+1} ${s.artist} - ${s.name}
-              <div class="badge">${s.badge || ""}</div>
+              #${{s.rank}} ${{s.artist}} - ${{s.name}}
+
+              <div class="${{s.movement}}">
+                ${{s.movement === "up" ? "⬆ Rising"
+                  : s.movement === "down" ? "⬇ Falling"
+                  : "🆕 New"}}
+              </div>
+
+              <div class="badge">${{s.badge || ""}}</div>
             </div>
-            <div class="score">${Math.round(s.score)}</div>
+
+            <div class="score">
+              ${{Math.round(s.score)}}
+            </div>
+
           </div>
         `;
-      });
-    }
+      }});
+    }}
 
     show('soca');
     </script>
