@@ -2,168 +2,385 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Carib25</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carib50 - Music Charts</title>
   <style>
+    :root {
+      --bg-color: #0b0c10;
+      --card-bg: #1f2833;
+      --accent-green: #1db954;
+      --text-main: #ffffff;
+      --text-muted: #c5c6c7;
+      --border-color: #2c3540;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background:#0f0f0f;
-      color:white;
-      font-family:Arial, sans-serif;
-      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 20px;
     }
 
-    h1 {
-      text-align:center;
-      color:#ffcc00;
-      padding:15px;
-      margin:0;
-      border-bottom:1px solid #222;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-    .buttons {
-      text-align:center;
-      padding:10px;
+    header {
+      text-align: center;
+      margin-bottom: 30px;
     }
 
-    button {
-      margin:5px;
-      padding:8px 12px;
-      background:#222;
-      color:white;
-      border:1px solid #333;
-      border-radius:6px;
-      cursor:pointer;
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
     }
 
-    button:hover {
-      background:#333;
+    header p {
+      color: var(--text-muted);
     }
 
-    .song {
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:10px;
-      border-bottom:1px solid #222;
-      cursor:pointer;
+    /* Tab Layout Switcher */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 25px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
     }
 
-    .song:hover {
-      background:#151515;
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      cursor: pointer;
+      text-transform: capitalize;
+      transition: color 0.2s, border-color 0.2s;
     }
 
-    img {
-      width:50px;
-      height:50px;
-      border-radius:6px;
+    .tab-btn:hover {
+      color: var(--text-main);
     }
 
-    .meta {
-      font-size:12px;
-      color:#aaa;
-      margin-top:3px;
+    .tab-btn.active {
+      color: var(--accent-green);
+      border-bottom: 3px solid var(--accent-green);
     }
 
-    .badge {
-      font-size:11px;
-      color:#ffcc00;
-      margin-top:3px;
+    /* Chart Container Structure */
+    .chart-list {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
-    .artist {
-      font-size:14px;
+    .track-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.2s;
     }
 
-    .name {
-      font-weight:bold;
+    .track-row:hover {
+      background-color: rgba(255, 255, 255, 0.03);
     }
 
+    .track-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Left side structure (Rank + Art + Text Meta) */
+    .left-side {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-width: 0; /* Prevents text overflow breaks */
+    }
+
+    .rank-num {
+      font-size: 1.25rem;
+      font-weight: 800;
+      min-width: 35px;
+      color: var(--text-muted);
+    }
+
+    /* Top 3 rank highlight styling alternatives */
+    .track-row:nth-child(1) .rank-num { color: #ffd700; }
+    .track-row:nth-child(2) .rank-num { color: #c0c0c0; }
+    .track-row:nth-child(3) .rank-num { color: #cd7f32; }
+
+    .album-art {
+      width: 52px;
+      height: 52px;
+      border-radius: 4px;
+      object-fit: cover;
+      background-color: #111;
+    }
+
+    .meta-data {
+      min-width: 0;
+    }
+
+    .track-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+
+    .track-artist {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Center Playback Elements */
+    .player-controls {
+      padding: 0 20px;
+    }
+
+    .play-btn {
+      background-color: var(--accent-green);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: transform 0.1s, background-color 0.2s;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.06);
+      background-color: #1ed760;
+    }
+
+    .no-preview {
+      color: #444;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Right side movement status wrappers */
+    .right-side {
+      text-align: right;
+      min-width: 110px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-new {
+      background-color: rgba(74, 222, 128, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    .badge-stable {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .error-msg {
+      padding: 40px;
+      text-align: center;
+      color: #ff6b6b;
+    }
   </style>
 </head>
-
 <body>
 
-<h1>Carib25</h1>
+  <div class="container">
+    <header>
+      <h1>CARIB50</h1>
+      <p>Top 25 Sound System Velocity Charts</p>
+    </header>
 
-<div class="buttons">
-  <button onclick="render('soca')">Soca</button>
-  <button onclick="render('dancehall')">Dancehall</button>
-  <button onclick="render('afrobeats')">Afrobeats</button>
-  <button onclick="render('bouyon')">Bouyon</button>
-</div>
+    <!-- Navigation Tab Selectors Engine -->
+    <nav class="tabs" id="genreTabs">
+      <button class="tab-btn active" onclick="switchGenre('soca')">Soca</button>
+      <button class="tab-btn" onclick="switchGenre('dancehall')">Dancehall</button>
+      <button class="tab-btn" onclick="switchGenre('afrobeats')">Afrobeats</button>
+      <button class="tab-btn" onclick="switchGenre('bouyon')">Bouyon</button>
+    </nav>
 
-<div id="app"></div>
+    <!-- Main Chart Rendering List Target Context -->
+    <main class="chart-list" id="chartContainer">
+      <!-- Track components injected via Javascript engine routine -->
+    </main>
+  </div>
 
-<script>
+  <script>
+    let chartDatabase = null;
+    let currentGenre = 'soca';
+    let currentAudio = null;
+    let currentButton = null;
 
-let data = {};
-let currentAudio = null;
+    // Async data fetch runtime ingestion routine
+    async function initChartEngine() {
+      const container = document.getElementById('chartContainer');
+      try {
+        const response = await fetch('data/charts.json');
+        if (!response.ok) throw new Error('Data file mapping access execution failed');
+        
+        chartDatabase = await response.ok ? await response.json() : null;
+        renderGenreTracks(currentGenre);
+      } catch (err) {
+        console.error("Initialization breakdown error:", err);
+        container.innerHTML = `<div class="error-msg">Failed to load chart database records. Make sure script.py has completed executing.</div>`;
+      }
+    }
 
-async function loadData() {
-  try {
-    const res = await fetch("data/charts.json");
-    data = await res.json();
-    render("soca");
-  } catch (e) {
-    document.getElementById("app").innerHTML =
-      "<p style='padding:20px'>Failed to load charts.json</p>";
-  }
-}
+    // UI Render parsing engine
+    function renderGenreTracks(genre) {
+      const container = document.getElementById('chartContainer');
+      if (!chartDatabase || !chartDatabase[genre]) {
+        container.innerHTML = `<div class="error-msg">No tracks found for genre: ${genre}</div>`;
+        return;
+      }
 
-function playSong(song) {
+      // Safeguard execution path if an element remains playing while tabs switch
+      killActiveAudioInstances();
 
-  // stop previous audio
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio = null;
-  }
+      const tracks = chartDatabase[genre];
+      let htmlPayload = '';
 
-  // 1. preview if available
-  if (song.preview) {
-    currentAudio = new Audio(song.preview);
-    currentAudio.play();
-    return;
-  }
+      tracks.forEach(track => {
+        // Resolve parsing classes for context styles dynamically
+        const isNew = track.history === 'New';
+        const badgeClass = isNew ? 'badge-new' : 'badge-stable';
 
-  // 2. fallback to Spotify
-  window.open(song.spotify_url, "_blank");
-}
+        htmlPayload += `
+          <div class="track-row">
+            <!-- LEFT CELL: Explicit 1-25 layout tracking frame data indices -->
+            <div class="left-side">
+              <span class="rank-num">${track.rank}</span>
+              <img class="album-art" src="${track.image || 'https://placehold.co/60'}" alt="${track.name}" loading="lazy">
+              <div class="meta-data">
+                <div class="track-name">${track.name}</div>
+                <div class="track-artist">${track.artist}</div>
+              </div>
+            </div>
 
-function render(genre) {
+            <!-- CENTER CELL: Inline HTML5 Sound System Audio Runtime Controllers -->
+            <div class="player-controls">
+              ${track.preview ? `
+                <button class="play-btn" onclick="toggleAudioPlayback(this, '${track.preview}')" title="Play Preview">
+                  ▶
+                </button>
+              ` : `
+                <span class="no-preview">No Clip</span>
+              `}
+            </div>
 
-  const app = document.getElementById("app");
-  app.innerHTML = "";
+            <!-- RIGHT CELL: Historic tracking signature data logs -->
+            <div class="right-side">
+              <span class="status-badge ${badgeClass}">
+                ${track.history}
+              </span>
+            </div>
+          </div>
+        `;
+      });
 
-  const list = data[genre];
+      container.innerHTML = htmlPayload;
+    }
 
-  if (!list || list.length === 0) {
-    app.innerHTML = "<p style='padding:20px'>No data available</p>";
-    return;
-  }
+    // Tab control tracking execution routine
+    function switchGenre(selectedGenre) {
+      currentGenre = selectedGenre;
+      
+      // Update styling tags across nav node lists
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        if (btn.innerText.toLowerCase() === selectedGenre) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
 
-  list.forEach(song => {
+      renderGenreTracks(selectedGenre);
+    }
 
-    app.innerHTML += `
-      <div class="song" onclick='playSong(${JSON.stringify(song)})'>
+    // High performance native custom audio player logical execution unit
+    function toggleAudioPlayback(button, url) {
+      // Logic block mapping if target action points to the same track loop entity
+      if (currentAudio && currentButton === button) {
+        if (currentAudio.paused) {
+          currentAudio.play();
+          button.innerText = "⏸";
+        } else {
+          currentAudio.pause();
+          button.innerText = "▶";
+        }
+        return;
+      }
 
-        <img src="${song.image || ''}">
+      // Reset standard running thread tasks elsewhere on index nodes
+      killActiveAudioInstances();
 
-        <div>
-          <div class="artist">${song.artist || ''}</div>
-          <div class="name">${song.name || ''}</div>
+      // Spin up fresh single audio instance engine block mapping pointers
+      currentAudio = new Audio(url);
+      currentButton = button;
 
-          ${song.badge ? `<div class="badge">🔥 ${song.badge}</div>` : ""}
+      currentAudio.play();
+      button.innerText = "⏸";
 
-        </div>
+      // Self healing loop hooks to restore defaults gracefully on termination
+      currentAudio.onended = () => {
+        button.innerText = "▶";
+        currentAudio = null;
+        currentButton = null;
+      };
+    }
 
-      </div>
-    `;
-  });
-}
+    function killActiveAudioInstances() {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+      }
+      if (currentButton) {
+        currentButton.innerText = "▶";
+        currentButton = null;
+      }
+    }
 
-loadData();
-
-</script>
-
+    // Trigger initial startup execution routine on DOM load ready states
+    window.addEventListener('DOMContentLoaded', initChartEngine);
+  </script>
 </body>
 </html>
