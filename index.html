@@ -1,156 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Carib25</title>
+def build_html(data):
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
-      color: #ffffff;
+    html = """
+    <html>
+    <head>
+      <title>Carib25</title>
+      <style>
+        body {
+          background:#0f0f0f;
+          color:white;
+          font-family:Arial;
+        }
+
+        h1 {
+          color:#ffcc00;
+          text-align:center;
+        }
+
+        .btn {
+          margin:5px;
+          padding:8px;
+          cursor:pointer;
+          background:#222;
+          border:1px solid #333;
+          color:white;
+          border-radius:5px;
+        }
+
+        .song {
+          display:flex;
+          gap:12px;
+          padding:10px;
+          border-bottom:1px solid #222;
+          align-items:center;
+        }
+
+        img {
+          width:50px;
+          height:50px;
+          border-radius:4px;
+        }
+
+        .meta {
+          font-size:11px;
+          color:#aaa;
+        }
+
+        .badge {
+          font-size:11px;
+          color:#ffcc00;
+          margin-top:2px;
+        }
+
+        .score {
+          margin-left:auto;
+          color:#00ff99;
+          font-weight:bold;
+        }
+
+        .move {
+          font-size:12px;
+          margin-top:2px;
+        }
+
+        .up { color:#00ff99; }
+        .down { color:#ff4d4d; }
+        .new { color:#4da6ff; }
+
+      </style>
+    </head>
+
+    <body>
+
+    <h1>Carib25</h1>
+
+    <div style="text-align:center;">
+      <button class="btn" onclick="show('soca')">Soca</button>
+      <button class="btn" onclick="show('dancehall')">Dancehall</button>
+      <button class="btn" onclick="show('afrobeats')">Afrobeats</button>
+      <button class="btn" onclick="show('bouyon')">Bouyon</button>
+    </div>
+
+    <div id="app"></div>
+
+    <script>
+    const data = """ + json.dumps(data) + """;
+
+    function getMovement(song) {
+      if (!song.previous_rank) return "new";
+      const diff = song.previous_rank - song.rank;
+
+      if (diff > 0) return "up";
+      if (diff < 0) return "down";
+      return "same";
     }
 
-    header {
-      padding: 20px;
-      text-align: center;
-      background: #111;
-      border-bottom: 1px solid #222;
+    function show(g) {
+      const app = document.getElementById("app");
+      app.innerHTML = "";
+
+      data[g].forEach((s, i) => {
+
+        const movement = s.movement || "new";
+
+        let moveText = "";
+        let moveClass = "";
+
+        if (movement === "up") {
+          moveText = "⬆ Rising";
+          moveClass = "up";
+        } else if (movement === "down") {
+          moveText = "⬇ Falling";
+          moveClass = "down";
+        } else {
+          moveText = "🆕 New Entry";
+          moveClass = "new";
+        }
+
+        app.innerHTML += `
+          <div class="song">
+
+            <img src="${s.image || ''}">
+
+            <div>
+              #${i+1} ${s.artist} - ${s.name}
+
+              <div class="meta ${moveClass}">
+                ${moveText}
+              </div>
+
+              ${s.badge ? `<div class="badge">🔥 ${s.badge}</div>` : ""}
+            </div>
+
+            <div class="score">
+              ${Math.round(s.score)}
+            </div>
+
+          </div>
+        `;
+      });
     }
 
-    h1 {
-      margin: 0;
-      color: #ffcc00;
-      letter-spacing: 2px;
-    }
+    show('soca');
+    </script>
 
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      padding: 15px;
-      flex-wrap: wrap;
-    }
+    </body>
+    </html>
+    """
 
-    button {
-      background: #222;
-      color: white;
-      border: 1px solid #333;
-      padding: 8px 14px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    button:hover {
-      background: #333;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 10px;
-    }
-
-    .song {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px;
-      border-bottom: 1px solid #222;
-    }
-
-    .song img {
-      width: 50px;
-      height: 50px;
-      border-radius: 4px;
-    }
-
-    .meta {
-      font-size: 12px;
-      color: #aaa;
-    }
-
-    .score {
-      margin-left: auto;
-      color: #00ff99;
-      font-weight: bold;
-    }
-
-    .rank {
-      width: 30px;
-      color: #888;
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <h1>CARIB25</h1>
-  <div class="meta">Weekly Caribbean Music Charts</div>
-</header>
-
-<div class="buttons">
-  <button onclick="showGenre('soca')">Soca</button>
-  <button onclick="showGenre('dancehall')">Dancehall</button>
-  <button onclick="showGenre('afrobeats')">Afrobeats</button>
-  <button onclick="showGenre('bouyon')">Bouyon</button>
-</div>
-
-<div class="container" id="app">
-  Loading charts...
-</div>
-
-<script>
-let chartData = {};
-
-async function loadData() {
-  const res = await fetch("data/charts.json");
-  chartData = await res.json();
-
-  showGenre("soca");
-}
-
-function showGenre(genre) {
-  const app = document.getElementById("app");
-  app.innerHTML = "";
-
-  const list = chartData[genre];
-
-  if (!list) {
-    app.innerHTML = "<p>No data available yet.</p>";
-    return;
-  }
-
-  list.forEach((song, i) => {
-    const row = document.createElement("div");
-    row.className = "song";
-
-    row.innerHTML = `
-      <div class="rank">#${i + 1}</div>
-
-      <img src="${song.image || ''}" />
-
-      <div>
-        <div>${song.artist} - ${song.name}</div>
-        <div class="meta">
-          ${song.mode === "spotify_only" ? "Spotify Mode" : "Full Mode"}
-        </div>
-      </div>
-
-      <div class="score">
-        ${Math.round(song.score)}
-      </div>
-    `;
-
-    app.appendChild(row);
-  });
-}
-
-loadData();
-</script>
-
-</body>
-</html>
+    with open("data/index.html", "w") as f:
+        f.write(html)
