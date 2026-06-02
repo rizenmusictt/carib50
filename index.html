@@ -15,7 +15,7 @@
     h1 {
       text-align:center;
       color:#ffcc00;
-      padding:15px 0;
+      padding:15px;
       margin:0;
       border-bottom:1px solid #222;
     }
@@ -31,7 +31,7 @@
       background:#222;
       color:white;
       border:1px solid #333;
-      border-radius:5px;
+      border-radius:6px;
       cursor:pointer;
     }
 
@@ -45,6 +45,11 @@
       gap:12px;
       padding:10px;
       border-bottom:1px solid #222;
+      cursor:pointer;
+    }
+
+    .song:hover {
+      background:#151515;
     }
 
     img {
@@ -56,6 +61,7 @@
     .meta {
       font-size:12px;
       color:#aaa;
+      margin-top:3px;
     }
 
     .badge {
@@ -64,15 +70,13 @@
       margin-top:3px;
     }
 
-    .score {
-      margin-left:auto;
-      color:#00ff99;
-      font-weight:bold;
+    .artist {
+      font-size:14px;
     }
 
-    .up { color:#00ff99; }
-    .down { color:#ff4d4d; }
-    .new { color:#4da6ff; }
+    .name {
+      font-weight:bold;
+    }
 
   </style>
 </head>
@@ -91,13 +95,14 @@
 <div id="app"></div>
 
 <script>
+
 let data = {};
+let currentAudio = null;
 
 async function loadData() {
   try {
     const res = await fetch("data/charts.json");
     data = await res.json();
-
     render("soca");
   } catch (e) {
     document.getElementById("app").innerHTML =
@@ -105,7 +110,27 @@ async function loadData() {
   }
 }
 
+function playSong(song) {
+
+  // stop previous audio
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+
+  // 1. preview if available
+  if (song.preview) {
+    currentAudio = new Audio(song.preview);
+    currentAudio.play();
+    return;
+  }
+
+  // 2. fallback to Spotify
+  window.open(song.spotify_url, "_blank");
+}
+
 function render(genre) {
+
   const app = document.getElementById("app");
   app.innerHTML = "";
 
@@ -118,37 +143,17 @@ function render(genre) {
 
   list.forEach(song => {
 
-    let moveText = "";
-    let moveClass = "";
-
-    if (song.movement === "up") {
-      moveText = "⬆ Rising";
-      moveClass = "up";
-    } else if (song.movement === "down") {
-      moveText = "⬇ Falling";
-      moveClass = "down";
-    } else {
-      moveText = "🆕 New Entry";
-      moveClass = "new";
-    }
-
     app.innerHTML += `
-      <div class="song">
+      <div class="song" onclick='playSong(${JSON.stringify(song)})'>
 
         <img src="${song.image || ''}">
 
         <div>
-          #${song.rank || ''} ${song.artist || ''} - ${song.name || ''}
-
-          <div class="meta ${moveClass}">
-            ${moveText}
-          </div>
+          <div class="artist">${song.artist || ''}</div>
+          <div class="name">${song.name || ''}</div>
 
           ${song.badge ? `<div class="badge">🔥 ${song.badge}</div>` : ""}
-        </div>
 
-        <div class="score">
-          ${Math.round(song.score || 0)}
         </div>
 
       </div>
@@ -157,6 +162,7 @@ function render(genre) {
 }
 
 loadData();
+
 </script>
 
 </body>
