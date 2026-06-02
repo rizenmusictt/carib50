@@ -1,294 +1,51 @@
 
     <html>
     <head>
-      <title>Carib50</title>
+      <title>Carib25</title>
       <style>
         body { background:#0f0f0f; color:white; font-family:Arial; }
-        h2 { color:#ffcc00; margin-top:30px; }
-        .song { padding:8px; border-bottom:1px solid #222; }
-        .tag { font-size:12px; color:#888; }
+        .btn { margin:5px; padding:8px; cursor:pointer; }
+        .song { display:flex; gap:10px; padding:10px; border-bottom:1px solid #222; }
+        img { width:50px; height:50px; }
+        .score { color:#00ff99; }
       </style>
     </head>
     <body>
-    <h1>Carib50 Weekly Charts</h1>
-    <h2>SOCA</h2>
-            <div class="song">
-              #1 Full Blown - The Greatest Bend Over (Take It Easy)
-              <div class="tag">
-                Score: 647 | 🎧 Spotify Only
-              </div>
+
+    <h1>Carib25</h1>
+
+    <div>
+      <button class="btn" onclick="show('soca')">Soca</button>
+      <button class="btn" onclick="show('dancehall')">Dancehall</button>
+      <button class="btn" onclick="show('afrobeats')">Afrobeats</button>
+      <button class="btn" onclick="show('bouyon')">Bouyon</button>
+    </div>
+
+    <div id="app"></div>
+
+    <script>
+    const data = {"soca": [{"name": "SOCA CALIENTA", "artist": "Dj Samir", "image": "https://i.scdn.co/image/ab67616d0000b273afbca1379f8c2d595dfcedff", "youtube_views": null, "weekly_growth": null, "score": 499.44931506849315, "mode": "spotify_only"}, {"name": "SOCA TEA", "artist": "Mastaa T", "image": "https://i.scdn.co/image/ab67616d0000b273dd32a163bebcccf78796944d", "youtube_views": 115835, "weekly_growth": 0, "score": 72.97534246575343, "mode": "full"}], "dancehall": [{"name": "Gyal Good", "artist": "Alkaline", "image": "https://i.scdn.co/image/ab67616d0000b273198fb05418e9fede43800181", "youtube_views": null, "weekly_growth": null, "score": 639.4164383561643, "mode": "spotify_only"}, {"name": "Dancehall Nice (feat. Beres Hammond & Dexta Daps)", "artist": "Shaggy", "image": "https://i.scdn.co/image/ab67616d0000b2731c1936b8be85dcb195d00e02", "youtube_views": null, "weekly_growth": null, "score": 459.2191780821918, "mode": "spotify_only"}, {"name": "Dancehall Mad Man", "artist": "Skeng", "image": "https://i.scdn.co/image/ab67616d0000b27384771a4ab053c906ac3024f9", "youtube_views": null, "weekly_growth": null, "score": 419.83561643835617, "mode": "spotify_only"}, {"name": "Dancehall Nice (feat. Beres Hammond & Dexta Daps)", "artist": "Shaggy", "image": "https://i.scdn.co/image/ab67616d0000b273b78e3e28decac7753951b500", "youtube_views": null, "weekly_growth": null, "score": 399.85205479452054, "mode": "spotify_only"}], "afrobeats": [{"name": "Jogodo", "artist": "Wizkid", "image": "https://i.scdn.co/image/ab67616d0000b27306206895bb91710b0cad3a80", "youtube_views": null, "weekly_growth": null, "score": 778.8657534246576, "mode": "spotify_only"}, {"name": "Nakupenda", "artist": "TxC", "image": "https://i.scdn.co/image/ab67616d0000b273f91f29f049af023cc69b3d9f", "youtube_views": null, "weekly_growth": null, "score": 758.586301369863, "mode": "spotify_only"}, {"name": "CH\u00c9VERE (joes\u00f3n_type_beat)", "artist": "ARIA VEGA", "image": "https://i.scdn.co/image/ab67616d0000b273a041d1e4024bed274b48d393", "youtube_views": null, "weekly_growth": null, "score": 748.8657534246576, "mode": "spotify_only"}, {"name": "Afrojazz 2", "artist": "\u0444\u0440\u043e\u0437\u0438", "image": "https://i.scdn.co/image/ab67616d0000b273d3baa81e7324eea93f80da11", "youtube_views": null, "weekly_growth": null, "score": 399.7369863013699, "mode": "spotify_only"}, {"name": "Afro Guitar", "artist": "African Lofi", "image": "https://i.scdn.co/image/ab67616d0000b2733f30329b91a01b4a5985f16a", "youtube_views": null, "weekly_growth": null, "score": 359.5890410958904, "mode": "spotify_only"}, {"name": "Low (Afrobeat)", "artist": "LOVIXX", "image": "https://i.scdn.co/image/ab67616d0000b2734c6daf53e53e26ea7f933abd", "youtube_views": null, "weekly_growth": null, "score": 339.96712328767126, "mode": "spotify_only"}, {"name": "AFROBEAT", "artist": "Ticher Dad", "image": "https://i.scdn.co/image/ab67616d0000b27333c45dea9345c4adfca9161e", "youtube_views": null, "weekly_growth": null, "score": 308.73424657534247, "mode": "spotify_only"}, {"name": "ORGANIC - AFROBEAT", "artist": "100Beat", "image": "https://i.scdn.co/image/ab67616d0000b27358561955e3696028e7f2a035", "youtube_views": 13430171, "weekly_growth": 0, "score": 68.93178082191781, "mode": "full"}], "bouyon": [{"name": "unhappy", "artist": "s0rrow", "image": "https://i.scdn.co/image/ab67616d0000b273621d20b2632976bafe319295", "youtube_views": null, "weekly_growth": null, "score": 788.6931506849315, "mode": "spotify_only"}, {"name": "Wine It Slow", "artist": "T\u00c6RS", "image": "https://i.scdn.co/image/ab67616d0000b273b4ba0f6fd477a9fe49052f49", "youtube_views": null, "weekly_growth": null, "score": 618.8164383561643, "mode": "spotify_only"}, {"name": "Bounce", "artist": "450", "image": "https://i.scdn.co/image/ab67616d0000b27357604f147e94c00213654842", "youtube_views": null, "weekly_growth": null, "score": 499.5068493150685, "mode": "spotify_only"}, {"name": "Up To", "artist": "Joshii G", "image": "https://i.scdn.co/image/ab67616d0000b2738307a36c005a054993b6860e", "youtube_views": null, "weekly_growth": null, "score": 469.16986301369866, "mode": "spotify_only"}, {"name": "Bouncin", "artist": "CyHi", "image": "https://i.scdn.co/image/ab67616d0000b2736772ecad13ee99831797ae73", "youtube_views": null, "weekly_growth": null, "score": 329.5972602739726, "mode": "spotify_only"}, {"name": "Bouyon 2099", "artist": "Solar Million", "image": "https://i.scdn.co/image/ab67616d0000b2737cc101876070ac03d81c9ae0", "youtube_views": null, "weekly_growth": null, "score": 289.6794520547945, "mode": "spotify_only"}, {"name": "WYFL Bouyon Riddim", "artist": "Xavvoknockin", "image": "https://i.scdn.co/image/ab67616d0000b27398f1ef28346ca31c4cc0a59b", "youtube_views": null, "weekly_growth": null, "score": 239.26027397260273, "mode": "spotify_only"}, {"name": "Bouyon Rave", "artist": "Motto", "image": "https://i.scdn.co/image/ab67616d0000b273aad7d78f014116f3e939d1ae", "youtube_views": null, "weekly_growth": null, "score": 168.84109589041097, "mode": "spotify_only"}, {"name": "In Di Corner", "artist": "1T1", "image": "https://i.scdn.co/image/ab67616d0000b2734431d73da54375299918144b", "youtube_views": 5856900, "weekly_growth": 46, "score": 165.09890410958903, "mode": "full"}, {"name": "Bouyon Rave Riddim", "artist": "Producerdlo", "image": "https://i.scdn.co/image/ab67616d0000b273b4a9b441a8015d1f11d214ba", "youtube_views": 146, "weekly_growth": 0, "score": 14.884931506849314, "mode": "full"}]};
+
+    function show(g) {
+      const app = document.getElementById('app');
+      app.innerHTML = '';
+
+      data[g].forEach((s, i) => {
+        app.innerHTML += `
+          <div class="song">
+            <img src="${s.image}">
+            <div>
+              #${i+1} ${s.artist} - ${s.name}<br>
+              <span class="score">${Math.round(s.score)}</span>
             </div>
-            
-            <div class="song">
-              #2 Dj GBR - SOCA SOCA DO SUBMUNDO (FUNK VERSION)
-              <div class="tag">
-                Score: 634 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #3 Full Blown - Good Spirits
-              <div class="tag">
-                Score: 594 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #4 Kes - Cocoa Tea
-              <div class="tag">
-                Score: 594 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #5 The Soca Boys - Follow The Leader
-              <div class="tag">
-                Score: 570 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #6 Full Blown - Respectfully Yours
-              <div class="tag">
-                Score: 567 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #7 Machel Montano - Fast Wine
-              <div class="tag">
-                Score: 560 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #8 s0rrow - stalk ur socials - slowed
-              <div class="tag">
-                Score: 146 | ▶ YouTube
-              </div>
-            </div>
-            
-            <div class="song">
-              #9 Albert Hammond - It Never Rains in Southern California
-              <div class="tag">
-                Score: 140 | ▶ YouTube
-              </div>
-            </div>
-            
-            <div class="song">
-              #10 Klassik Frescobar - Dansa
-              <div class="tag">
-                Score: 126 | ▶ YouTube
-              </div>
-            </div>
-            <h2>DANCEHALL</h2>
-            <div class="song">
-              #1 Sean Paul - Get Busy
-              <div class="tag">
-                Score: 820 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #2 Spice - Go Down Deh (feat. Sean Paul & Shaggy)
-              <div class="tag">
-                Score: 790 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #3 Charly Black - Gyal You a Party Animal
-              <div class="tag">
-                Score: 770 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #4 Ryan Castro - SANKA
-              <div class="tag">
-                Score: 767 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #5 Sean Paul - I'm Still in Love with You (feat. Sasha)
-              <div class="tag">
-                Score: 760 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #6 Spice - Go Down Deh (feat. Sean Paul & Shaggy)
-              <div class="tag">
-                Score: 760 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #7 Gyptian - Hold You - Hold Yuh
-              <div class="tag">
-                Score: 750 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #8 Chaka Demus & Pliers - Murder She Wrote
-              <div class="tag">
-                Score: 750 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #9 Wang Chung - Dance Hall Days
-              <div class="tag">
-                Score: 720 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #10 Sean Paul - Temperature
-              <div class="tag">
-                Score: 174 | ▶ YouTube
-              </div>
-            </div>
-            <h2>AFROBEATS</h2>
-            <div class="song">
-              #1 Rema - Calm Down (with Selena Gomez)
-              <div class="tag">
-                Score: 820 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #2 Rema - Calm Down (with Selena Gomez)
-              <div class="tag">
-                Score: 781 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #3 Dave - Location (feat. Burna Boy)
-              <div class="tag">
-                Score: 780 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #4 DopeNation - Kakalika
-              <div class="tag">
-                Score: 777 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #5 Davido - With You (feat. Omah Lay)
-              <div class="tag">
-                Score: 757 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #6 TxC - Nakupenda
-              <div class="tag">
-                Score: 757 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #7 Kapo - X TI
-              <div class="tag">
-                Score: 757 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #8 Tyla - Truth or Dare
-              <div class="tag">
-                Score: 754 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #9 ARIA VEGA - CHÉVERE (joesón_type_beat)
-              <div class="tag">
-                Score: 750 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #10 Oxlade - KU LO SA - A COLORS SHOW
-              <div class="tag">
-                Score: 740 | 🎧 Spotify Only
-              </div>
-            </div>
-            <h2>BOUYON</h2>
-            <div class="song">
-              #1 s0rrow - unhappy
-              <div class="tag">
-                Score: 787 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #2 Blaiz Fayah - Money Pull Up
-              <div class="tag">
-                Score: 687 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #3 Miimii KDS - Sé Miimii
-              <div class="tag">
-                Score: 667 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #4 Rema - Bounce
-              <div class="tag">
-                Score: 630 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #5 TÆRS - Wine It Slow
-              <div class="tag">
-                Score: 620 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #6 1T1 - Bouwéy
-              <div class="tag">
-                Score: 614 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #7 1T1 - Bouwéy
-              <div class="tag">
-                Score: 594 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #8 Denden - Padtal
-              <div class="tag">
-                Score: 587 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #9 1T1 - Leave Me Alone
-              <div class="tag">
-                Score: 564 | 🎧 Spotify Only
-              </div>
-            </div>
-            
-            <div class="song">
-              #10 1T1 - In Di Corner
-              <div class="tag">
-                Score: 133 | ▶ YouTube
-              </div>
-            </div>
-            </body></html>
+          </div>
+        `;
+      });
+    }
+
+    show('soca');
+    </script>
+
+    </body>
+    </html>
+    

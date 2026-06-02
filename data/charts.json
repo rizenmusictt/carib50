@@ -1,369 +1,225 @@
 {
   "soca": [
     {
-      "name": "The Greatest Bend Over (Take It Easy)",
-      "artist": "Full Blown",
+      "name": "SOCA CALIENTA",
+      "artist": "Dj Samir",
+      "image": "https://i.scdn.co/image/ab67616d0000b273afbca1379f8c2d595dfcedff",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 64,
-      "score": 647,
+      "score": 499.44931506849315,
       "mode": "spotify_only"
     },
     {
-      "name": "SOCA SOCA DO SUBMUNDO (FUNK VERSION)",
-      "artist": "Dj GBR",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 63,
-      "score": 634,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Good Spirits",
-      "artist": "Full Blown",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 59,
-      "score": 594,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Cocoa Tea",
-      "artist": "Kes",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 59,
-      "score": 594,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Follow The Leader",
-      "artist": "The Soca Boys",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 57,
-      "score": 570,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Respectfully Yours",
-      "artist": "Full Blown",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 56,
-      "score": 567,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Fast Wine",
-      "artist": "Machel Montano",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 56,
-      "score": 560,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "stalk ur socials - slowed",
-      "artist": "s0rrow",
-      "youtube_views": 7861,
+      "name": "SOCA TEA",
+      "artist": "Mastaa T",
+      "image": "https://i.scdn.co/image/ab67616d0000b273dd32a163bebcccf78796944d",
+      "youtube_views": 115835,
       "weekly_growth": 0,
-      "spotify_popularity": 73,
-      "score": 146.7,
-      "mode": "full"
-    },
-    {
-      "name": "It Never Rains in Southern California",
-      "artist": "Albert Hammond",
-      "youtube_views": 4271150,
-      "weekly_growth": 0,
-      "spotify_popularity": 70,
-      "score": 140.0,
-      "mode": "full"
-    },
-    {
-      "name": "Dansa",
-      "artist": "Klassik Frescobar",
-      "youtube_views": 14931929,
-      "weekly_growth": 0,
-      "spotify_popularity": 63,
-      "score": 126.7,
+      "score": 72.97534246575343,
       "mode": "full"
     }
   ],
   "dancehall": [
     {
-      "name": "Get Busy",
-      "artist": "Sean Paul",
+      "name": "Gyal Good",
+      "artist": "Alkaline",
+      "image": "https://i.scdn.co/image/ab67616d0000b273198fb05418e9fede43800181",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 82,
-      "score": 820,
+      "score": 639.4164383561643,
       "mode": "spotify_only"
     },
     {
-      "name": "Go Down Deh (feat. Sean Paul & Shaggy)",
-      "artist": "Spice",
+      "name": "Dancehall Nice (feat. Beres Hammond & Dexta Daps)",
+      "artist": "Shaggy",
+      "image": "https://i.scdn.co/image/ab67616d0000b2731c1936b8be85dcb195d00e02",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 79,
-      "score": 790,
+      "score": 459.2191780821918,
       "mode": "spotify_only"
     },
     {
-      "name": "Gyal You a Party Animal",
-      "artist": "Charly Black",
+      "name": "Dancehall Mad Man",
+      "artist": "Skeng",
+      "image": "https://i.scdn.co/image/ab67616d0000b27384771a4ab053c906ac3024f9",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 77,
-      "score": 770,
+      "score": 419.83561643835617,
       "mode": "spotify_only"
     },
     {
-      "name": "SANKA",
-      "artist": "Ryan Castro",
+      "name": "Dancehall Nice (feat. Beres Hammond & Dexta Daps)",
+      "artist": "Shaggy",
+      "image": "https://i.scdn.co/image/ab67616d0000b273b78e3e28decac7753951b500",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 76,
-      "score": 767,
+      "score": 399.85205479452054,
       "mode": "spotify_only"
-    },
-    {
-      "name": "I'm Still in Love with You (feat. Sasha)",
-      "artist": "Sean Paul",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 76,
-      "score": 760,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Go Down Deh (feat. Sean Paul & Shaggy)",
-      "artist": "Spice",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 76,
-      "score": 760,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Hold You - Hold Yuh",
-      "artist": "Gyptian",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 75,
-      "score": 750,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Murder She Wrote",
-      "artist": "Chaka Demus & Pliers",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 75,
-      "score": 750,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Dance Hall Days",
-      "artist": "Wang Chung",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 72,
-      "score": 720,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Temperature",
-      "artist": "Sean Paul",
-      "youtube_views": 493016112,
-      "weekly_growth": 0,
-      "spotify_popularity": 87,
-      "score": 174.0,
-      "mode": "full"
     }
   ],
   "afrobeats": [
     {
-      "name": "Calm Down (with Selena Gomez)",
-      "artist": "Rema",
+      "name": "Jogodo",
+      "artist": "Wizkid",
+      "image": "https://i.scdn.co/image/ab67616d0000b27306206895bb91710b0cad3a80",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 82,
-      "score": 820,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Calm Down (with Selena Gomez)",
-      "artist": "Rema",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 78,
-      "score": 781,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Location (feat. Burna Boy)",
-      "artist": "Dave",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 78,
-      "score": 780,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Kakalika",
-      "artist": "DopeNation",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 77,
-      "score": 777,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "With You (feat. Omah Lay)",
-      "artist": "Davido",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 75,
-      "score": 757,
+      "score": 778.8657534246576,
       "mode": "spotify_only"
     },
     {
       "name": "Nakupenda",
       "artist": "TxC",
+      "image": "https://i.scdn.co/image/ab67616d0000b273f91f29f049af023cc69b3d9f",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 75,
-      "score": 757,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "X TI",
-      "artist": "Kapo",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 75,
-      "score": 757,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Truth or Dare",
-      "artist": "Tyla",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 75,
-      "score": 754,
+      "score": 758.586301369863,
       "mode": "spotify_only"
     },
     {
       "name": "CH\u00c9VERE (joes\u00f3n_type_beat)",
       "artist": "ARIA VEGA",
+      "image": "https://i.scdn.co/image/ab67616d0000b273a041d1e4024bed274b48d393",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 74,
-      "score": 750,
+      "score": 748.8657534246576,
       "mode": "spotify_only"
     },
     {
-      "name": "KU LO SA - A COLORS SHOW",
-      "artist": "Oxlade",
+      "name": "Afrojazz 2",
+      "artist": "\u0444\u0440\u043e\u0437\u0438",
+      "image": "https://i.scdn.co/image/ab67616d0000b273d3baa81e7324eea93f80da11",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 74,
-      "score": 740,
+      "score": 399.7369863013699,
       "mode": "spotify_only"
+    },
+    {
+      "name": "Afro Guitar",
+      "artist": "African Lofi",
+      "image": "https://i.scdn.co/image/ab67616d0000b2733f30329b91a01b4a5985f16a",
+      "youtube_views": null,
+      "weekly_growth": null,
+      "score": 359.5890410958904,
+      "mode": "spotify_only"
+    },
+    {
+      "name": "Low (Afrobeat)",
+      "artist": "LOVIXX",
+      "image": "https://i.scdn.co/image/ab67616d0000b2734c6daf53e53e26ea7f933abd",
+      "youtube_views": null,
+      "weekly_growth": null,
+      "score": 339.96712328767126,
+      "mode": "spotify_only"
+    },
+    {
+      "name": "AFROBEAT",
+      "artist": "Ticher Dad",
+      "image": "https://i.scdn.co/image/ab67616d0000b27333c45dea9345c4adfca9161e",
+      "youtube_views": null,
+      "weekly_growth": null,
+      "score": 308.73424657534247,
+      "mode": "spotify_only"
+    },
+    {
+      "name": "ORGANIC - AFROBEAT",
+      "artist": "100Beat",
+      "image": "https://i.scdn.co/image/ab67616d0000b27358561955e3696028e7f2a035",
+      "youtube_views": 13430171,
+      "weekly_growth": 0,
+      "score": 68.93178082191781,
+      "mode": "full"
     }
   ],
   "bouyon": [
     {
       "name": "unhappy",
       "artist": "s0rrow",
+      "image": "https://i.scdn.co/image/ab67616d0000b273621d20b2632976bafe319295",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 78,
-      "score": 787,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Money Pull Up",
-      "artist": "Blaiz Fayah",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 68,
-      "score": 687,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "S\u00e9 Miimii",
-      "artist": "Miimii KDS",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 66,
-      "score": 667,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Bounce",
-      "artist": "Rema",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "spotify_popularity": 63,
-      "score": 630,
+      "score": 788.6931506849315,
       "mode": "spotify_only"
     },
     {
       "name": "Wine It Slow",
       "artist": "T\u00c6RS",
+      "image": "https://i.scdn.co/image/ab67616d0000b273b4ba0f6fd477a9fe49052f49",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 61,
-      "score": 620,
+      "score": 618.8164383561643,
       "mode": "spotify_only"
     },
     {
-      "name": "Bouw\u00e9y",
-      "artist": "1T1",
+      "name": "Bounce",
+      "artist": "450",
+      "image": "https://i.scdn.co/image/ab67616d0000b27357604f147e94c00213654842",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 61,
-      "score": 614,
+      "score": 499.5068493150685,
       "mode": "spotify_only"
     },
     {
-      "name": "Bouw\u00e9y",
-      "artist": "1T1",
+      "name": "Up To",
+      "artist": "Joshii G",
+      "image": "https://i.scdn.co/image/ab67616d0000b2738307a36c005a054993b6860e",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 59,
-      "score": 594,
+      "score": 469.16986301369866,
       "mode": "spotify_only"
     },
     {
-      "name": "Padtal",
-      "artist": "Denden",
+      "name": "Bouncin",
+      "artist": "CyHi",
+      "image": "https://i.scdn.co/image/ab67616d0000b2736772ecad13ee99831797ae73",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 58,
-      "score": 587,
+      "score": 329.5972602739726,
       "mode": "spotify_only"
     },
     {
-      "name": "Leave Me Alone",
-      "artist": "1T1",
+      "name": "Bouyon 2099",
+      "artist": "Solar Million",
+      "image": "https://i.scdn.co/image/ab67616d0000b2737cc101876070ac03d81c9ae0",
       "youtube_views": null,
       "weekly_growth": null,
-      "spotify_popularity": 56,
-      "score": 564,
+      "score": 289.6794520547945,
+      "mode": "spotify_only"
+    },
+    {
+      "name": "WYFL Bouyon Riddim",
+      "artist": "Xavvoknockin",
+      "image": "https://i.scdn.co/image/ab67616d0000b27398f1ef28346ca31c4cc0a59b",
+      "youtube_views": null,
+      "weekly_growth": null,
+      "score": 239.26027397260273,
+      "mode": "spotify_only"
+    },
+    {
+      "name": "Bouyon Rave",
+      "artist": "Motto",
+      "image": "https://i.scdn.co/image/ab67616d0000b273aad7d78f014116f3e939d1ae",
+      "youtube_views": null,
+      "weekly_growth": null,
+      "score": 168.84109589041097,
       "mode": "spotify_only"
     },
     {
       "name": "In Di Corner",
       "artist": "1T1",
-      "youtube_views": 5856854,
+      "image": "https://i.scdn.co/image/ab67616d0000b2734431d73da54375299918144b",
+      "youtube_views": 5856900,
+      "weekly_growth": 46,
+      "score": 165.09890410958903,
+      "mode": "full"
+    },
+    {
+      "name": "Bouyon Rave Riddim",
+      "artist": "Producerdlo",
+      "image": "https://i.scdn.co/image/ab67616d0000b273b4a9b441a8015d1f11d214ba",
+      "youtube_views": 146,
       "weekly_growth": 0,
-      "spotify_popularity": 66,
-      "score": 133.0,
+      "score": 14.884931506849314,
       "mode": "full"
     }
   ]
