@@ -18,20 +18,11 @@ GENRE_RULES = {
     "bouyon": 6
 }
 
-# 🎯 dynamic playlist search queries
 PLAYLIST_QUERIES = {
-    "soca": [
-        "2026 soca", "top soca", "new soca", "soca hits", "soca party"
-    ],
-    "dancehall": [
-        "2026 dancehall", "top dancehall", "new dancehall", "dancehall hits"
-    ],
-    "afrobeats": [
-        "2026 afrobeats", "top afrobeats", "new afrobeats", "afrobeats hits"
-    ],
-    "bouyon": [
-        "bouyon 2026", "top bouyon", "new bouyon", "caribbean bouyon"
-    ]
+    "soca": ["2026 soca", "top soca", "new soca"],
+    "dancehall": ["2026 dancehall", "top dancehall", "new dancehall"],
+    "afrobeats": ["2026 afrobeats", "top afrobeats", "new afrobeats"],
+    "bouyon": ["bouyon 2026", "top bouyon", "new bouyon"]
 }
 
 BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro"]
@@ -52,8 +43,7 @@ sp = spotipy.Spotify(
 # =========================
 
 def clean(name):
-    name = name.lower()
-    return not any(x in name for x in BLACKLIST)
+    return not any(x in name.lower() for x in BLACKLIST)
 
 def parse_date(d):
     try:
@@ -64,41 +54,54 @@ def parse_date(d):
         except:
             return None
 
-def recent(date_str, months):
+def within_window(date_str, genre):
     d = parse_date(date_str)
     if not d:
         return False
-    return d >= datetime.utcnow() - timedelta(days=months * 30)
 
-def badge(date_str):
-    d = parse_date(date_str)
-    if not d:
-        return None
-    age = (datetime.utcnow() - d).days
-    if age <= 30:
-        return "Fresh On De Scene"
-    if age <= 60:
-        return "New Heat"
-    return None
+    limit = 4 if genre in ["soca", "dancehall"] else 6
+    return d >= datetime.utcnow() - timedelta(days=limit * 30)
 
 # =========================
-# PLAYLIST DISCOVERY ENGINE
+# GENRE CONFIDENCE (ANTI-BLEED CORE FIX)
+# =========================
+
+GENRE_ARTISTS = {
+    "soca": ["machel montano", "kes", "skinny fabulous", "voice", "nailah blackman"],
+    "dancehall": ["vybz kartel", "popcaan", "shenseea", "masicka", "skillibeng"],
+    "afrobeats": ["wizkid", "burna boy", "davido", "rema", "asake"],
+    "bouyon": ["bunji garlin", "problem child", "mr killa", "screw", "lyrikal"]
+}
+
+def genre_confidence(genre, artist, name):
+    text = (artist + " " + name).lower()
+
+    score = 0
+    if any(a in text for a in GENRE_ARTISTS.get(genre, [])):
+        score += 3
+    if genre in text:
+        score += 1
+
+    return score
+
+# =========================
+# PLAYLIST DISCOVERY
 # =========================
 
 def discover_playlists(query):
     try:
         res = sp.search(q=query, type="playlist", limit=5)
-        return [p["id"] for p in res["playlists"]["items"] if p]
+        return [p["id"] for p in res["playlists"]["items"]]
     except:
         return []
 
-def get_playlist_tracks(pid):
+def get_playlist_tracks(pid, genre):
     try:
         res = sp.playlist_items(pid)
     except:
         return []
 
-    out = []
+    tracks = []
 
     for item in res.get("items", []):
         t = item.get("track")
@@ -111,16 +114,26 @@ def get_playlist_tracks(pid):
         if not clean(name):
             continue
 
-        out.append({
+        if not within_window(t["album"]["release_date"], genre):
+            continue
+
+        conf = genre_confidence(genre, artist, name)
+
+        if conf < 2:
+            continue
+
+        tracks.append({
             "name": name,
             "artist": artist,
-            "popularity": t["popularity"],
-            "release": t["album"]["release_date"],
             "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
-            "badge": badge(t["album"]["release_date"])
+            "release": t["album"]["release_date"],
+            "preview": t.get("preview_url"),
+            "spotify_url": t["external_urls"]["spotify"],
+            "popularity": t["popularity"],
+            "confidence": conf
         })
 
-    return out
+    return tracks
 
 # =========================
 # ENGINE
@@ -130,72 +143,54 @@ def run():
 
     final = {}
 
-    for genre, months in GENRE_RULES.items():
+    for genre, _ in GENRE_RULES.items():
 
         raw = []
 
-        # -----------------------
-        # 1. DISCOVER PLAYLISTS
-        # -----------------------
-        for q in PLAYLIST_QUERIES.get(genre, []):
+        # gather playlists dynamically
+        for q in PLAYLIST_QUERIES[genre]:
             playlist_ids = discover_playlists(q)
 
             for pid in playlist_ids:
-                raw += get_playlist_tracks(pid)
+                raw += get_playlist_tracks(pid, genre)
 
-        # -----------------------
-        # 2. DEDUPE
-        # -----------------------
+        # dedupe
         seen = set()
-        tracks = []
+        clean_tracks = []
 
         for t in raw:
             key = f"{t['artist']} - {t['name']}"
             if key in seen:
                 continue
             seen.add(key)
-            tracks.append(t)
+            clean_tracks.append(t)
 
-        # -----------------------
-        # 3. FILTER + SCORE
-        # -----------------------
-        ranked = []
+        # scoring (no display numbers exposed later)
+        ranked = sorted(
+            clean_tracks,
+            key=lambda x: (x["popularity"] * 10 + x["confidence"] * 5),
+            reverse=True
+        )[:TARGET]
 
-        for t in tracks:
+        # final formatting (NO exposed right-side numbers)
+        output = []
 
-            if not clean(t["name"]):
-                continue
+        for i, t in enumerate(ranked):
 
-            score = t["popularity"] * 10
-
-            ranked.append({
-                "name": t["name"],
+            output.append({
+                "rank": i + 1,
                 "artist": t["artist"],
+                "name": t["name"],
                 "image": t["image"],
-                "badge": t["badge"],
-                "score": score
+                "preview": t["preview"],
+                "spotify_url": t["spotify_url"],
+                "badge": "Fresh On De Scene" if t["confidence"] >= 3 else None
             })
 
-        ranked = sorted(ranked, key=lambda x: x["score"], reverse=True)
+        final[genre] = output
 
-        # -----------------------
-        # 4. FORCE 25 OUTPUT
-        # -----------------------
-        if len(ranked) < TARGET:
-            ranked = (ranked * (TARGET // len(ranked) + 1))[:TARGET]
-        else:
-            ranked = ranked[:TARGET]
-
-        # add ranks
-        for i, r in enumerate(ranked):
-            r["rank"] = i + 1
-
-        final[genre] = ranked
-
-    # -----------------------
-    # SAVE
-    # -----------------------
     os.makedirs("data", exist_ok=True)
+
     with open("data/charts.json", "w") as f:
         json.dump(final, f, indent=2)
 
