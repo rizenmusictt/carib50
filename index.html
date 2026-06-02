@@ -1,221 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>carib50 - Official Charts</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --surface-color: #1e1e1e;
-            --primary-color: #ff4757;
-            --text-main: #ffffff;
-            --text-muted: #a4b0be;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carib50</title>
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+    }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    header {
+      padding: 20px;
+      text-align: center;
+      background: #111;
+      border-bottom: 1px solid #222;
+    }
 
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
+    h1 {
+      margin: 0;
+      color: #ffcc00;
+      letter-spacing: 2px;
+    }
 
-        /* Navigation Tabs */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
 
-        .tab-btn {
-            background-color: var(--surface-color);
-            color: var(--text-main);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-transform: capitalize;
-        }
+    .genre {
+      margin-top: 40px;
+    }
 
-        .tab-btn:hover, .tab-btn.active {
-            background-color: var(--primary-color);
-        }
+    .genre h2 {
+      color: #ffcc00;
+      border-bottom: 1px solid #333;
+      padding-bottom: 5px;
+    }
 
-        /* Chart Container */
-        .chart-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    .song {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #222;
+    }
 
-        .track-card {
-            display: flex;
-            align-items: center;
-            background-color: var(--surface-color);
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            transition: transform 0.2s;
-        }
+    .song:hover {
+      background: #1a1a1a;
+    }
 
-        .track-card:hover {
-            transform: translateY(-2px);
-        }
+    .meta {
+      font-size: 12px;
+      color: #aaa;
+    }
 
-        .rank {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--text-muted);
-            width: 40px;
-            text-align: center;
-            margin-right: 15px;
-        }
-
-        .thumbnail {
-            width: 120px;
-            height: 68px;
-            border-radius: 5px;
-            object-fit: cover;
-            margin-right: 20px;
-        }
-
-        .track-info {
-            flex-grow: 1;
-        }
-
-        .track-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin: 0 0 5px 0;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .track-artist {
-            color: var(--text-muted);
-            margin: 0;
-            font-size: 0.9rem;
-        }
-
-        .track-stats {
-            text-align: right;
-            min-width: 100px;
-        }
-
-        .views {
-            color: var(--primary-color);
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-    </style>
+    .score {
+      color: #00ff99;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
 
-    <header>
-        <h1>carib50</h1>
-        <p style="color: var(--text-muted); margin-top: 0;">The hottest Caribbean tracks right now</p>
-    </header>
+<header>
+  <h1>CARIB50</h1>
+  <div class="meta">Weekly Caribbean Music Charts</div>
+</header>
 
-    <div class="tabs" id="genre-tabs">
-        <button class="tab-btn active" data-target="all_genres">Top 25 Overall</button>
-        <button class="tab-btn" data-target="soca">Soca</button>
-        <button class="tab-btn" data-target="dancehall">Dancehall</button>
-        <button class="tab-btn" data-target="bouyon">Bouyon</button>
-    </div>
+<div class="container" id="app">
+  Loading charts...
+</div>
 
-    <div class="chart-container" id="chart-display">
-        <p style="text-align: center; color: var(--text-muted);">Loading charts...</p>
-    </div>
+<script>
+async function loadCharts() {
+  const res = await fetch("data/charts.json");
+  const data = await res.json();
 
-    <script>
-        // Number formatter for cleaner view counts (e.g., 1.2M, 450K)
-        function formatNumber(num) {
-            if (num >= 1000000) {
-                return (num / 1000000).toFixed(1) + 'M';
-            }
-            if (num >= 1000) {
-                return (num / 1000).toFixed(1) + 'K';
-            }
-            return num.toString();
-        }
+  const app = document.getElementById("app");
+  app.innerHTML = "";
 
-        let chartData = {};
+  for (const genre in data) {
 
-        // Fetch the generated data.json file
-        fetch('data.json')
-            .then(response => response.json())
-            .then(data => {
-                chartData = data.charts;
-                renderChart('all_genres'); // Load the main list by default
-            })
-            .catch(error => {
-                document.getElementById('chart-display').innerHTML = '<p style="text-align: center; color: #ff4757;">Failed to load chart data.</p>';
-                console.error('Error loading data:', error);
-            });
+    const section = document.createElement("div");
+    section.className = "genre";
 
-        // Tab click events
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                // Add active class to clicked
-                button.classList.add('active');
-                // Render corresponding data
-                renderChart(button.dataset.target);
-            });
-        });
+    const title = document.createElement("h2");
+    title.textContent = genre.toUpperCase();
+    section.appendChild(title);
 
-        // Render logic
-        function renderChart(genreKey) {
-            const container = document.getElementById('chart-display');
-            container.innerHTML = ''; // Clear current
+    data[genre].forEach((song, index) => {
 
-            const tracks = chartData[genreKey];
+      const row = document.createElement("div");
+      row.className = "song";
 
-            if (!tracks || tracks.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No tracks currently charting in this category.</p>';
-                return;
-            }
+      row.innerHTML = `
+        <div>
+          #${index + 1} ${song.artist} - ${song.name}
+          <div class="meta">
+            YouTube Growth: ${song.weekly_growth}
+          </div>
+        </div>
 
-            tracks.forEach((track, index) => {
-                const trackHTML = `
-                    <a href="${track.url}" target="_blank" class="track-card">
-                        <div class="rank">${index + 1}</div>
-                        <img class="thumbnail" src="${track.thumbnail}" alt="Thumbnail">
-                        <div class="track-info">
-                            <h3 class="track-title">${track.title}</h3>
-                            <p class="track-artist">${track.channel}</p>
-                        </div>
-                        <div class="track-stats">
-                            <span class="views">+${formatNumber(track.weekly_views)}</span>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">this week</div>
-                        </div>
-                    </a>
-                `;
-                container.innerHTML += trackHTML;
-            });
-        }
-    </script>
+        <div class="score">
+          ${Math.round(song.score)}
+        </div>
+      `;
+
+      section.appendChild(row);
+    });
+
+    app.appendChild(section);
+  }
+}
+
+loadCharts();
+</script>
+
 </body>
 </html>
