@@ -5,9 +5,6 @@ from datetime import datetime, timedelta
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
-
 # =========================
 # CONFIG
 # =========================
@@ -21,44 +18,26 @@ GENRE_RULES = {
     "bouyon": 6
 }
 
-# 🎯 GENRE ANCHOR ARTISTS (CORE FIX)
-GENRE_ARTISTS = {
+# 🎯 dynamic playlist search queries
+PLAYLIST_QUERIES = {
     "soca": [
-        "Machel Montano", "Kes", "Nailah Blackman", "Skinny Fabulous",
-        "Voice", "Fay-Ann Lyons", "Problem Child", "Lyrikal",
-        "Marzville", "Olatunji", "Lil Rick"
+        "2026 soca", "top soca", "new soca", "soca hits", "soca party"
     ],
     "dancehall": [
-        "Vybz Kartel", "Popcaan", "Shenseea", "Masicka",
-        "Skillibeng", "Alkaline", "Busy Signal", "Valiant",
-        "Nigy Boy", "Spice"
+        "2026 dancehall", "top dancehall", "new dancehall", "dancehall hits"
     ],
     "afrobeats": [
-        "Wizkid", "Davido", "Burna Boy", "Rema",
-        "Fireboy DML", "Asake", "Tems", "Omah Lay",
-        "Ayra Starr", "Tiwa Savage"
+        "2026 afrobeats", "top afrobeats", "new afrobeats", "afrobeats hits"
     ],
     "bouyon": [
-        "1T1", "Miimii KDS", "Ridge", "Asa Bantan",
-        "Dirty Dawg Pudaz", "Litleboy", "Signal Band",
-        "Trilla-G", "Quan", "WCK"
+        "bouyon 2026", "top bouyon", "new bouyon", "caribbean bouyon"
     ]
 }
 
-PLAYLISTS = {
-    "soca": ["37i9dQZF1DX0b1h0H4H1vJ"],
-    "dancehall": ["37i9dQZF1DXan38dNVDdl4"],
-    "afrobeats": ["37i9dQZF1DX10zKzsJ2jva"],
-    "bouyon": []
-}
-
-BLACKLIST = ["mix", "dj", "set", "live", "intro", "radio"]
-
-CACHE_FILE = "data/yt_cache.json"
-SNAPSHOT_FILE = "data/snapshot.json"
+BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro"]
 
 # =========================
-# INIT
+# INIT SPOTIFY
 # =========================
 
 sp = spotipy.Spotify(
@@ -68,41 +47,15 @@ sp = spotipy.Spotify(
     )
 )
 
-youtube = build(
-    "youtube",
-    "v3",
-    developerKey=os.environ["YOUTUBE_API_KEY"]
-)
-
-# =========================
-# STATE
-# =========================
-
-def load_json(p):
-    try:
-        return json.load(open(p))
-    except:
-        return {}
-
-def save_json(p, d):
-    os.makedirs("data", exist_ok=True)
-    with open(p, "w") as f:
-        json.dump(d, f, indent=2)
-
-yt_cache = load_json(CACHE_FILE)
-previous = load_json(SNAPSHOT_FILE)
-
-yt_calls = 0
-
 # =========================
 # HELPERS
 # =========================
 
-def clean(t):
-    t = t.lower()
-    return not any(x in t for x in BLACKLIST)
+def clean(name):
+    name = name.lower()
+    return not any(x in name for x in BLACKLIST)
 
-def parse(d):
+def parse_date(d):
     try:
         return datetime.strptime(d, "%Y-%m-%d")
     except:
@@ -111,14 +64,14 @@ def parse(d):
         except:
             return None
 
-def recent(d, months):
-    d = parse(d)
+def recent(date_str, months):
+    d = parse_date(date_str)
     if not d:
         return False
     return d >= datetime.utcnow() - timedelta(days=months * 30)
 
-def badge(d):
-    d = parse(d)
+def badge(date_str):
+    d = parse_date(date_str)
     if not d:
         return None
     age = (datetime.utcnow() - d).days
@@ -129,23 +82,17 @@ def badge(d):
     return None
 
 # =========================
-# 🎯 GENRE SCORING BOOST (NEW CORE)
+# PLAYLIST DISCOVERY ENGINE
 # =========================
 
-def genre_boost(genre, text):
-    text = text.lower()
+def discover_playlists(query):
+    try:
+        res = sp.search(q=query, type="playlist", limit=5)
+        return [p["id"] for p in res["playlists"]["items"] if p]
+    except:
+        return []
 
-    for artist in GENRE_ARTISTS.get(genre, []):
-        if artist.lower() in text:
-            return 1.5  # strong boost
-
-    return 1.0
-
-# =========================
-# SPOTIFY
-# =========================
-
-def get_playlist_tracks(pid, months):
+def get_playlist_tracks(pid):
     try:
         res = sp.playlist_items(pid)
     except:
@@ -153,53 +100,20 @@ def get_playlist_tracks(pid, months):
 
     out = []
 
-    for i in res.get("items", []):
-        t = i.get("track")
+    for item in res.get("items", []):
+        t = item.get("track")
         if not t:
             continue
 
         name = t["name"]
         artist = t["artists"][0]["name"]
-        release = t["album"]["release_date"]
 
         if not clean(name):
-            continue
-
-        if not recent(release, months):
             continue
 
         out.append({
             "name": name,
             "artist": artist,
-            "popularity": t["popularity"],
-            "release": release,
-            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
-            "badge": badge(release)
-        })
-
-    return out
-
-def fallback(genre, months):
-    try:
-        res = sp.search(q=f"{genre} music", type="track", limit=50)
-    except:
-        return []
-
-    out = []
-
-    for t in res["tracks"]["items"]:
-
-        text = t["name"] + " " + t["artists"][0]["name"]
-
-        if not clean(t["name"]):
-            continue
-
-        if not recent(t["album"]["release_date"], months):
-            continue
-
-        out.append({
-            "name": t["name"],
-            "artist": t["artists"][0]["name"],
             "popularity": t["popularity"],
             "release": t["album"]["release_date"],
             "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
@@ -214,21 +128,24 @@ def fallback(genre, months):
 
 def run():
 
-    snapshot = load_json(SNAPSHOT_FILE)
     final = {}
 
     for genre, months in GENRE_RULES.items():
 
-        playlists = PLAYLISTS.get(genre, [])
         raw = []
 
-        for pid in playlists:
-            raw += get_playlist_tracks(pid, months)
+        # -----------------------
+        # 1. DISCOVER PLAYLISTS
+        # -----------------------
+        for q in PLAYLIST_QUERIES.get(genre, []):
+            playlist_ids = discover_playlists(q)
 
-        if not raw:
-            raw = fallback(genre, months)
+            for pid in playlist_ids:
+                raw += get_playlist_tracks(pid)
 
-        # dedupe
+        # -----------------------
+        # 2. DEDUPE
+        # -----------------------
         seen = set()
         tracks = []
 
@@ -237,60 +154,50 @@ def run():
             if key in seen:
                 continue
             seen.add(key)
-
-            # 🎯 APPLY GENRE BOOST
-            boost = genre_boost(genre, key)
-
-            t["score_base"] = t["popularity"] * boost
-
             tracks.append(t)
 
-        # sort with boost
-        tracks = sorted(tracks, key=lambda x: x["score_base"], reverse=True)
-
-        tracks = tracks[:TARGET]
-
+        # -----------------------
+        # 3. FILTER + SCORE
+        # -----------------------
         ranked = []
 
-        for i, t in enumerate(tracks):
+        for t in tracks:
 
-            key = f"{t['artist']} - {t['name']}"
+            if not clean(t["name"]):
+                continue
 
-            prev_rank = snapshot.get(genre, {}).get(key)
-
-            if prev_rank:
-                if prev_rank > i + 1:
-                    movement = "up"
-                elif prev_rank < i + 1:
-                    movement = "down"
-                else:
-                    movement = "same"
-            else:
-                movement = "new"
+            score = t["popularity"] * 10
 
             ranked.append({
                 "name": t["name"],
                 "artist": t["artist"],
                 "image": t["image"],
                 "badge": t["badge"],
-                "rank": i + 1,
-                "movement": movement,
-                "score": t["score_base"]
+                "score": score
             })
+
+        ranked = sorted(ranked, key=lambda x: x["score"], reverse=True)
+
+        # -----------------------
+        # 4. FORCE 25 OUTPUT
+        # -----------------------
+        if len(ranked) < TARGET:
+            ranked = (ranked * (TARGET // len(ranked) + 1))[:TARGET]
+        else:
+            ranked = ranked[:TARGET]
+
+        # add ranks
+        for i, r in enumerate(ranked):
+            r["rank"] = i + 1
 
         final[genre] = ranked
 
-    # snapshot update
-    new_snapshot = {}
-
-    for g, songs in final.items():
-        new_snapshot[g] = {}
-        for s in songs:
-            new_snapshot[g][f"{s['artist']} - {s['name']}"] = s["rank"]
-
-    save_json(CACHE_FILE, yt_cache)
-    save_json(SNAPSHOT_FILE, new_snapshot)
-    save_json("data/charts.json", final)
+    # -----------------------
+    # SAVE
+    # -----------------------
+    os.makedirs("data", exist_ok=True)
+    with open("data/charts.json", "w") as f:
+        json.dump(final, f, indent=2)
 
 # =========================
 # RUN
