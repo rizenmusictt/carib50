@@ -1,14 +1,19 @@
 import os
 import json
 from datetime import datetime, timedelta
+
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# -------------------------
+# =========================
 # CONFIG
-# -------------------------
+# =========================
+
+MAX_TRACKS = 25
+YT_LIMIT = 40
 
 GENRE_RULES = {
     "soca": 4,
@@ -17,17 +22,32 @@ GENRE_RULES = {
     "bouyon": 6
 }
 
-BLACKLIST = ["mix", "dj", "megamix", "set", "live", "playlist", "intro", "snippet"]
+PLAYLISTS = {
+    "soca": [
+        "37i9dQZF1DXdPec7aLTmlC"
+    ],
+    "dancehall": [
+        "37i9dQZF1DXan38dNVDdl4"
+    ],
+    "afrobeats": [
+        "37i9dQZF1DX10zKzsJ2jva"
+    ],
+    "bouyon": [
+        # add curated playlist IDs here
+    ]
+}
 
-MAX_TRACKS = 25
-YT_LIMIT = 40
+BLACKLIST = [
+    "mix", "dj", "megamix", "set", "live",
+    "playlist", "intro", "snippet", "radio"
+]
 
 CACHE_FILE = "data/yt_cache.json"
 SNAPSHOT_FILE = "data/snapshot.json"
 
-# -------------------------
+# =========================
 # INIT APIS
-# -------------------------
+# =========================
 
 sp = spotipy.Spotify(
     auth_manager=SpotifyClientCredentials(
@@ -42,9 +62,9 @@ youtube = build(
     developerKey=os.environ["YOUTUBE_API_KEY"]
 )
 
-# -------------------------
-# HELPERS
-# -------------------------
+# =========================
+# LOAD DATA
+# =========================
 
 def load_json(path):
     try:
@@ -63,16 +83,20 @@ previous = load_json(SNAPSHOT_FILE)
 
 yt_calls = 0
 
+# =========================
+# HELPERS
+# =========================
+
 def clean(title):
     t = title.lower()
     return not any(x in t for x in BLACKLIST)
 
-def parse_date(date_str):
+def parse_date(d):
     try:
-        return datetime.strptime(date_str, "%Y-%m-%d")
+        return datetime.strptime(d, "%Y-%m-%d")
     except:
         try:
-            return datetime.strptime(date_str, "%Y-%m")
+            return datetime.strptime(d, "%Y-%m")
         except:
             return None
 
@@ -83,16 +107,37 @@ def is_recent(date_str, months):
     cutoff = datetime.utcnow() - timedelta(days=months * 30)
     return d >= cutoff
 
-# -------------------------
-# SPOTIFY DISCOVERY
-# -------------------------
+# =========================
+# BADGES
+# =========================
 
-def get_tracks(keyword, months):
-    results = sp.search(q=keyword, type="track", limit=50)
+def badge(date_str):
+    d = parse_date(date_str)
+    if not d:
+        return None
+
+    age = (datetime.utcnow() - d).days
+
+    if age <= 30:
+        return "Fresh On De Scene"
+    if age <= 60:
+        return "New Heat"
+    return None
+
+# =========================
+# SPOTIFY PLAYLIST FETCH
+# =========================
+
+def get_tracks_from_playlist(pid, months):
+    res = sp.playlist_items(pid)
 
     tracks = []
 
-    for t in results["tracks"]["items"]:
+    for item in res["items"]:
+        t = item.get("track")
+        if not t:
+            continue
+
         name = t["name"]
         artist = t["artists"][0]["name"]
         release = t["album"]["release_date"]
@@ -108,30 +153,36 @@ def get_tracks(keyword, months):
             "artist": artist,
             "popularity": t["popularity"],
             "release_date": release,
-            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else ""
+            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
+            "badge": badge(release)
         })
 
-    tracks.sort(key=lambda x: x["popularity"], reverse=True)
-    return tracks[:MAX_TRACKS]
+    return tracks
 
-# -------------------------
+# =========================
 # YOUTUBE LOOKUP (SAFE)
-# -------------------------
+# =========================
 
 def yt_lookup(key, query):
     global yt_calls
 
+    if yt_calls >= YT_LIMIT:
+        return None
+
     if key in yt_cache:
         vid = yt_cache[key]
         try:
-            stats = youtube.videos().list(part="statistics", id=vid).execute()
+            stats = youtube.videos().list(
+                part="statistics",
+                id=vid
+            ).execute()
+
             views = int(stats["items"][0]["statistics"].get("viewCount", 0))
+
             return {"video_id": vid, "views": views}
+
         except:
             pass
-
-    if yt_calls >= YT_LIMIT:
-        return None
 
     try:
         search = youtube.search().list(
@@ -161,27 +212,34 @@ def yt_lookup(key, query):
     except HttpError:
         return None
 
-# -------------------------
-# SCORING
-# -------------------------
-
-def freshness(date_str):
-    d = parse_date(date_str)
-    if not d:
-        return 0
-    age_years = (datetime.utcnow() - d).days / 365
-    return max(0, 10 - age_years * 3)
-
-# -------------------------
-# MAIN ENGINE
-# -------------------------
+# =========================
+# ENGINE
+# =========================
 
 def run():
     final = {}
 
     for genre, months in GENRE_RULES.items():
 
-        tracks = get_tracks(genre, months)
+        playlists = PLAYLISTS.get(genre, [])
+        raw = []
+
+        for pid in playlists:
+            raw += get_tracks_from_playlist(pid, months)
+
+        # dedupe
+        seen = set()
+        tracks = []
+
+        for t in raw:
+            key = f"{t['artist']} - {t['name']}"
+            if key in seen:
+                continue
+            seen.add(key)
+            tracks.append(t)
+
+        tracks = sorted(tracks, key=lambda x: x["popularity"], reverse=True)[:MAX_TRACKS]
+
         ranked = []
 
         for t in tracks:
@@ -200,14 +258,14 @@ def run():
                 score = (
                     growth * 0.7 +
                     t["popularity"] * 10 * 0.2 +
-                    freshness(t["release_date"]) * 0.1
+                    (10 if t["badge"] else 0)
                 )
 
                 mode = "full"
                 views = yt["views"]
 
             else:
-                score = t["popularity"] * 10 + freshness(t["release_date"])
+                score = t["popularity"] * 10
                 growth = None
                 views = None
                 mode = "spotify_only"
@@ -216,6 +274,8 @@ def run():
                 "name": t["name"],
                 "artist": t["artist"],
                 "image": t["image"],
+                "release_date": t["release_date"],
+                "badge": t["badge"],
                 "youtube_views": views,
                 "weekly_growth": growth,
                 "score": score,
@@ -231,9 +291,9 @@ def run():
 
     build_html(final)
 
-# -------------------------
-# HTML OUTPUT
-# -------------------------
+# =========================
+# HTML
+# =========================
 
 def build_html(data):
 
@@ -243,17 +303,19 @@ def build_html(data):
       <title>Carib25</title>
       <style>
         body { background:#0f0f0f; color:white; font-family:Arial; }
+        h1 { color:#ffcc00; text-align:center; }
         .btn { margin:5px; padding:8px; cursor:pointer; }
-        .song { display:flex; gap:10px; padding:10px; border-bottom:1px solid #222; }
-        img { width:50px; height:50px; }
-        .score { color:#00ff99; }
+        .song { display:flex; gap:10px; padding:10px; border-bottom:1px solid #222; align-items:center; }
+        img { width:50px; height:50px; border-radius:4px; }
+        .badge { font-size:11px; color:#ffcc00; }
+        .score { margin-left:auto; color:#00ff99; }
       </style>
     </head>
-    <body>
 
+    <body>
     <h1>Carib25</h1>
 
-    <div>
+    <div style="text-align:center;">
       <button class="btn" onclick="show('soca')">Soca</button>
       <button class="btn" onclick="show('dancehall')">Dancehall</button>
       <button class="btn" onclick="show('afrobeats')">Afrobeats</button>
@@ -266,17 +328,18 @@ def build_html(data):
     const data = """ + json.dumps(data) + """;
 
     function show(g) {
-      const app = document.getElementById('app');
-      app.innerHTML = '';
+      const app = document.getElementById("app");
+      app.innerHTML = "";
 
       data[g].forEach((s, i) => {
         app.innerHTML += `
           <div class="song">
             <img src="${s.image}">
             <div>
-              #${i+1} ${s.artist} - ${s.name}<br>
-              <span class="score">${Math.round(s.score)}</span>
+              #${i+1} ${s.artist} - ${s.name}
+              <div class="badge">${s.badge || ""}</div>
             </div>
+            <div class="score">${Math.round(s.score)}</div>
           </div>
         `;
       });
@@ -292,9 +355,9 @@ def build_html(data):
     with open("data/index.html", "w") as f:
         f.write(html)
 
-# -------------------------
+# =========================
 # RUN
-# -------------------------
+# =========================
 
 if __name__ == "__main__":
     run()
