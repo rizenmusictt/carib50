@@ -14,13 +14,12 @@ from spotipy.oauth2 import SpotifyClientCredentials
 TARGET = 25
 
 GENRE_RULES = {
-    "soca": 4,         # Strict 4-month limit
-    "dancehall": 4,     # Strict 4-month limit (UNTOUCHED)
-    "afrobeats": 6,     # Strict 6-month limit
-    "bouyon": 6         # Strict 6-month limit
+    "soca": 4,         # Strict 4-month limit (~120 days)
+    "dancehall": 4,     # Strict 4-month limit (~120 days)
+    "afrobeats": 6,     # Strict 6-month limit (~180 days)
+    "bouyon": 6         # Strict 6-month limit (~180 days)
 }
 
-# Explicitly mapping your high-value curated Soca playlists directly by ID
 SOCA_DIRECT_PLAYLISTS = [
     "1FvkIodyAGsGy0MSMjSnAr",  # DJ Jel Playlist 1
     "3ugx3RitHXhWDiGTh7UUu2",  # DJ Jel Playlist 2
@@ -34,8 +33,6 @@ PLAYLIST_QUERIES = {
 }
 
 BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro"]
-
-# Hard blacklists to prevent global Hip-Hop/Pop stars from hijacking genre charts
 AFROBEATS_ARTIST_BLACKLIST = ["drake", "don toliver"]
 
 # ==========================================
@@ -60,10 +57,13 @@ AFROBEATS_ARTISTS = [
     "Ayra Starr", "Fireboy DML", "Omah Lay", "Shallipopi", "SeyVez"
 ]
 
+# EXPANDED: Added requested artists to stabilize identification and boundary lines
 BOUYON_ARTISTS = [
     "1T1", "Miimii KDS", "Blackboy",
     "Ridge", "Quan", "Jessie",
-    "Triple Kay", "Reo"
+    "Triple Kay", "Reo",
+    "Maureen", "Lé Will", "Deuspi", 
+    "O Banga", "Trixx", "Home Grown Studio"
 ]
 
 # ==========================================
@@ -84,25 +84,32 @@ sp = spotipy.Spotify(
 def clean(name):
     return not any(x in name.lower() for x in BLACKLIST)
 
-def parse_date(d):
+def parse_date(date_str):
+    if not date_str:
+        return None
+    # Strips any trailing whitespace or layout anomalies from Spotify values
+    date_str = date_str.strip()
     try:
-        return datetime.strptime(d, "%Y-%m-%d")
-    except:
+        return datetime.strptime(date_str, "%Y-%m-%d")
+    except ValueError:
         try:
-            return datetime.strptime(d, "%Y-%m")
-        except:
+            return datetime.strptime(date_str, "%Y-%m")
+        except ValueError:
             try:
-                return datetime.strptime(d, "%Y")
-            except:
+                # Fallback for year-only metadata points
+                return datetime.strptime(date_str, "%Y")
+            except ValueError:
                 return None
 
 def within_window(date_str, genre):
-    d = parse_date(date_str)
-    if not d:
+    track_date = parse_date(date_str)
+    if not track_date:
         return False
 
     limit_months = GENRE_RULES.get(genre, 4)
-    return d >= datetime.utcnow() - timedelta(days=limit_months * 30)
+    # Strict delta calculation against today's date stamp
+    allowed_cutoff = datetime.utcnow() - timedelta(days=limit_months * 30)
+    return track_date >= allowed_cutoff
 
 def score_genre(genre, artist, name, all_artists_string=""):
     text = (artist + " " + name + " " + all_artists_string).lower()
@@ -199,20 +206,17 @@ def get_playlist_tracks(pid):
 def run():
     final = {}
     
-    # We enforce a strict ordered execution sequence: Soca first, then Bouyon to eliminate bleeding
+    # Enforced sequential execution order to protect target boundaries
     ordered_genres = ["soca", "dancehall", "afrobeats", "bouyon"]
     soca_locked_track_keys = set()
 
     for genre in ordered_genres:
         raw = []
 
-        # STEP 1: Custom Harvesting Router
         if genre == "soca":
-            # Direct insertion from your precise curation links
             for pid in SOCA_DIRECT_PLAYLISTS:
                 raw += get_playlist_tracks(pid)
         else:
-            # Traditional discovery pool for other genres
             for q in PLAYLIST_QUERIES[genre]:
                 for pid in discover_playlists(q):
                     raw += get_playlist_tracks(pid)
@@ -250,25 +254,30 @@ def run():
             seen.add(key)
             tracks.append(t)
 
-        # STEP 3: Timeframe Window Filtering
+        # STEP 3: Strict Timeframe Window Filtering (Calculated dynamically via calendar dates)
         tracks = [t for t in tracks if within_window(t["release"], genre)]
 
         # STEP 4: Advanced Cross-Genre Bleed & Blacklist Filtering
         candidates = []
         for t in tracks:
-            # BLEED FIX: If processing Bouyon, block it instantly if it exists inside the verified Soca data keys
+            artist_lower = t["artist"].lower()
+            all_artists_lower = t["all_artists"].lower()
+            match_key = f"{t['artist']} - {t['name']}".lower()
+
+            # BOUYON PROTECTION SCHEME
             if genre == "bouyon":
-                match_key = f"{t['artist']} - {t['name']}".lower()
+                # 1. Stop track from passing if it was already caught on the Soca chart
                 if match_key in soca_locked_track_keys:
                     continue
-
-            # HIP HOP FILTER: Stop top 40 American giants from taking over Afrobeats
-            if genre == "afrobeats":
-                artist_lower = t["artist"].lower()
-                all_artists_lower = t["all_artists"].lower()
                 
+                # 2. Prevent Soca artist leakages unless an explicit Bouyon feature exists
+                if any(s_art.lower() in all_artists_lower for s_art in SOCA_ARTISTS):
+                    if not any(b_art.lower() in all_artists_lower for b_art in BOUYON_ARTISTS):
+                        continue
+
+            # AFROBEATS HIP HOP ISOLATION
+            if genre == "afrobeats":
                 if any(bl in artist_lower for bl in AFROBEATS_ARTIST_BLACKLIST):
-                    # BYPASS RULE: If a pure Afrobeats heavyweight is explicitly featured on the song, save it!
                     if not any(real_afro.lower() in all_artists_lower for real_afro in AFROBEATS_ARTISTS):
                         continue
 
@@ -276,7 +285,6 @@ def run():
             t["base_score"] = t["popularity"] * 10 + s * 5
             candidates.append(t)
 
-        # Limit YouTube lookups to protect resource allocations
         candidates = sorted(candidates, key=lambda x: x["base_score"], reverse=True)[:40]
 
         # STEP 5: Dual Network Check
@@ -294,16 +302,16 @@ def run():
                 
             scored.append(t)
 
-        # STEP 6: Sorting & Compilation Trim
+        # STEP 6: Final Sorting & Trimming
         scored = sorted(scored, key=lambda x: x["score"], reverse=True)
         final_selection = scored[:TARGET]
 
-        # LOGGING SELECTION: If it's Soca, save names to protect Bouyon during its loop
+        # Update cross-genre verification flags if executing Soca loops
         if genre == "soca":
             for track in final_selection:
                 soca_locked_track_keys.add(f"{track['artist']} - {track['name']}".lower())
 
-        # STEP 7: Map Response Payload Format
+        # STEP 7: Map Payload Structure
         output = []
         for i, t in enumerate(final_selection):
             output.append({
