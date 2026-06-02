@@ -51,7 +51,6 @@
       font-size: 1rem;
     }
 
-    /* Tab Switcher Interface Structure */
     .tabs {
       display: flex;
       justify-content: center;
@@ -82,7 +81,6 @@
       border-bottom: 3px solid var(--accent-green);
     }
 
-    /* Chart Container Structural Grid */
     .chart-list {
       background-color: var(--card-bg);
       border-radius: 8px;
@@ -108,7 +106,6 @@
       border-bottom: none;
     }
 
-    /* Left Frame: Index Rank mapping, Artwork, Metadata text block */
     .left-side {
       display: flex;
       align-items: center;
@@ -125,7 +122,6 @@
       text-align: left;
     }
 
-    /* Structural designators for top tier track listings */
     .track-row:nth-child(1) .rank-num { color: #ffd700; }
     .track-row:nth-child(2) .rank-num { color: #c0c0c0; }
     .track-row:nth-child(3) .rank-num { color: #cd7f32; }
@@ -139,20 +135,18 @@
       flex-shrink: 0;
     }
 
-    .meta-data {
-      min-width: 0;
-    }
-
-    /* Interactive Link Styles for Spotify Redirection */
+    /* Fixed Link Styles */
     .track-link {
       text-decoration: none;
       color: inherit;
       display: block;
       cursor: pointer;
+      min-width: 0;
     }
 
     .track-link:hover .track-name {
       color: var(--accent-green);
+      text-decoration: underline;
     }
 
     .track-name {
@@ -173,7 +167,6 @@
       text-overflow: ellipsis;
     }
 
-    /* Center Section: Core Media Player Control Anchor */
     .player-controls {
       display: flex;
       align-items: center;
@@ -211,7 +204,6 @@
       user-select: none;
     }
 
-    /* Right Frame: Historic delta movement state values */
     .right-side {
       text-align: right;
       min-width: 115px;
@@ -248,7 +240,6 @@
       font-weight: 500;
     }
 
-    /* Mobile Adaptations */
     @media (max-width: 600px) {
       body { padding: 12px; }
       header h1 { font-size: 2rem; }
@@ -267,7 +258,6 @@
       <p>Top 25 Sound System Velocity Charts</p>
     </header>
 
-    <!-- Genre Navigation Core -->
     <nav class="tabs" id="genreTabs">
       <button class="tab-btn active" onclick="switchGenre('soca')">Soca</button>
       <button class="tab-btn" onclick="switchGenre('dancehall')">Dancehall</button>
@@ -275,10 +265,8 @@
       <button class="tab-btn" onclick="switchGenre('bouyon')">Bouyon</button>
     </nav>
 
-    <!-- Target injection node for script array components -->
     <main class="chart-list" id="chartContainer">
-      <!-- Generated rows load here -->
-    </main>
+      </main>
   </div>
 
   <script>
@@ -287,7 +275,6 @@
     let currentAudio = null;
     let currentButton = null;
 
-    // Async Fetch Runtime
     async function initChartEngine() {
       const container = document.getElementById('chartContainer');
       try {
@@ -302,7 +289,6 @@
       }
     }
 
-    // Dom Renderer Target
     function renderGenreTracks(genre) {
       const container = document.getElementById('chartContainer');
       if (!chartDatabase || !chartDatabase[genre]) {
@@ -310,7 +296,6 @@
         return;
       }
 
-      // Drop references instantly before shifting layouts
       killActiveAudioInstances();
 
       const tracks = chartDatabase[genre];
@@ -320,14 +305,13 @@
         const isNew = track.history === 'New';
         const badgeClass = isNew ? 'badge-new' : 'badge-stable';
         
-        // Dynamically wrap text in an anchor if a valid link exists, fallback to a span block if empty
-        const hasUrl = track.url && track.url.trim() !== "";
-        const openTag = hasUrl ? `<a class="track-link" href="${track.url}" target="_blank" rel="noopener noreferrer">` : `<div class="meta-data">`;
+        // FIXED: Using 'track.spotify_url' instead of 'track.url'
+        const hasUrl = track.spotify_url && track.spotify_url.trim() !== "";
+        const openTag = hasUrl ? `<a class="track-link" href="${track.spotify_url}" target="_blank" rel="noopener noreferrer">` : `<div class="meta-data">`;
         const closeTag = hasUrl ? `</a>` : `</div>`;
 
         htmlPayload += `
           <div class="track-row">
-            <!-- Left Side: Rank Index, Cover, Titles (Wrapped with external url anchors) -->
             <div class="left-side">
               <span class="rank-num">${track.rank}</span>
               <img class="album-art" src="${track.image || 'https://placehold.co/60'}" alt="${track.name}" loading="lazy">
@@ -339,7 +323,6 @@
               ${closeTag}
             </div>
 
-            <!-- Center: Custom Web Native Audio Element Trigger -->
             <div class="player-controls">
               ${track.preview ? `
                 <button class="play-btn" onclick="toggleAudioPlayback(this, '${track.preview}')" title="Play Preview">
@@ -350,7 +333,6 @@
               `}
             </div>
 
-            <!-- Right Side: State Delta Tracking Position Marks -->
             <div class="right-side">
               <span class="status-badge ${badgeClass}">
                 ${track.history}
@@ -363,7 +345,6 @@
       container.innerHTML = htmlPayload;
     }
 
-    // Switch Management Routing Engine
     function switchGenre(selectedGenre) {
       if (currentGenre === selectedGenre) return;
       currentGenre = selectedGenre;
@@ -380,9 +361,11 @@
       renderGenreTracks(selectedGenre);
     }
 
-    // Audio State Machine Controller
     function toggleAudioPlayback(button, url) {
-      // Handle active track toggle execution paths
+      // Prevent event bubbling so clicking the play button doesn't trigger the Spotify link if they overlap
+      event.preventDefault();
+      event.stopPropagation();
+
       if (currentAudio && currentButton === button) {
         if (currentAudio.paused) {
           currentAudio.play().catch(err => handleAudioError(err, button));
@@ -394,10 +377,8 @@
         return;
       }
 
-      // Clear processing locks across alternative track row spaces
       killActiveAudioInstances();
 
-      // Instantiate structural media stream instance
       currentAudio = new Audio(url);
       currentButton = button;
 
@@ -407,7 +388,6 @@
         handleAudioError(err, button);
       });
 
-      // On-ended hook cleanup garbage collector
       currentAudio.onended = () => {
         button.innerText = "▶";
         currentAudio = null;
@@ -417,14 +397,14 @@
 
     function handleAudioError(err, button) {
       console.error("Playback execution breakdown. Target URL:", currentAudio ? currentAudio.src : 'unknown', "Error Details:", err);
-      alert("Unable to play this preview clip. Check your browser console for security or expiration restrictions.");
+      alert("Unable to play this preview clip. Your browser may be blocking it, or the link expired.");
       killActiveAudioInstances();
     }
 
     function killActiveAudioInstances() {
       if (currentAudio) {
         currentAudio.pause();
-        currentAudio.onended = null; // Unbind events to avoid memory leaks
+        currentAudio.onended = null;
         currentAudio = null;
       }
       if (currentButton) {
