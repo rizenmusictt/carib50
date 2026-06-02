@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Carib50</title>
+  <title>Carib25</title>
 
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #0f0f0f;
-      color: #fff;
+      color: #ffffff;
     }
 
     header {
@@ -26,31 +26,45 @@
       letter-spacing: 2px;
     }
 
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: #222;
+      color: white;
+      border: 1px solid #333;
+      padding: 8px 14px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
     .container {
-      max-width: 1000px;
+      max-width: 900px;
       margin: auto;
-      padding: 20px;
-    }
-
-    .genre {
-      margin-top: 40px;
-    }
-
-    .genre h2 {
-      color: #ffcc00;
-      border-bottom: 1px solid #333;
-      padding-bottom: 5px;
+      padding: 10px;
     }
 
     .song {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
       padding: 10px;
       border-bottom: 1px solid #222;
     }
 
-    .song:hover {
-      background: #1a1a1a;
+    .song img {
+      width: 50px;
+      height: 50px;
+      border-radius: 4px;
     }
 
     .meta {
@@ -59,8 +73,14 @@
     }
 
     .score {
+      margin-left: auto;
       color: #00ff99;
       font-weight: bold;
+    }
+
+    .rank {
+      width: 30px;
+      color: #888;
     }
   </style>
 </head>
@@ -68,57 +88,68 @@
 <body>
 
 <header>
-  <h1>CARIB50</h1>
+  <h1>CARIB25</h1>
   <div class="meta">Weekly Caribbean Music Charts</div>
 </header>
+
+<div class="buttons">
+  <button onclick="showGenre('soca')">Soca</button>
+  <button onclick="showGenre('dancehall')">Dancehall</button>
+  <button onclick="showGenre('afrobeats')">Afrobeats</button>
+  <button onclick="showGenre('bouyon')">Bouyon</button>
+</div>
 
 <div class="container" id="app">
   Loading charts...
 </div>
 
 <script>
-async function loadCharts() {
-  const res = await fetch("data/charts.json");
-  const data = await res.json();
+let chartData = {};
 
+async function loadData() {
+  const res = await fetch("data/charts.json");
+  chartData = await res.json();
+
+  showGenre("soca");
+}
+
+function showGenre(genre) {
   const app = document.getElementById("app");
   app.innerHTML = "";
 
-  for (const genre in data) {
+  const list = chartData[genre];
 
-    const section = document.createElement("div");
-    section.className = "genre";
-
-    const title = document.createElement("h2");
-    title.textContent = genre.toUpperCase();
-    section.appendChild(title);
-
-    data[genre].forEach((song, index) => {
-
-      const row = document.createElement("div");
-      row.className = "song";
-
-      row.innerHTML = `
-        <div>
-          #${index + 1} ${song.artist} - ${song.name}
-          <div class="meta">
-            YouTube Growth: ${song.weekly_growth}
-          </div>
-        </div>
-
-        <div class="score">
-          ${Math.round(song.score)}
-        </div>
-      `;
-
-      section.appendChild(row);
-    });
-
-    app.appendChild(section);
+  if (!list) {
+    app.innerHTML = "<p>No data available yet.</p>";
+    return;
   }
+
+  list.forEach((song, i) => {
+    const row = document.createElement("div");
+    row.className = "song";
+
+    row.innerHTML = `
+      <div class="rank">#${i + 1}</div>
+
+      <img src="${song.image || ''}" />
+
+      <div>
+        <div>${song.artist} - ${song.name}</div>
+        <div class="meta">
+          ${song.mode === "spotify_only" ? "Spotify Mode" : "Full Mode"}
+        </div>
+      </div>
+
+      <div class="score">
+        ${Math.round(song.score)}
+      </div>
+    `;
+
+    app.appendChild(row);
+  });
 }
 
-loadCharts();
+loadData();
 </script>
 
 </body>
