@@ -1,87 +1,5 @@
 {
-  "soca": [
-    {
-      "rank": 1,
-      "name": "Soca Kingdom",
-      "artist": "Machel Montano",
-      "image": "https://i.scdn.co/image/ab67616d0000b2736cf80a01ab73b552d088b526",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5NiRDAlFxIkFJvqQ7cnxKL",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 2,
-      "name": "Fallin",
-      "artist": "Kes",
-      "image": "https://i.scdn.co/image/ab67616d0000b273c64ca3b3a2c2c7af8b31af9e",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/039tbmRYWRGMxCcCRgvxWo",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 3,
-      "name": "Mr. Fete",
-      "artist": "Machel Montano",
-      "image": "https://i.scdn.co/image/ab67616d0000b2736935bb75f68bd84ddbba6899",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/4m8vRm7j9mt7eGb8baKt37",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 4,
-      "name": "Like Ah Boss",
-      "artist": "Machel Montano",
-      "image": "https://i.scdn.co/image/ab67616d0000b273465a15bf6815db50893ed714",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/08uIpFwr0W4XuoJqR7uuQa",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 5,
-      "name": "Sokah",
-      "artist": "Nailah Blackman",
-      "image": "https://i.scdn.co/image/ab67616d0000b273873ba69353c41ad279a275c2",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/0sk1yDFJfIrODigiJMngkw",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 6,
-      "name": "Soca Take Over",
-      "artist": "Kes",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734d2eda376ab328f49f4d3d70",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/09sxvFydn9gjPbBLBck2If",
-      "badge": null
-    },
-    {
-      "rank": 7,
-      "name": "The Road",
-      "artist": "Machel Montano",
-      "image": "https://i.scdn.co/image/ab67616d0000b2737e11b006eb3f42016df8ce63",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/4JtbG4UhLyYDMKgKM4wejg",
-      "badge": null
-    },
-    {
-      "rank": 8,
-      "name": "Close To Me (feat. Shenseea)",
-      "artist": "Kes",
-      "image": "https://i.scdn.co/image/ab67616d0000b273caec6d1c34330d3ab6f5048a",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/4mVaLB19eDIiEY1m30XGeT",
-      "badge": null
-    },
-    {
-      "rank": 9,
-      "name": "Bottle of Rum",
-      "artist": "Machel Montano",
-      "image": "https://i.scdn.co/image/ab67616d0000b273fd5afc346baa6bd1b0c6d4f4",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/4k8U68hROtiZyiKxdfrUyj",
-      "badge": null
-    }
-  ],
+  "soca": [],
   "dancehall": [
     {
       "rank": 1,
@@ -121,15 +39,24 @@
     },
     {
       "rank": 5,
+      "name": "Woii",
+      "artist": "Valiant",
+      "image": "https://i.scdn.co/image/ab67616d0000b273819dbcbe36dd40f1beea4913",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5HuNJ0G9lMtLwlAjsXpltD",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 6,
       "name": "Ballerina (with Rema, Skillibeng, & Disco Neil)",
       "artist": "Silent Addy",
       "image": "https://i.scdn.co/image/ab67616d0000b273596b0cc59aa4905fb4053519",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/7wI4jzM1fIGoysnGJSpHZY",
-      "badge": "Fresh On De Scene"
+      "badge": null
     },
     {
-      "rank": 6,
+      "rank": 7,
       "name": "Boasty",
       "artist": "Masicka",
       "image": "https://i.scdn.co/image/ab67616d0000b273f6768c7f20bfd3ea66be11fd",
@@ -138,7 +65,7 @@
       "badge": null
     },
     {
-      "rank": 7,
+      "rank": 8,
       "name": "Life Still a Gwaan",
       "artist": "Popcaan",
       "image": "https://i.scdn.co/image/ab67616d0000b273bf7fa4773b374880505fa95c",
@@ -147,7 +74,7 @@
       "badge": null
     },
     {
-      "rank": 8,
+      "rank": 9,
       "name": "Masterpiece",
       "artist": "Alkaline",
       "image": "https://i.scdn.co/image/ab67616d0000b273198fb05418e9fede43800181",
@@ -156,7 +83,7 @@
       "badge": null
     },
     {
-      "rank": 9,
+      "rank": 10,
       "name": "Life of Sin",
       "artist": "Masicka",
       "image": "https://i.scdn.co/image/ab67616d0000b273980e2197b1b05e706e0cac1a",
@@ -165,7 +92,16 @@
       "badge": null
     },
     {
-      "rank": 10,
+      "rank": 11,
+      "name": "Mad at Night",
+      "artist": "Valiant",
+      "image": "https://i.scdn.co/image/ab67616d0000b27355db45c72fd5855ea4d79821",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/7bufZsCye7pLZq0oe4ENoL",
+      "badge": null
+    },
+    {
+      "rank": 12,
       "name": "Bad",
       "artist": "Alkaline",
       "image": "https://i.scdn.co/image/ab67616d0000b273198fb05418e9fede43800181",
@@ -174,7 +110,7 @@
       "badge": null
     },
     {
-      "rank": 11,
+      "rank": 13,
       "name": "SYM",
       "artist": "Vybz Kartel",
       "image": "https://i.scdn.co/image/ab67616d0000b273088509470c70ef0decbd99d6",
@@ -183,7 +119,7 @@
       "badge": null
     },
     {
-      "rank": 12,
+      "rank": 14,
       "name": "Ting Loud (with Masicka)",
       "artist": "Protoje",
       "image": "https://i.scdn.co/image/ab67616d0000b273e239a46cd544cc42e887564a",
@@ -192,7 +128,7 @@
       "badge": null
     },
     {
-      "rank": 13,
+      "rank": 15,
       "name": "Wet Ole",
       "artist": "Alkaline",
       "image": "https://i.scdn.co/image/ab67616d0000b273198fb05418e9fede43800181",
@@ -201,7 +137,16 @@
       "badge": null
     },
     {
-      "rank": 14,
+      "rank": 16,
+      "name": "Pam Pam",
+      "artist": "Skeng",
+      "image": "https://i.scdn.co/image/ab67616d0000b273658b38121e5a434600e1ca9b",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/79F32GeO1WyHnOmMT6xP4J",
+      "badge": null
+    },
+    {
+      "rank": 17,
       "name": "Hype Life",
       "artist": "Vybz Kartel",
       "image": "https://i.scdn.co/image/ab67616d0000b273c07d0c5c012b1d866897a390",
@@ -210,7 +155,7 @@
       "badge": null
     },
     {
-      "rank": 15,
+      "rank": 18,
       "name": "Born Ready",
       "artist": "Vybz Kartel",
       "image": "https://i.scdn.co/image/ab67616d0000b273c70d71d2c49948df5058c54e",
@@ -219,7 +164,7 @@
       "badge": null
     },
     {
-      "rank": 16,
+      "rank": 19,
       "name": "Raise The Bar",
       "artist": "Alkaline",
       "image": "https://i.scdn.co/image/ab67616d0000b273198fb05418e9fede43800181",
@@ -228,7 +173,7 @@
       "badge": null
     },
     {
-      "rank": 17,
+      "rank": 20,
       "name": "GOD Says",
       "artist": "Vybz Kartel",
       "image": "https://i.scdn.co/image/ab67616d0000b2736c040c76f70aa91f6cbe525a",
@@ -237,7 +182,16 @@
       "badge": null
     },
     {
-      "rank": 18,
+      "rank": 21,
+      "name": "Zimi Seh",
+      "artist": "RajahWild",
+      "image": "https://i.scdn.co/image/ab67616d0000b273c04c1e4724a95765df1c1eca",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/0QbAqQVJ2tBcAOyPb6dnFi",
+      "badge": null
+    },
+    {
+      "rank": 22,
       "name": "Chosen",
       "artist": "Popcaan",
       "image": "https://i.scdn.co/image/ab67616d0000b273ba4c2400d5fb08cda02b0dce",
@@ -246,66 +200,12 @@
       "badge": null
     },
     {
-      "rank": 19,
-      "name": "Dancehall",
-      "artist": "Vybz Kartel",
-      "image": "https://i.scdn.co/image/ab67616d0000b2738e511d951a5b29e6337bbe42",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/0Yq2voTvkgEOqcfeJXv9T0",
-      "badge": null
-    },
-    {
-      "rank": 20,
-      "name": "Unstoppable",
-      "artist": "Vybz Kartel",
-      "image": "https://i.scdn.co/image/ab67616d0000b2738e511d951a5b29e6337bbe42",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6N0Zw5gsfk3GmGG4qWT6cU",
-      "badge": null
-    },
-    {
-      "rank": 21,
-      "name": "Dancehall Hero",
-      "artist": "Vybz Kartel",
-      "image": "https://i.scdn.co/image/ab67616d0000b27367e6366c4eb98b1b1008e988",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/36WgZmEf5DuDzH0y0LKuvF",
-      "badge": null
-    },
-    {
-      "rank": 22,
-      "name": "Obeah",
-      "artist": "Alkaline",
-      "image": "https://i.scdn.co/image/ab67616d0000b273e4c8583c22243288e8c2f97c",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/64vIMB3pOkrgEfTmoVr9mE",
-      "badge": null
-    },
-    {
       "rank": 23,
-      "name": "Tyrant",
-      "artist": "Masicka",
-      "image": "https://i.scdn.co/image/ab67616d0000b273815a40a8342b530c6b1e5783",
+      "name": "You Deserve Better",
+      "artist": "Valiant",
+      "image": "https://i.scdn.co/image/ab67616d0000b273abd3d17c24418f87377ef4f8",
       "preview": null,
-      "spotify_url": "https://open.spotify.com/track/7IZFzhwYUxUVhCsrnEReqi",
-      "badge": null
-    },
-    {
-      "rank": 24,
-      "name": "Motivation",
-      "artist": "Alkaline",
-      "image": "https://i.scdn.co/image/ab67616d0000b273dbfb0faa8d2d9ac527fc4889",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/1TbP7ggs2s37ezVJ7CZU0X",
-      "badge": null
-    },
-    {
-      "rank": 25,
-      "name": "Clarks",
-      "artist": "Vybz Kartel",
-      "image": "https://i.scdn.co/image/ab67616d0000b27367e6366c4eb98b1b1008e988",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6LKeLk5IBQUb9eoXidchGQ",
+      "spotify_url": "https://open.spotify.com/track/7oK0wgctgFgMHIyws9zUWo",
       "badge": null
     }
   ],
@@ -381,159 +281,6 @@
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6b5aOjZh1szuKcbfSU8YdK",
       "badge": null
-    },
-    {
-      "rank": 9,
-      "name": "Remember",
-      "artist": "Asake",
-      "image": "https://i.scdn.co/image/ab67616d0000b2737e2b5827ffc185e44c3e6ef0",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/0Q1bMs3xLQiDEeaneehdxv",
-      "badge": null
-    },
-    {
-      "rank": 10,
-      "name": "Ye",
-      "artist": "Burna Boy",
-      "image": "https://i.scdn.co/image/ab67616d0000b2738bbbda6360f9898d291ef8ff",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3FskQrDXcY24ur2fCvz35O",
-      "badge": null
-    },
-    {
-      "rank": 11,
-      "name": "Who\u2019s Dat Girl",
-      "artist": "Ayra Starr",
-      "image": "https://i.scdn.co/image/ab67616d0000b2730b2ac553094996786771b49c",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6XaN4trfoMvRFEy8HoB4nC",
-      "badge": null
-    },
-    {
-      "rank": 12,
-      "name": "Last Last",
-      "artist": "Burna Boy",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d98e997eaad5f503b9e1f2f2",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5YbPxJwPfrj7uswNwoF1pJ",
-      "badge": null
-    },
-    {
-      "rank": 13,
-      "name": "Bloody Samaritan",
-      "artist": "Ayra Starr",
-      "image": "https://i.scdn.co/image/ab67616d0000b273123783d21fb9ab6f00db2424",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/1OoPhcM78evXIxjmSzCnmf",
-      "badge": null
-    },
-    {
-      "rank": 14,
-      "name": "Calm Down (with Selena Gomez)",
-      "artist": "Rema",
-      "image": "https://i.scdn.co/image/ab67616d0000b273a3a7f38ea2033aa501afd4cf",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/0WtM2NBVQNNJLh6scP13H8",
-      "badge": null
-    },
-    {
-      "rank": 15,
-      "name": "With You (feat. Omah Lay)",
-      "artist": "Davido",
-      "image": "https://i.scdn.co/image/ab67616d0000b2731dee1b62d81e4b9249af483c",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5GyaXqMfcIGHfmTUITFacS",
-      "badge": null
-    },
-    {
-      "rank": 16,
-      "name": "Turbulence",
-      "artist": "Wizkid",
-      "image": "https://i.scdn.co/image/ab67616d0000b2732d9d222a08cb2e589cf4288e",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6b5aOjZh1szuKcbfSU8YdK",
-      "badge": null
-    },
-    {
-      "rank": 17,
-      "name": "Hot Body",
-      "artist": "Ayra Starr",
-      "image": "https://i.scdn.co/image/ab67616d0000b273236a5e5addc316ea271c3e6f",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/04yGQ4xzVt9LVAqop42ja6",
-      "badge": null
-    },
-    {
-      "rank": 18,
-      "name": "Damages",
-      "artist": "Tems",
-      "image": "https://i.scdn.co/image/ab67616d0000b2730ab4d3e1c0b5c5e453287a4c",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3Xfwu3xtPqmJ4nM4jpBm8O",
-      "badge": null
-    },
-    {
-      "rank": 19,
-      "name": "Fountains (with Tems)",
-      "artist": "Drake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273cd945b4e3de57edd28481a3f",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/08XWh5c0BMyD1nKVxxl91z",
-      "badge": null
-    },
-    {
-      "rank": 20,
-      "name": "Location (feat. Burna Boy)",
-      "artist": "Dave",
-      "image": "https://i.scdn.co/image/ab67616d0000b273565f69a950084775df6a4e77",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6KFWubocLBhrLs31RpEdR9",
-      "badge": null
-    },
-    {
-      "rank": 21,
-      "name": "Sensational (feat. Davido & Lojay)",
-      "artist": "Chris Brown",
-      "image": "https://i.scdn.co/image/ab67616d0000b2735a4382d28ea0d58b5a422a21",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/44G2gUVQvNNZ6w3i05tR4n",
-      "badge": null
-    },
-    {
-      "rank": 22,
-      "name": "Call Me Every Day (feat. Wizkid)",
-      "artist": "Chris Brown",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d08abc187293381a2e8b0bc6",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/1B5I5yqLpVI5EosZS6bJFs",
-      "badge": null
-    },
-    {
-      "rank": 23,
-      "name": "Calm Down (with Selena Gomez)",
-      "artist": "Rema",
-      "image": "https://i.scdn.co/image/ab67616d0000b273963265801aa5c9740ad159b7",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/1s7oOCT8vauUh01PbJD6ps",
-      "badge": null
-    },
-    {
-      "rank": 24,
-      "name": "Be Honest (feat. Burna Boy)",
-      "artist": "Jorja Smith",
-      "image": "https://i.scdn.co/image/ab67616d0000b2730d4b41895ada0172a9237b9e",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5pAbCxt9e3f81lOmjIXwzd",
-      "badge": null
-    },
-    {
-      "rank": 25,
-      "name": "For My Hand (feat. Ed Sheeran)",
-      "artist": "Burna Boy",
-      "image": "https://i.scdn.co/image/ab67616d0000b27321315ced0015f33e514be031",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3ltc9j6uh3LvO7FuXm6Ix3",
-      "badge": null
     }
   ],
   "bouyon": [
@@ -563,87 +310,6 @@
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/36VaBBg3HXKcbWLWzTR7AB",
       "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 4,
-      "name": "Bouw\u00e9y",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b27378c32c82848fb6c10dcd748d",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3sxcR3k3ZkNmvmXQB28Qnr",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 5,
-      "name": "Bouw\u00e9y",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b273bc7ae724db41d04f2167772f",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/7vcDhYU5Ni5UvCWAq2c4ud",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 6,
-      "name": "Chiney Wine Solo",
-      "artist": "Ridge",
-      "image": "https://i.scdn.co/image/ab67616d0000b273a9b9f04091bff0fe57160e65",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/0nXIJCDFq7hmGi2BzOh908",
-      "badge": null
-    },
-    {
-      "rank": 7,
-      "name": "Leave Me Alone",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d6b1360993cf54278c2cf2ca",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6mGrhP18EKk0WqQ8G9g17T",
-      "badge": null
-    },
-    {
-      "rank": 8,
-      "name": "La vie doux",
-      "artist": "Reo",
-      "image": "https://i.scdn.co/image/ab67616d0000b273bcbe9590cb3b3b0be416493b",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/4l6yCNpuAZhQabqtlZcP96",
-      "badge": null
-    },
-    {
-      "rank": 9,
-      "name": "Ocean Gyal",
-      "artist": "Sleazy Stereo",
-      "image": "https://i.scdn.co/image/ab67616d0000b2732a9df7bd3acdf6bc02fb5793",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/0j0fded2CmHxHhvdDJBzfU",
-      "badge": null
-    },
-    {
-      "rank": 10,
-      "name": "Best Friend",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b27378c32c82848fb6c10dcd748d",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/1Vh6xDPjMw56vNT2Aj0HYi",
-      "badge": null
-    },
-    {
-      "rank": 11,
-      "name": "Ouba",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b273124b4163fee99027c9732a2a",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6QmxJ87llrP7WvuQpN7wVg",
-      "badge": null
-    },
-    {
-      "rank": 12,
-      "name": "Nasty Business",
-      "artist": "Ridge",
-      "image": "https://i.scdn.co/image/ab67616d0000b2739c7cd926ad7ac4aa691a4984",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6VtEdTcLD7HWO445wMBnl5",
-      "badge": null
     }
   ]
 }
