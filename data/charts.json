@@ -4,130 +4,70 @@
       "name": "SOCA CALIENTA",
       "artist": "Dj Samir",
       "image": "https://i.scdn.co/image/ab67616d0000b273afbca1379f8c2d595dfcedff",
+      "release_date": "2026-03-27",
+      "badge": null,
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 499.44931506849315,
+      "score": 490,
       "mode": "spotify_only"
-    },
-    {
-      "name": "SOCA TEA",
-      "artist": "Mastaa T",
-      "image": "https://i.scdn.co/image/ab67616d0000b273dd32a163bebcccf78796944d",
-      "youtube_views": 115835,
-      "weekly_growth": 0,
-      "score": 72.97534246575343,
-      "mode": "full"
     }
   ],
   "dancehall": [
     {
-      "name": "Gyal Good",
-      "artist": "Alkaline",
-      "image": "https://i.scdn.co/image/ab67616d0000b273198fb05418e9fede43800181",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 639.4164383561643,
-      "mode": "spotify_only"
-    },
-    {
       "name": "Dancehall Nice (feat. Beres Hammond & Dexta Daps)",
       "artist": "Shaggy",
       "image": "https://i.scdn.co/image/ab67616d0000b2731c1936b8be85dcb195d00e02",
+      "release_date": "2026-02-27",
+      "badge": null,
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 459.2191780821918,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Dancehall Mad Man",
-      "artist": "Skeng",
-      "image": "https://i.scdn.co/image/ab67616d0000b27384771a4ab053c906ac3024f9",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 419.83561643835617,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Dancehall Nice (feat. Beres Hammond & Dexta Daps)",
-      "artist": "Shaggy",
-      "image": "https://i.scdn.co/image/ab67616d0000b273b78e3e28decac7753951b500",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 399.85205479452054,
+      "score": 450,
       "mode": "spotify_only"
     }
   ],
   "afrobeats": [
     {
-      "name": "Jogodo",
-      "artist": "Wizkid",
-      "image": "https://i.scdn.co/image/ab67616d0000b27306206895bb91710b0cad3a80",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 778.8657534246576,
-      "mode": "spotify_only"
-    },
-    {
       "name": "Nakupenda",
       "artist": "TxC",
       "image": "https://i.scdn.co/image/ab67616d0000b273f91f29f049af023cc69b3d9f",
+      "release_date": "2025-12-12",
+      "badge": null,
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 758.586301369863,
+      "score": 750,
       "mode": "spotify_only"
     },
     {
       "name": "CH\u00c9VERE (joes\u00f3n_type_beat)",
       "artist": "ARIA VEGA",
       "image": "https://i.scdn.co/image/ab67616d0000b273a041d1e4024bed274b48d393",
+      "release_date": "2026-01-15",
+      "badge": null,
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 748.8657534246576,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Afrojazz 2",
-      "artist": "\u0444\u0440\u043e\u0437\u0438",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d3baa81e7324eea93f80da11",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 399.7369863013699,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Afro Guitar",
-      "artist": "African Lofi",
-      "image": "https://i.scdn.co/image/ab67616d0000b2733f30329b91a01b4a5985f16a",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 359.5890410958904,
+      "score": 740,
       "mode": "spotify_only"
     },
     {
       "name": "Low (Afrobeat)",
       "artist": "LOVIXX",
       "image": "https://i.scdn.co/image/ab67616d0000b2734c6daf53e53e26ea7f933abd",
+      "release_date": "2026-05-29",
+      "badge": "Fresh On De Scene",
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 339.96712328767126,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "AFROBEAT",
-      "artist": "Ticher Dad",
-      "image": "https://i.scdn.co/image/ab67616d0000b27333c45dea9345c4adfca9161e",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 308.73424657534247,
+      "score": 330,
       "mode": "spotify_only"
     },
     {
       "name": "ORGANIC - AFROBEAT",
       "artist": "100Beat",
       "image": "https://i.scdn.co/image/ab67616d0000b27358561955e3696028e7f2a035",
-      "youtube_views": 13430171,
+      "release_date": "2026-03-11",
+      "badge": null,
+      "youtube_views": 13430178,
       "weekly_growth": 0,
-      "score": 68.93178082191781,
+      "score": 68.0,
       "mode": "full"
     }
   ],
@@ -136,90 +76,66 @@
       "name": "unhappy",
       "artist": "s0rrow",
       "image": "https://i.scdn.co/image/ab67616d0000b273621d20b2632976bafe319295",
+      "release_date": "2025-12-25",
+      "badge": null,
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 788.6931506849315,
+      "score": 780,
       "mode": "spotify_only"
     },
     {
       "name": "Wine It Slow",
       "artist": "T\u00c6RS",
       "image": "https://i.scdn.co/image/ab67616d0000b273b4ba0f6fd477a9fe49052f49",
+      "release_date": "2026-01-09",
+      "badge": null,
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 618.8164383561643,
+      "score": 610,
       "mode": "spotify_only"
     },
     {
       "name": "Bounce",
       "artist": "450",
       "image": "https://i.scdn.co/image/ab67616d0000b27357604f147e94c00213654842",
+      "release_date": "2026-04-03",
+      "badge": "New Heat",
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 499.5068493150685,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Up To",
-      "artist": "Joshii G",
-      "image": "https://i.scdn.co/image/ab67616d0000b2738307a36c005a054993b6860e",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 469.16986301369866,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "Bouncin",
-      "artist": "CyHi",
-      "image": "https://i.scdn.co/image/ab67616d0000b2736772ecad13ee99831797ae73",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 329.5972602739726,
+      "score": 490,
       "mode": "spotify_only"
     },
     {
       "name": "Bouyon 2099",
       "artist": "Solar Million",
       "image": "https://i.scdn.co/image/ab67616d0000b2737cc101876070ac03d81c9ae0",
+      "release_date": "2026-04-24",
+      "badge": "New Heat",
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 289.6794520547945,
-      "mode": "spotify_only"
-    },
-    {
-      "name": "WYFL Bouyon Riddim",
-      "artist": "Xavvoknockin",
-      "image": "https://i.scdn.co/image/ab67616d0000b27398f1ef28346ca31c4cc0a59b",
-      "youtube_views": null,
-      "weekly_growth": null,
-      "score": 239.26027397260273,
+      "score": 280,
       "mode": "spotify_only"
     },
     {
       "name": "Bouyon Rave",
       "artist": "Motto",
       "image": "https://i.scdn.co/image/ab67616d0000b273aad7d78f014116f3e939d1ae",
+      "release_date": "2026-01-12",
+      "badge": null,
       "youtube_views": null,
       "weekly_growth": null,
-      "score": 168.84109589041097,
+      "score": 160,
       "mode": "spotify_only"
     },
     {
       "name": "In Di Corner",
       "artist": "1T1",
       "image": "https://i.scdn.co/image/ab67616d0000b2734431d73da54375299918144b",
-      "youtube_views": 5856900,
-      "weekly_growth": 46,
-      "score": 165.09890410958903,
-      "mode": "full"
-    },
-    {
-      "name": "Bouyon Rave Riddim",
-      "artist": "Producerdlo",
-      "image": "https://i.scdn.co/image/ab67616d0000b273b4a9b441a8015d1f11d214ba",
-      "youtube_views": 146,
+      "release_date": "2026-01-30",
+      "badge": null,
+      "youtube_views": 5857064,
       "weekly_growth": 0,
-      "score": 14.884931506849314,
+      "score": 132.0,
       "mode": "full"
     }
   ]
