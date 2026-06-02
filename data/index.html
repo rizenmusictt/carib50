@@ -8,31 +8,57 @@
         .song { display:flex; gap:10px; padding:10px; border-bottom:1px solid #222; align-items:center; }
         img { width:50px; height:50px; border-radius:4px; }
         .badge { font-size:11px; color:#ffcc00; }
+        .up { color:#00ff99; }
+        .down { color:#ff4d4d; }
+        .new { color:#4da6ff; }
         .score { margin-left:auto; color:#00ff99; }
+        button { margin:5px; padding:8px; background:#222; color:white; border:1px solid #333; }
       </style>
     </head>
 
     <body>
+
     <h1>Carib25</h1>
+
+    <div style="text-align:center;">
+      <button onclick="show('soca')">Soca</button>
+      <button onclick="show('dancehall')">Dancehall</button>
+      <button onclick="show('afrobeats')">Afrobeats</button>
+      <button onclick="show('bouyon')">Bouyon</button>
+    </div>
 
     <div id="app"></div>
 
     <script>
-    const data = {"soca": [{"name": "SOCA CALIENTA", "artist": "Dj Samir", "image": "https://i.scdn.co/image/ab67616d0000b273afbca1379f8c2d595dfcedff", "release_date": "2026-03-27", "badge": null, "youtube_views": null, "weekly_growth": null, "score": 490, "mode": "spotify_only"}], "dancehall": [{"name": "Dancehall Nice (feat. Beres Hammond & Dexta Daps)", "artist": "Shaggy", "image": "https://i.scdn.co/image/ab67616d0000b2731c1936b8be85dcb195d00e02", "release_date": "2026-02-27", "badge": null, "youtube_views": null, "weekly_growth": null, "score": 450, "mode": "spotify_only"}], "afrobeats": [{"name": "Nakupenda", "artist": "TxC", "image": "https://i.scdn.co/image/ab67616d0000b273f91f29f049af023cc69b3d9f", "release_date": "2025-12-12", "badge": null, "youtube_views": null, "weekly_growth": null, "score": 750, "mode": "spotify_only"}, {"name": "CH\u00c9VERE (joes\u00f3n_type_beat)", "artist": "ARIA VEGA", "image": "https://i.scdn.co/image/ab67616d0000b273a041d1e4024bed274b48d393", "release_date": "2026-01-15", "badge": null, "youtube_views": null, "weekly_growth": null, "score": 740, "mode": "spotify_only"}, {"name": "Low (Afrobeat)", "artist": "LOVIXX", "image": "https://i.scdn.co/image/ab67616d0000b2734c6daf53e53e26ea7f933abd", "release_date": "2026-05-29", "badge": "Fresh On De Scene", "youtube_views": null, "weekly_growth": null, "score": 330, "mode": "spotify_only"}, {"name": "ORGANIC - AFROBEAT", "artist": "100Beat", "image": "https://i.scdn.co/image/ab67616d0000b27358561955e3696028e7f2a035", "release_date": "2026-03-11", "badge": null, "youtube_views": 13430178, "weekly_growth": 0, "score": 68.0, "mode": "full"}], "bouyon": [{"name": "unhappy", "artist": "s0rrow", "image": "https://i.scdn.co/image/ab67616d0000b273621d20b2632976bafe319295", "release_date": "2025-12-25", "badge": null, "youtube_views": null, "weekly_growth": null, "score": 780, "mode": "spotify_only"}, {"name": "Wine It Slow", "artist": "T\u00c6RS", "image": "https://i.scdn.co/image/ab67616d0000b273b4ba0f6fd477a9fe49052f49", "release_date": "2026-01-09", "badge": null, "youtube_views": null, "weekly_growth": null, "score": 610, "mode": "spotify_only"}, {"name": "Bounce", "artist": "450", "image": "https://i.scdn.co/image/ab67616d0000b27357604f147e94c00213654842", "release_date": "2026-04-03", "badge": "New Heat", "youtube_views": null, "weekly_growth": null, "score": 490, "mode": "spotify_only"}, {"name": "Bouyon 2099", "artist": "Solar Million", "image": "https://i.scdn.co/image/ab67616d0000b2737cc101876070ac03d81c9ae0", "release_date": "2026-04-24", "badge": "New Heat", "youtube_views": null, "weekly_growth": null, "score": 280, "mode": "spotify_only"}, {"name": "Bouyon Rave", "artist": "Motto", "image": "https://i.scdn.co/image/ab67616d0000b273aad7d78f014116f3e939d1ae", "release_date": "2026-01-12", "badge": null, "youtube_views": null, "weekly_growth": null, "score": 160, "mode": "spotify_only"}, {"name": "In Di Corner", "artist": "1T1", "image": "https://i.scdn.co/image/ab67616d0000b2734431d73da54375299918144b", "release_date": "2026-01-30", "badge": null, "youtube_views": 5857064, "weekly_growth": 0, "score": 132.0, "mode": "full"}]};
+    const data = {"soca": [{"name": "SOCA CALIENTA", "artist": "Dj Samir", "image": "https://i.scdn.co/image/ab67616d0000b273afbca1379f8c2d595dfcedff", "badge": null, "rank": 1, "movement": "new", "score": 490}], "dancehall": [{"name": "Dancehall Nice (feat. Beres Hammond & Dexta Daps)", "artist": "Shaggy", "image": "https://i.scdn.co/image/ab67616d0000b2731c1936b8be85dcb195d00e02", "badge": null, "rank": 1, "movement": "new", "score": 450}], "afrobeats": [{"name": "Nakupenda", "artist": "TxC", "image": "https://i.scdn.co/image/ab67616d0000b273f91f29f049af023cc69b3d9f", "badge": null, "rank": 1, "movement": "new", "score": 750}, {"name": "CH\u00c9VERE (joes\u00f3n_type_beat)", "artist": "ARIA VEGA", "image": "https://i.scdn.co/image/ab67616d0000b273a041d1e4024bed274b48d393", "badge": null, "rank": 2, "movement": "new", "score": 740}, {"name": "ORGANIC - AFROBEAT", "artist": "100Beat", "image": "https://i.scdn.co/image/ab67616d0000b27358561955e3696028e7f2a035", "badge": null, "rank": 3, "movement": "new", "score": 340}, {"name": "Low (Afrobeat)", "artist": "LOVIXX", "image": "https://i.scdn.co/image/ab67616d0000b2734c6daf53e53e26ea7f933abd", "badge": "Fresh On De Scene", "rank": 4, "movement": "new", "score": 330}], "bouyon": [{"name": "unhappy", "artist": "s0rrow", "image": "https://i.scdn.co/image/ab67616d0000b273621d20b2632976bafe319295", "badge": null, "rank": 1, "movement": "new", "score": 780}, {"name": "In Di Corner", "artist": "1T1", "image": "https://i.scdn.co/image/ab67616d0000b2734431d73da54375299918144b", "badge": null, "rank": 2, "movement": "new", "score": 660}, {"name": "Wine It Slow", "artist": "T\u00c6RS", "image": "https://i.scdn.co/image/ab67616d0000b273b4ba0f6fd477a9fe49052f49", "badge": null, "rank": 3, "movement": "new", "score": 610}, {"name": "Bounce", "artist": "450", "image": "https://i.scdn.co/image/ab67616d0000b27357604f147e94c00213654842", "badge": "New Heat", "rank": 4, "movement": "new", "score": 490}, {"name": "Bouyon 2099", "artist": "Solar Million", "image": "https://i.scdn.co/image/ab67616d0000b2737cc101876070ac03d81c9ae0", "badge": "New Heat", "rank": 5, "movement": "new", "score": 280}, {"name": "Bouyon Rave", "artist": "Motto", "image": "https://i.scdn.co/image/ab67616d0000b273aad7d78f014116f3e939d1ae", "badge": null, "rank": 6, "movement": "new", "score": 160}]};
 
     function show(g) {
       const app = document.getElementById("app");
       app.innerHTML = "";
 
-      data[g].forEach((s, i) => {
+      data[g].forEach(s => {
+
         app.innerHTML += `
           <div class="song">
+
             <img src="${s.image || ''}">
+
             <div>
-              #${i+1} ${s.artist} - ${s.name}
+              #${s.rank} ${s.artist} - ${s.name}
+
+              <div class="${s.movement}">
+                ${s.movement === "up" ? "⬆ Rising"
+                  : s.movement === "down" ? "⬇ Falling"
+                  : "🆕 New"}
+              </div>
+
               <div class="badge">${s.badge || ""}</div>
             </div>
-            <div class="score">${Math.round(s.score)}</div>
+
+            <div class="score">
+              ${Math.round(s.score)}
+            </div>
+
           </div>
         `;
       });
