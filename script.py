@@ -1,185 +1,214 @@
 import os
 import json
-import urllib.request
-import urllib.parse
-import re
-from datetime import datetime, timedelta
-import gspread
-from google.oauth2.service_account import Credentials
+from datetime import datetime
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+from googleapiclient.discovery import build
 
-# 1. Configuration
-API_KEY = os.environ.get("YOUTUBE_API_KEY")
-GOOGLE_CREDS_JSON = os.environ.get("GOOGLE_CREDENTIALS")
-SPREADSHEET_ID = os.environ.get("SPREADSHEET_ID")
-CURRENT_YEAR = datetime.utcnow().year
+# -----------------------------
+# CONFIG
+# -----------------------------
 
-genres = ["soca", "dancehall", "bouyon"]
-history = {}
-is_first_run = True
-
-# Strict 4-month boundary
-today = datetime.utcnow()
-four_months_ago = today - timedelta(days=120)  
-published_after = four_months_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
-
-# Fixed Bouyon query to prevent "Ridge" from pulling random non-music videos
-SEARCH_QUERIES = {
-    "soca": f"{CURRENT_YEAR} soca",
-    "dancehall": f"{CURRENT_YEAR} dancehall",
-    "bouyon": f'"{CURRENT_YEAR} bouyon" OR "Asa Bantan" OR "Triple Kay" OR "Ridge bouyon" OR "Signal Band"'
+GENRES = {
+    "soca": 120,
+    "dancehall": 120,
+    "afrobeats": 180,
+    "bouyon": 180
 }
 
-# Watertight Content Filtering
-INSTRUMENTAL_BLACKLIST = ["type beat", "instrumental", "version", "edit", "riddim loop", "prod by", "prod.", "free beat", "beat lyric", "karaoke", "clean loop"]
-CHUTNEY_BLACKLIST = ["chutney", "ravi b", "karma", "raymond ramnarine", "dil-e-nadan", "ki & the band", "ki and the band", "omardath", "reshma ramlal", "gundilal", "boodram", "drupatee"]
-GLOBAL_CLUTTER_BLACKLIST = ["the voice blind audition", "the voice battle", "full movie", "movie clip", "trailer", "season finale", "rihanna", "chinese"]
+BLACKLIST = [
+    "mix", "dj", "megamix", "set", "live", "playlist",
+    "intro", "snippet", "radio", "interview"
+]
 
-# Regex Patterns for exact word matching
-MIX_PATTERN = re.compile(r'\b(mix|mixes|mixtape|mixtapes)\b')
-SOCA_ROAD_MIX_PATTERN = re.compile(r'\b(road\s?mix)\b')
+# -----------------------------
+# INIT APIS
+# -----------------------------
 
-def get_seconds(d):
-    m = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', d)
-    if not m:
-        return 0
-    return (int(m.group(1) or 0) * 3600) + (int(m.group(2) or 0) * 60) + (int(m.group(3) or 0))
+sp = spotipy.Spotify(
+    auth_manager=SpotifyClientCredentials(
+        client_id=os.environ["SPOTIFY_CLIENT_ID"],
+        client_secret=os.environ["SPOTIFY_CLIENT_SECRET"]
+    )
+)
 
-# 2. Initialization
-creds = Credentials.from_service_account_info(json.loads(GOOGLE_CREDS_JSON), scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"])
-sheet = gspread.authorize(creds).open_by_key(SPREADSHEET_ID)
+youtube = build("youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"])
 
-if os.path.exists("data.json"):
-    with open("data.json", "r") as f:
-        data = json.load(f)
-        for g in data.get("charts", {}):
-            if g not in genres: continue
-            for t in data["charts"][g]: 
-                history[t["id"]] = t.get("lifetime_views", 0)
-            is_first_run = False
+# -----------------------------
+# HELPERS
+# -----------------------------
 
-final_charts = {"charts": {}}
-master_list = []
+def clean(title):
+    t = title.lower()
+    return not any(x in t for x in BLACKLIST)
 
-# 3. Processing
-for genre in genres:
-    genre_tracks = []
-    
-    # Flat API exclusions
-    search_query = f"{SEARCH_QUERIES[genre]} -mix -mixes -mixtape -mixtapes -compilation"
-    if genre == "soca":
-        search_query += " -roadmix"
-        
-    next_page_token = None
-    pages_fetched = 0
-    MAX_PAGES = 15 # Checks up to 750 tracks per genre to ensure we hit the 50 cap
-    
-    while len(genre_tracks) < 50 and pages_fetched < MAX_PAGES:
-        params = {
-            "part": "snippet", 
-            "q": search_query, 
-            "type": "video", 
-            "order": "viewCount", 
-            "publishedAfter": published_after, 
-            "maxResults": 50, 
-            "key": API_KEY
-        }
-        
-        if next_page_token:
-            params["pageToken"] = next_page_token
-            
-        try:
-            with urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/search?{urllib.parse.urlencode(params)}") as r:
-                res = json.loads(r.read().decode())
-                ids = [i["id"]["videoId"] for i in res.get("items", [])]
-                next_page_token = res.get("nextPageToken")
-        except Exception as e:
-            print(f"Search error for {genre}: {e}")
-            break
-            
-        pages_fetched += 1
 
-        if not ids:
-            if not next_page_token: break
+def yt_search(query):
+    res = youtube.search().list(
+        q=query,
+        part="snippet",
+        maxResults=1,
+        type="video"
+    ).execute()
+
+    if not res["items"]:
+        return None
+
+    vid = res["items"][0]["id"]["videoId"]
+
+    stats = youtube.videos().list(
+        part="statistics",
+        id=vid
+    ).execute()
+
+    if not stats["items"]:
+        return None
+
+    v = stats["items"][0]["statistics"]
+
+    return {
+        "id": vid,
+        "views": int(v.get("viewCount", 0))
+    }
+
+
+def spotify_tracks(keyword):
+    results = sp.search(q=keyword, type="track", limit=50)
+
+    tracks = []
+
+    for t in results["tracks"]["items"]:
+        name = t["name"]
+        artist = t["artists"][0]["name"]
+
+        if not clean(name):
             continue
 
-        try:
-            with urllib.request.urlopen(f"https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id={','.join(ids)}&key={API_KEY}") as r:
-                stats = json.loads(r.read().decode())
-        except Exception as e:
-            print(f"Video details error for {genre}: {e}")
-            continue
+        tracks.append({
+            "name": name,
+            "artist": artist,
+            "popularity": t["popularity"],
+            "release_date": t["album"]["release_date"]
+        })
 
-        for item in stats.get("items", []):
-            if len(genre_tracks) >= 50:
-                break
-                
-            if any(t['id'] == item['id'] for t in genre_tracks):
-                continue
-                
-            dur = get_seconds(item["contentDetails"].get("duration", ""))
-            
-            # Expanded format filter: 1 to 7 mins (Allows music videos with long intros/skits)
-            if dur < 60 or dur > 420: 
-                continue
-            
-            t = next((x for x in res["items"] if x["id"]["videoId"] == item["id"]), None)
-            if not t: continue
-            
-            title_lower = t["snippet"]["title"].lower()
-            channel_lower = t["snippet"]["channelTitle"].lower()
-            
-            # Word filter blocks
-            if MIX_PATTERN.search(title_lower): continue
-            if genre == "soca" and SOCA_ROAD_MIX_PATTERN.search(title_lower): continue
-            
-            if any(c in title_lower for c in GLOBAL_CLUTTER_BLACKLIST): continue
-            if any(ch in title_lower or ch in channel_lower for ch in CHUTNEY_BLACKLIST): continue
-            
-            if genre != "bouyon":
-                if any(b in title_lower or b in channel_lower for b in INSTRUMENTAL_BLACKLIST): continue
-            else:
-                if "type beat" in title_lower or "free beat" in title_lower: continue
+    return tracks
 
-            views = int(item["statistics"].get("viewCount", 0))
-            
-            # Custom view thresholds based on genre market size
-            min_views = 2500 if genre == "bouyon" else 5000
-            if views < min_views: continue
-            
-            track = {
-                "id": item["id"], 
-                "title": t["snippet"]["title"], 
-                "channel": t["snippet"]["channelTitle"],
-                "url": f"https://www.youtube.com/watch?v={item['id']}",
-                "thumbnail": t["snippet"]["thumbnails"]["high"]["url"],
-                "lifetime_views": views,
-                "weekly_views": views if is_first_run else max(0, views - history.get(item["id"], 0))
-            }
-            genre_tracks.append(track)
-                
-        if not next_page_token:
-            break
 
-    print(f"[{genre.upper()}] Success: Gathered {len(genre_tracks)} tracks across {pages_fetched} API pages.")
-
-    genre_tracks.sort(key=lambda x: x["weekly_views"], reverse=True)
-    final_charts["charts"][genre] = genre_tracks  
-    master_list.extend(genre_tracks)
-    
-    # Update Google Sheet
+def freshness(date):
     try:
-        ws = sheet.worksheet(genre)
-        ws.batch_clear(["A2:G60"])
-        if genre_tracks:
-            ws.update("A2", [[i+1, t["title"], t["channel"], t["weekly_views"], t["id"], t["url"], t["thumbnail"]] for i, t in enumerate(genre_tracks)])
-    except Exception as e:
-        print(f"Error updating sheet for {genre}: {e}")
+        year = int(date.split("-")[0])
+        age = 2026 - year
 
-# 4. Master Sort & Save
-unique_master = {t["id"]: t for t in master_list}.values()
-sorted_master = sorted(unique_master, key=lambda x: x["weekly_views"], reverse=True)
+        if age <= 1:
+            return 10
+        elif age <= 2:
+            return 7
+        elif age <= 3:
+            return 4
+        return 1
+    except:
+        return 0
 
-final_charts["charts"]["all_genres"] = sorted_master[:25]
 
-with open("data.json", "w") as f:
-    json.dump(final_charts, f, indent=4)
+def load_snapshot():
+    try:
+        with open("data/snapshot.json", "r") as f:
+            return json.load(f)
+    except:
+        return {}
+
+
+def save(data):
+    import os
+    os.makedirs("data", exist_ok=True)
+
+    with open("data/charts.json", "w") as f:
+        json.dump(data, f, indent=2)
+
+    with open("data/snapshot.json", "w") as f:
+        json.dump(data, f, indent=2)
+
+
+# -----------------------------
+# ENGINE
+# -----------------------------
+
+def run():
+    previous = load_snapshot()
+    final = {}
+
+    for genre in GENRES:
+
+        tracks = spotify_tracks(genre)
+        ranked = []
+
+        for t in tracks:
+
+            yt = yt_search(f"{t['artist']} {t['name']} official audio")
+
+            if not yt:
+                continue
+
+            last = previous.get(t["name"], {}).get("views", yt["views"])
+            growth = yt["views"] - last
+
+            score = (
+                growth * 0.7 +
+                t["popularity"] * 10 * 0.2 +
+                freshness(t["release_date"]) * 0.1
+            )
+
+            ranked.append({
+                "name": t["name"],
+                "artist": t["artist"],
+                "youtube_views": yt["views"],
+                "weekly_growth": growth,
+                "spotify_popularity": t["popularity"],
+                "score": score
+            })
+
+        ranked.sort(key=lambda x: x["score"], reverse=True)
+        final[genre] = ranked[:50]
+
+    save(final)
+    build_html(final)
+
+
+# -----------------------------
+# HTML OUTPUT
+# -----------------------------
+
+def build_html(data):
+    html = """
+    <html>
+    <head>
+        <title>Carib50 Charts</title>
+        <style>
+            body { font-family: Arial; background: #111; color: white; }
+            h2 { color: #ffcc00; }
+            .song { padding: 10px; border-bottom: 1px solid #333; }
+        </style>
+    </head>
+    <body>
+        <h1>Carib50 Weekly Charts</h1>
+    """
+
+    for genre, songs in data.items():
+        html += f"<h2>{genre.upper()}</h2>"
+
+        for i, s in enumerate(songs, 1):
+            html += f"""
+            <div class="song">
+                #{i} {s['artist']} - {s['name']}<br>
+                Score: {int(s['score'])} | Growth: {s['weekly_growth']}
+            </div>
+            """
+
+    html += "</body></html>"
+
+    with open("data/index.html", "w") as f:
+        f.write(html)
+
+
+if __name__ == "__main__":
+    run()
