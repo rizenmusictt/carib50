@@ -1,100 +1,63 @@
 {
   "soca": [
     {
-      "name": "SOCA CALIENTA",
-      "artist": "Dj Samir",
-      "image": "https://i.scdn.co/image/ab67616d0000b273afbca1379f8c2d595dfcedff",
-      "badge": null,
+      "name": "Soca Music",
+      "artist": "Chaka Chocolate",
+      "image": "https://i.scdn.co/image/ab67616d0000b2737b1bbb5a24b401c29631aaa8",
+      "badge": "New Heat",
       "rank": 1,
       "movement": "new",
-      "score": 490
+      "score": 0.0
     }
   ],
-  "dancehall": [
-    {
-      "name": "Dancehall Nice (feat. Beres Hammond & Dexta Daps)",
-      "artist": "Shaggy",
-      "image": "https://i.scdn.co/image/ab67616d0000b2731c1936b8be85dcb195d00e02",
-      "badge": null,
-      "rank": 1,
-      "movement": "new",
-      "score": 450
-    }
-  ],
+  "dancehall": [],
   "afrobeats": [
     {
-      "name": "Nakupenda",
-      "artist": "TxC",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f91f29f049af023cc69b3d9f",
+      "name": "Turbulence",
+      "artist": "Wizkid",
+      "image": "https://i.scdn.co/image/ab67616d0000b2732d9d222a08cb2e589cf4288e",
       "badge": null,
       "rank": 1,
       "movement": "new",
-      "score": 750
-    },
-    {
-      "name": "CH\u00c9VERE (joes\u00f3n_type_beat)",
-      "artist": "ARIA VEGA",
-      "image": "https://i.scdn.co/image/ab67616d0000b273a041d1e4024bed274b48d393",
-      "badge": null,
-      "rank": 2,
-      "movement": "new",
-      "score": 740
-    },
-    {
-      "name": "ORGANIC - AFROBEAT",
-      "artist": "100Beat",
-      "image": "https://i.scdn.co/image/ab67616d0000b27358561955e3696028e7f2a035",
-      "badge": null,
-      "rank": 3,
-      "movement": "new",
-      "score": 340
-    },
-    {
-      "name": "Low (Afrobeat)",
-      "artist": "LOVIXX",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734c6daf53e53e26ea7f933abd",
-      "badge": "Fresh On De Scene",
-      "rank": 4,
-      "movement": "new",
-      "score": 330
+      "score": 112.5
     }
   ],
   "bouyon": [
     {
-      "name": "unhappy",
-      "artist": "s0rrow",
-      "image": "https://i.scdn.co/image/ab67616d0000b273621d20b2632976bafe319295",
+      "name": "Ouba",
+      "artist": "1T1",
+      "image": "https://i.scdn.co/image/ab67616d0000b273124b4163fee99027c9732a2a",
       "badge": null,
       "rank": 1,
       "movement": "new",
-      "score": 780
-    },
-    {
-      "name": "In Di Corner",
-      "artist": "1T1",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734431d73da54375299918144b",
-      "badge": null,
-      "rank": 2,
-      "movement": "new",
-      "score": 660
+      "score": 78.0
     },
     {
       "name": "Wine It Slow",
       "artist": "T\u00c6RS",
       "image": "https://i.scdn.co/image/ab67616d0000b273b4ba0f6fd477a9fe49052f49",
       "badge": null,
-      "rank": 3,
-      "movement": "new",
-      "score": 610
+      "rank": 2,
+      "movement": "up",
+      "score": 61.0
     },
     {
-      "name": "Bounce",
-      "artist": "450",
-      "image": "https://i.scdn.co/image/ab67616d0000b27357604f147e94c00213654842",
-      "badge": "New Heat",
+      "name": "Feu",
+      "artist": "DJ Tutuss",
+      "image": "https://i.scdn.co/image/ab67616d0000b2730e5169593f26b592990afac2",
+      "badge": null,
+      "rank": 3,
+      "movement": "new",
+      "score": 58.0
+    },
+    {
+      "name": "Bam Bam",
+      "artist": "Voice",
+      "image": "https://i.scdn.co/image/ab67616d0000b273ea95342e9d134239c4e4d87c",
+      "badge": null,
       "rank": 4,
       "movement": "new",
-      "score": 490
+      "score": 37.0
     },
     {
       "name": "Bouyon 2099",
@@ -102,8 +65,8 @@
       "image": "https://i.scdn.co/image/ab67616d0000b2737cc101876070ac03d81c9ae0",
       "badge": "New Heat",
       "rank": 5,
-      "movement": "new",
-      "score": 280
+      "movement": "same",
+      "score": 28.0
     },
     {
       "name": "Bouyon Rave",
@@ -111,8 +74,26 @@
       "image": "https://i.scdn.co/image/ab67616d0000b273aad7d78f014116f3e939d1ae",
       "badge": null,
       "rank": 6,
+      "movement": "same",
+      "score": 16.0
+    },
+    {
+      "name": "Falling",
+      "artist": "DJ Taffy",
+      "image": "https://i.scdn.co/image/ab67616d0000b273089b06b534c7ba95ffb3616e",
+      "badge": null,
+      "rank": 7,
       "movement": "new",
-      "score": 160
+      "score": 9.0
+    },
+    {
+      "name": "Bouyon Rave Riddim",
+      "artist": "Producerdlo",
+      "image": "https://i.scdn.co/image/ab67616d0000b273b4a9b441a8015d1f11d214ba",
+      "badge": null,
+      "rank": 8,
+      "movement": "new",
+      "score": 7.0
     }
   ]
 }
