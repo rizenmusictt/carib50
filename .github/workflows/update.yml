@@ -1,38 +1,42 @@
-name: Update Carib25 Charts
+name: Carib50 Weekly Update
 
 on:
   schedule:
-    - cron: '0 0 * * 1'
-  workflow_dispatch:
+    - cron: "0 12 * * 4"  # Every Thursday
+  workflow_dispatch:     # manual run button
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      # 1. Get repo code
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      # 2. Set up Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
+      # 3. Install dependencies
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install gspread google-auth
+        run: pip install -r requirements.txt
 
-      - name: Run Chart Engine
-        env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-          SPREADSHEET_ID: "1B3aGPWfbzv5mX-coUN855AOVfRCdVFXy9O-434aKbOw"
+      # 4. Run Carib50 engine
+      - name: Run script
         run: python script.py
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
 
-      - name: Commit and push baseline data changes
+      # 5. Commit updated charts
+      - name: Commit results
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data.json
-          git diff-index --quiet HEAD || (git commit -m "Automated Chart Update: $(date +'%Y-%m-%d')" && git push)
+          git config user.name "carib50-bot"
+          git config user.email "bot@carib50.com"
+          git add data/
+          git commit -m "Carib50 weekly update" || echo "No changes"
+          git push
