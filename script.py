@@ -24,7 +24,7 @@ GENRE_RULES = {
 
 PLAYLISTS = {
     "soca": [
-        "37i9dQZF1DXdPec7aLTmlC"
+        "37i9dQZF1DX0b1h0H4H1vJ"
     ],
     "dancehall": [
         "37i9dQZF1DXan38dNVDdl4"
@@ -33,7 +33,7 @@ PLAYLISTS = {
         "37i9dQZF1DX10zKzsJ2jva"
     ],
     "bouyon": [
-        # add curated playlist IDs here
+        # intentionally left open (Spotify weak coverage)
     ]
 }
 
@@ -63,7 +63,7 @@ youtube = build(
 )
 
 # =========================
-# LOAD DATA
+# STATE
 # =========================
 
 def load_json(path):
@@ -107,10 +107,6 @@ def is_recent(date_str, months):
     cutoff = datetime.utcnow() - timedelta(days=months * 30)
     return d >= cutoff
 
-# =========================
-# BADGES
-# =========================
-
 def badge(date_str):
     d = parse_date(date_str)
     if not d:
@@ -125,15 +121,19 @@ def badge(date_str):
     return None
 
 # =========================
-# SPOTIFY PLAYLIST FETCH
+# SPOTIFY PIPELINE (SAFE)
 # =========================
 
 def get_tracks_from_playlist(pid, months):
-    res = sp.playlist_items(pid)
+    try:
+        res = sp.playlist_items(pid)
+    except Exception as e:
+        print(f"[Playlist Error] {pid}: {e}")
+        return []
 
     tracks = []
 
-    for item in res["items"]:
+    for item in res.get("items", []):
         t = item.get("track")
         if not t:
             continue
@@ -159,8 +159,39 @@ def get_tracks_from_playlist(pid, months):
 
     return tracks
 
+
+def fallback_search(genre, months):
+    try:
+        res = sp.search(q=genre, type="track", limit=30)
+    except:
+        return []
+
+    tracks = []
+
+    for t in res["tracks"]["items"]:
+        name = t["name"]
+        artist = t["artists"][0]["name"]
+        release = t["album"]["release_date"]
+
+        if not clean(name):
+            continue
+
+        if not is_recent(release, months):
+            continue
+
+        tracks.append({
+            "name": name,
+            "artist": artist,
+            "popularity": t["popularity"],
+            "release_date": release,
+            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
+            "badge": badge(release)
+        })
+
+    return tracks
+
 # =========================
-# YOUTUBE LOOKUP (SAFE)
+# YOUTUBE (SAFE + LIMITED)
 # =========================
 
 def yt_lookup(key, query):
@@ -192,7 +223,7 @@ def yt_lookup(key, query):
             maxResults=1
         ).execute()
 
-        if not search["items"]:
+        if not search.get("items"):
             return None
 
         vid = search["items"][0]["id"]["videoId"]
@@ -217,15 +248,22 @@ def yt_lookup(key, query):
 # =========================
 
 def run():
+
     final = {}
 
     for genre, months in GENRE_RULES.items():
 
         playlists = PLAYLISTS.get(genre, [])
+
         raw = []
 
+        # playlist-first
         for pid in playlists:
             raw += get_tracks_from_playlist(pid, months)
+
+        # fallback if playlist empty
+        if len(raw) == 0:
+            raw = fallback_search(genre, months)
 
         # dedupe
         seen = set()
@@ -292,7 +330,7 @@ def run():
     build_html(final)
 
 # =========================
-# HTML
+# HTML OUTPUT
 # =========================
 
 def build_html(data):
@@ -303,8 +341,7 @@ def build_html(data):
       <title>Carib25</title>
       <style>
         body { background:#0f0f0f; color:white; font-family:Arial; }
-        h1 { color:#ffcc00; text-align:center; }
-        .btn { margin:5px; padding:8px; cursor:pointer; }
+        h1 { text-align:center; color:#ffcc00; }
         .song { display:flex; gap:10px; padding:10px; border-bottom:1px solid #222; align-items:center; }
         img { width:50px; height:50px; border-radius:4px; }
         .badge { font-size:11px; color:#ffcc00; }
@@ -314,13 +351,6 @@ def build_html(data):
 
     <body>
     <h1>Carib25</h1>
-
-    <div style="text-align:center;">
-      <button class="btn" onclick="show('soca')">Soca</button>
-      <button class="btn" onclick="show('dancehall')">Dancehall</button>
-      <button class="btn" onclick="show('afrobeats')">Afrobeats</button>
-      <button class="btn" onclick="show('bouyon')">Bouyon</button>
-    </div>
 
     <div id="app"></div>
 
@@ -334,7 +364,7 @@ def build_html(data):
       data[g].forEach((s, i) => {
         app.innerHTML += `
           <div class="song">
-            <img src="${s.image}">
+            <img src="${s.image || ''}">
             <div>
               #${i+1} ${s.artist} - ${s.name}
               <div class="badge">${s.badge || ""}</div>
