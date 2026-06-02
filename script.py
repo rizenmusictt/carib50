@@ -58,7 +58,6 @@ AFROBEATS_ARTISTS = [
     "Ayra Starr", "Fireboy DML", "Omah Lay", "Shallipopi", "SeyVez"
 ]
 
-# CRITICAL FIX: Added Tydi S and kept the list tight for total exclusion mapping
 BOUYON_ARTISTS = [
     "1T1", "Miimii KDS", "Blackboy",
     "Ridge", "Quan", "Jessie",
@@ -209,6 +208,15 @@ def run():
     ordered_genres = ["soca", "dancehall", "afrobeats", "bouyon"]
     soca_locked_titles = set()
 
+    # Pre-load old chart database file before performing state manipulation
+    existing_chart_data = {}
+    try:
+        if os.path.exists("data/charts.json"):
+            with open("data/charts.json", "r") as f:
+                existing_chart_data = json.load(f)
+    except Exception as e:
+        print(f"Warning: Map state tracker failed to open old data records: {e}")
+
     for genre in ordered_genres:
         raw = []
 
@@ -263,10 +271,10 @@ def run():
             all_artists_lower = t["all_artists"].lower()
             title_sig = clean_string_signature(t["name"])
 
-            # CRITICAL FIX: HARD BLOCK BOUYON LEAKAGE FROM ENTERING SOCA LISTS
+            # HARD BLOCK BOUYON LEAKAGE FROM ENTERING SOCA LISTS
             if genre == "soca":
                 if any(b_art.lower() in all_artists_lower for b_art in BOUYON_ARTISTS):
-                    continue  # Drops Maureen, le will, o banga, trixx, tydi s, homegrown studio instantly
+                    continue  
 
             # BOUYON EXCLUSION LOGIC
             if genre == "bouyon":
@@ -304,16 +312,34 @@ def run():
             for track in final_selection:
                 soca_locked_titles.add(clean_string_signature(track["name"]))
 
-        # STEP 6: Format Final Response JSON Array Payload Structure
+        # STEP 6: History Mapping Pipeline Comparison Setup
+        prev_history = {}
+        if genre in existing_chart_data:
+            for past_track in existing_chart_data[genre]:
+                past_key = f"{past_track['artist'].lower()} - {past_track['name'].lower()}"
+                prev_history[past_key] = past_track.get("rank")
+
+        # STEP 7: Format Final Response JSON Array Payload Structure
         output = []
         for i, t in enumerate(final_selection):
+            current_rank = i + 1
+            lookup_key = f"{t['artist'].lower()} - {t['name'].lower()}"
+            
+            # Resolve history delta tracking flags
+            old_rank = prev_history.get(lookup_key)
+            if old_rank:
+                history_display = f"Last Spot: #{old_rank}"
+            else:
+                history_display = "New"
+
             output.append({
-                "rank": i + 1,
+                "rank": current_rank,            # Number 1-25 explicitly managed on left side
                 "name": t["name"],
                 "artist": t["artist"],
                 "image": t["image"],
-                "preview": t["preview"],
+                "preview": t["preview"],          # Direct link mapping for on-site HTML5 media streaming
                 "spotify_url": t["spotify_url"],
+                "history": history_display,       # Right side position indicator mapping
                 "badge": "Fresh On De Scene" if i < 5 else None
             })
 
