@@ -2,15 +2,6 @@
   "soca": [
     {
       "rank": 1,
-      "name": "Trouble (She Hate Men) - Demo",
-      "artist": "DREJ",
-      "image": "https://i.scdn.co/image/ab67616d0000b27319a3d39471d5d942f5922641",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/7ggkVz9pUuJ6w7K7jQisTS",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 2,
       "name": "Weatherman 3style",
       "artist": "Jordan English",
       "image": "https://i.scdn.co/image/ab67616d0000b27328597b059ac5517b8bc7935f",
@@ -19,12 +10,21 @@
       "badge": "Fresh On De Scene"
     },
     {
-      "rank": 3,
+      "rank": 2,
       "name": "Flap Flap",
       "artist": "Maureen",
       "image": "https://i.scdn.co/image/ab67616d0000b273390eb77af0d49b02a79955a6",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/2VbSOGBmQeIj4iHEFXdVwd",
+      "badge": "Fresh On De Scene"
+    },
+    {
+      "rank": 3,
+      "name": "Trouble (She Hate Men) - Demo",
+      "artist": "DREJ",
+      "image": "https://i.scdn.co/image/ab67616d0000b27319a3d39471d5d942f5922641",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/7ggkVz9pUuJ6w7K7jQisTS",
       "badge": "Fresh On De Scene"
     },
     {
@@ -218,11 +218,11 @@
     },
     {
       "rank": 25,
-      "name": "Fix Dat",
-      "artist": "Erphaan Alves",
-      "image": "https://i.scdn.co/image/ab67616d0000b27312f53baa5bf4b01f32dcf3e6",
+      "name": "Stage Show",
+      "artist": "Shornbeats",
+      "image": "https://i.scdn.co/image/ab67616d0000b2738b81c4805f7632fb1983b51d",
       "preview": null,
-      "spotify_url": "https://open.spotify.com/track/02ciwSGZm8fAAVXrbWRuV3",
+      "spotify_url": "https://open.spotify.com/track/0mD6r652HWUoLaWMzGwjnu",
       "badge": null
     }
   ],
