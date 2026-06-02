@@ -19,40 +19,44 @@ GENRE_RULES = {
 }
 
 PLAYLIST_QUERIES = {
-    "soca": ["2026 soca", "top soca", "new soca", "soca hits"],
-    "dancehall": ["2026 dancehall", "top dancehall", "new dancehall"],
-    "afrobeats": ["2026 afrobeats", "top afrobeats", "new afrobeats"],
+    "soca": ["2026 soca", "dj jel soca", "rizenmusic soca", "new soca", "top soca"],
+    "dancehall": ["2026 dancehall", "new dancehall", "top dancehall"],
+    "afrobeats": ["2026 afrobeats", "new afrobeats", "top afrobeats"],
     "bouyon": ["bouyon 2026", "new bouyon", "top bouyon"]
 }
-
-# -------------------------
-# FIXED GENRE IDENTITY MAPS
-# -------------------------
-
-SOCA_ARTISTS = [
-    "Machel Montano", "Kes", "Skinny Fabulous",
-    "Voice", "Nailah Blackman", "Fay-Ann Lyons"
-]
-
-DANCEHALL_ARTISTS = [
-    "Vybz Kartel", "Popcaan", "Shenseea", "Masicka",
-    "Skillibeng", "Alkaline", "Spice"
-]
-
-AFROBEATS_ARTISTS = [
-    "Wizkid", "Burna Boy", "Davido", "Rema",
-    "Asake", "Tems", "Ayra Starr"
-]
-
-BOUYON_ARTISTS = [
-    "1T1", "Miimii KDS", "Blackboy", "Ridge",
-    "Quan", "Jessie", "Reo", "Triple Kay"
-]
 
 BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro"]
 
 # =========================
-# INIT SPOTIFY
+# ARTIST SIGNALS (OPTION B)
+# =========================
+
+SOCA_ARTISTS = [
+    "Machel Montano", "Kes", "Nailah Blackman",
+    "Voice", "Patrice Roberts", "Skinny Fabulous",
+    "Farmer Nappy", "Lyrikal", "Olatunji"
+]
+
+DANCEHALL_ARTISTS = [
+    "Vybz Kartel", "Popcaan", "Masicka",
+    "Skillibeng", "Shenseea", "Alkaline",
+    "Skeng", "Valiant", "RajahWild"
+]
+
+AFROBEATS_ARTISTS = [
+    "Wizkid", "Burna Boy", "Davido",
+    "Rema", "Asake", "Tems",
+    "Ayra Starr", "Fireboy DML"
+]
+
+BOUYON_ARTISTS = [
+    "1T1", "Miimii KDS", "Blackboy",
+    "Ridge", "Quan", "Jessie",
+    "Triple Kay", "Reo"
+]
+
+# =========================
+# INIT
 # =========================
 
 sp = spotipy.Spotify(
@@ -87,29 +91,37 @@ def within_window(date_str, genre):
     return d >= datetime.utcnow() - timedelta(days=limit * 30)
 
 # =========================
-# STRICT GENRE CLASSIFIER
+# CONFIDENCE SCORING (CRITICAL FIX)
 # =========================
 
-def genre_match(genre, artist, name):
+def score_genre(genre, artist, name):
 
     text = (artist + " " + name).lower()
+    score = 0
 
     if genre == "soca":
-        return any(a.lower() in text for a in SOCA_ARTISTS)
+        if any(a.lower() in text for a in SOCA_ARTISTS):
+            score += 3
 
     if genre == "dancehall":
-        return any(a.lower() in text for a in DANCEHALL_ARTISTS)
+        if any(a.lower() in text for a in DANCEHALL_ARTISTS):
+            score += 3
 
     if genre == "afrobeats":
-        return any(a.lower() in text for a in AFROBEATS_ARTISTS)
+        if any(a.lower() in text for a in AFROBEATS_ARTISTS):
+            score += 3
 
     if genre == "bouyon":
-        return any(a.lower() in text for a in BOUYON_ARTISTS)
+        if any(a.lower() in text for a in BOUYON_ARTISTS):
+            score += 3
 
-    return False
+    if genre in text:
+        score += 1
+
+    return score
 
 # =========================
-# PLAYLIST DISCOVERY
+# DATA COLLECTION (NO HARD FILTERS HERE)
 # =========================
 
 def discover_playlists(query):
@@ -119,13 +131,13 @@ def discover_playlists(query):
     except:
         return []
 
-def get_playlist_tracks(pid, genre):
+def get_playlist_tracks(pid):
     try:
         res = sp.playlist_items(pid)
     except:
         return []
 
-    tracks = []
+    out = []
 
     for item in res.get("items", []):
         t = item.get("track")
@@ -138,64 +150,17 @@ def get_playlist_tracks(pid, genre):
         if not clean(name):
             continue
 
-        if not within_window(t["album"]["release_date"], genre):
-            continue
-
-        if not genre_match(genre, artist, name):
-            continue
-
-        tracks.append({
+        out.append({
             "name": name,
             "artist": artist,
-            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
             "release": t["album"]["release_date"],
+            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
             "preview": t.get("preview_url"),
             "spotify_url": t["external_urls"]["spotify"],
             "popularity": t["popularity"]
         })
 
-    return tracks
-
-# =========================
-# RESCUE SYSTEM (ENSURES 25)
-# =========================
-
-def rescue_fill(genre, tracks):
-
-    if len(tracks) >= TARGET:
-        return tracks[:TARGET]
-
-    try:
-        res = sp.search(q=f"{genre} music", type="track", limit=50)
-
-        for t in res["tracks"]["items"]:
-
-            if len(tracks) >= TARGET:
-                break
-
-            artist = t["artists"][0]["name"]
-            name = t["name"]
-
-            if not clean(name):
-                continue
-
-            if not genre_match(genre, artist, name):
-                continue
-
-            tracks.append({
-                "name": name,
-                "artist": artist,
-                "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
-                "release": t["album"]["release_date"],
-                "preview": t.get("preview_url"),
-                "spotify_url": t["external_urls"]["spotify"],
-                "popularity": t["popularity"]
-            })
-
-    except:
-        pass
-
-    return tracks[:TARGET]
+    return out
 
 # =========================
 # ENGINE
@@ -209,39 +174,56 @@ def run():
 
         raw = []
 
-        # 1. playlist discovery
+        # 1. collect big pool
         for q in PLAYLIST_QUERIES[genre]:
             for pid in discover_playlists(q):
-                raw += get_playlist_tracks(pid, genre)
+                raw += get_playlist_tracks(pid)
 
         # 2. dedupe
         seen = set()
-        clean_tracks = []
+        tracks = []
 
         for t in raw:
             key = f"{t['artist']} - {t['name']}"
             if key in seen:
                 continue
             seen.add(key)
-            clean_tracks.append(t)
+            tracks.append(t)
 
-        # 3. rank
-        ranked = sorted(clean_tracks, key=lambda x: x["popularity"], reverse=True)
+        # 3. apply strict release filter (NOW SAFE)
+        tracks = [
+            t for t in tracks
+            if within_window(t["release"], genre)
+        ]
 
-        # 4. enforce 25
-        ranked = rescue_fill(genre, ranked)
+        # 4. score (NO HARD REJECTION)
+        scored = []
 
-        # 5. format output (NO NUMBERS ON UI SIDE ISSUES)
+        for t in tracks:
+            s = score_genre(genre, t["artist"], t["name"])
+
+            if s < 2:
+                continue
+
+            t["score"] = t["popularity"] * 10 + s * 5
+            scored.append(t)
+
+        # 5. rank
+        scored = sorted(scored, key=lambda x: x["score"], reverse=True)
+
+        # 6. force 25 (only after full pipeline)
+        scored = scored[:TARGET]
+
+        # 7. format
         output = []
 
-        for i, t in enumerate(ranked):
-
+        for i, t in enumerate(scored):
             output.append({
                 "rank": i + 1,
                 "name": t["name"],
                 "artist": t["artist"],
                 "image": t["image"],
-                "preview": t.get("preview"),
+                "preview": t["preview"],
                 "spotify_url": t["spotify_url"],
                 "badge": "Fresh On De Scene" if i < 5 else None
             })
