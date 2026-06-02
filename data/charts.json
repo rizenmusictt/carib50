@@ -20,15 +20,6 @@
     },
     {
       "rank": 3,
-      "name": "Flap Flap",
-      "artist": "Maureen",
-      "image": "https://i.scdn.co/image/ab67616d0000b273390eb77af0d49b02a79955a6",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/2VbSOGBmQeIj4iHEFXdVwd",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 4,
       "name": "Drunk In Love",
       "artist": "Patrice Roberts",
       "image": "https://i.scdn.co/image/ab67616d0000b2730293e2855d48c4e63e8c8423",
@@ -37,34 +28,25 @@
       "badge": "Fresh On De Scene"
     },
     {
-      "rank": 5,
-      "name": "Yabadabadou",
-      "artist": "L\u00e9 Will & Deuspi",
-      "image": "https://i.scdn.co/image/ab67616d0000b2738ee78241adeb3c64dcf32307",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6r4IINpukXMdI3jEOkfxM6",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 6,
+      "rank": 4,
       "name": "All I Want",
       "artist": "Patrice Roberts",
       "image": "https://i.scdn.co/image/ab67616d0000b2732460b115557e09a79fd8ee94",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6loSRt5zEzO0VSQioOU2WM",
-      "badge": null
+      "badge": "Fresh On De Scene"
     },
     {
-      "rank": 7,
+      "rank": 5,
       "name": "By My Side",
       "artist": "Fuse ODG",
       "image": "https://i.scdn.co/image/ab67616d0000b2739b3dae0ad6b271a21b617019",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3GsXQlYbTRA1jGsilub0Rj",
-      "badge": null
+      "badge": "Fresh On De Scene"
     },
     {
-      "rank": 8,
+      "rank": 6,
       "name": "Whip Whap (Push Back)",
       "artist": "Lyrikal",
       "image": "https://i.scdn.co/image/ab67616d0000b2732460b115557e09a79fd8ee94",
@@ -73,7 +55,7 @@
       "badge": null
     },
     {
-      "rank": 9,
+      "rank": 7,
       "name": "iPhone",
       "artist": "Haile",
       "image": "https://i.scdn.co/image/ab67616d0000b27378666e52ed0cc84609c3a56c",
@@ -82,25 +64,7 @@
       "badge": null
     },
     {
-      "rank": 10,
-      "name": "Woul\u00e9",
-      "artist": "O Banga",
-      "image": "https://i.scdn.co/image/ab67616d0000b2736f9d08c77f01f46ffdffa03e",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/4igoKw4qDHk4h9i31BiAX6",
-      "badge": null
-    },
-    {
-      "rank": 11,
-      "name": "5STAR",
-      "artist": "Trixx",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f0cdc6fcb9857ba80b65f62b",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/7hZkTB1FRAH5qpcTHgOVdy",
-      "badge": null
-    },
-    {
-      "rank": 12,
+      "rank": 8,
       "name": "Side to Side",
       "artist": "Sackie",
       "image": "https://i.scdn.co/image/ab67616d0000b273fec3be8ce5576b063974eb39",
@@ -109,25 +73,7 @@
       "badge": null
     },
     {
-      "rank": 13,
-      "name": "Moi",
-      "artist": "Tydi S",
-      "image": "https://i.scdn.co/image/ab67616d0000b273801909b67a0fca61ba9ec709",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/0bJX0zjuFpgK8EG78igMLJ",
-      "badge": null
-    },
-    {
-      "rank": 14,
-      "name": "Ringgtone",
-      "artist": "Home Grown Studio",
-      "image": "https://i.scdn.co/image/ab67616d0000b273e09703dda2c43cf1ddea5fd6",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/06KRLZOY2rEtDQL13VFxzF",
-      "badge": null
-    },
-    {
-      "rank": 15,
+      "rank": 9,
       "name": "Baddest in De Jouver",
       "artist": "Timo Makaveli",
       "image": "https://i.scdn.co/image/ab67616d0000b273e77e197d3c0775995f33dc0f",
@@ -136,7 +82,7 @@
       "badge": null
     },
     {
-      "rank": 16,
+      "rank": 10,
       "name": "Baddest By Far",
       "artist": "Hypasounds",
       "image": "https://i.scdn.co/image/ab67616d0000b273ae3a6ce9f3109157eed1b6b3",
@@ -145,7 +91,7 @@
       "badge": null
     },
     {
-      "rank": 17,
+      "rank": 11,
       "name": "Jabland",
       "artist": "Kerwin Du Bois",
       "image": "https://i.scdn.co/image/ab67616d0000b273e4b9b6c25f6052153fb80a70",
@@ -154,7 +100,7 @@
       "badge": null
     },
     {
-      "rank": 18,
+      "rank": 12,
       "name": "Drop It Down",
       "artist": "Taller Dan",
       "image": "https://i.scdn.co/image/ab67616d0000b2739452ee11d414fcc65367ec91",
@@ -163,7 +109,7 @@
       "badge": null
     },
     {
-      "rank": 19,
+      "rank": 13,
       "name": "Bigi Billen",
       "artist": "D-opss",
       "image": "https://i.scdn.co/image/ab67616d0000b273b3e2433aaa34b6c93c5a3940",
@@ -172,7 +118,7 @@
       "badge": null
     },
     {
-      "rank": 20,
+      "rank": 14,
       "name": "Rule You",
       "artist": "Colton T",
       "image": "https://i.scdn.co/image/ab67616d0000b2734e8d27c51317c789150c6ecf",
@@ -181,7 +127,7 @@
       "badge": null
     },
     {
-      "rank": 21,
+      "rank": 15,
       "name": "So Toxic",
       "artist": "Angie Maya",
       "image": "https://i.scdn.co/image/ab67616d0000b2732460b115557e09a79fd8ee94",
@@ -190,16 +136,7 @@
       "badge": null
     },
     {
-      "rank": 22,
-      "name": "Go Crazy",
-      "artist": "Home Grown Studio",
-      "image": "https://i.scdn.co/image/ab67616d0000b273e09703dda2c43cf1ddea5fd6",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3AB903HnFc1fLPx4BClXrP",
-      "badge": null
-    },
-    {
-      "rank": 23,
+      "rank": 16,
       "name": "Wait So Long",
       "artist": "Tian Winter",
       "image": "https://i.scdn.co/image/ab67616d0000b2730293e2855d48c4e63e8c8423",
@@ -208,7 +145,7 @@
       "badge": null
     },
     {
-      "rank": 24,
+      "rank": 17,
       "name": "Picture Frame",
       "artist": "GBM Nutron",
       "image": "https://i.scdn.co/image/ab67616d0000b2739003d6aceb3e80ed46eb842f",
@@ -217,12 +154,75 @@
       "badge": null
     },
     {
-      "rank": 25,
+      "rank": 18,
       "name": "Fix Dat",
       "artist": "Erphaan Alves",
       "image": "https://i.scdn.co/image/ab67616d0000b27312f53baa5bf4b01f32dcf3e6",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/02ciwSGZm8fAAVXrbWRuV3",
+      "badge": null
+    },
+    {
+      "rank": 19,
+      "name": "Stage Show",
+      "artist": "Shornbeats",
+      "image": "https://i.scdn.co/image/ab67616d0000b2738b81c4805f7632fb1983b51d",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/0mD6r652HWUoLaWMzGwjnu",
+      "badge": null
+    },
+    {
+      "rank": 20,
+      "name": "Jam On Ya (D'Guitarman Riddim)",
+      "artist": "Ponaflex",
+      "image": "https://i.scdn.co/image/ab67616d0000b273d0d9d7b3e093ee2f7dda20cc",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/0IrcQZW3RcRwChZWZLVe6S",
+      "badge": null
+    },
+    {
+      "rank": 21,
+      "name": "Do It For Me",
+      "artist": "Zafema",
+      "image": "https://i.scdn.co/image/ab67616d0000b2730293e2855d48c4e63e8c8423",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5AIU7DZgdpguFEGRMb7Rvk",
+      "badge": null
+    },
+    {
+      "rank": 22,
+      "name": "Rum Calling",
+      "artist": "Problem Child",
+      "image": "https://i.scdn.co/image/ab67616d0000b2737037909465a43dd554f4b783",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5RbWg0GEe0SCWsosioucIj",
+      "badge": null
+    },
+    {
+      "rank": 23,
+      "name": "Keep It",
+      "artist": "Faith Callender",
+      "image": "https://i.scdn.co/image/ab67616d0000b2731b52157ca8509ae85547e31e",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/3ho1OxHX1GPfCjkxCTqydh",
+      "badge": null
+    },
+    {
+      "rank": 24,
+      "name": "Ring Ring - II",
+      "artist": "Wisc",
+      "image": "https://i.scdn.co/image/ab67616d0000b27377a73d06a97ed6f326164314",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/1eGyfdXcFpgR1NUzjPbNAt",
+      "badge": null
+    },
+    {
+      "rank": 25,
+      "name": "Pull Up",
+      "artist": "Olin Lang",
+      "image": "https://i.scdn.co/image/ab67616d0000b2734943f75ac42205ccdd9f7801",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5aAaxKG9DoABxl9VKRmYGU",
       "badge": null
     }
   ],
@@ -710,15 +710,6 @@
     },
     {
       "rank": 4,
-      "name": "Tip",
-      "artist": "JUGGLERZ",
-      "image": "https://i.scdn.co/image/ab67616d0000b2737730ea61e2aa16ffff1a59dd",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3Vmss3HuDLPmPi8mBpvgpY",
-      "badge": "Fresh On De Scene"
-    },
-    {
-      "rank": 5,
       "name": "Wine It Slow",
       "artist": "T\u00c6RS",
       "image": "https://i.scdn.co/image/ab67616d0000b273b4ba0f6fd477a9fe49052f49",
@@ -727,16 +718,16 @@
       "badge": "Fresh On De Scene"
     },
     {
-      "rank": 6,
+      "rank": 5,
       "name": "Shake Your",
       "artist": "LITLEBOY",
       "image": "https://i.scdn.co/image/ab67616d0000b27335ea21c54533961eeddc36df",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/2VcyupmNVZrfTdSNJZg8SO",
-      "badge": null
+      "badge": "Fresh On De Scene"
     },
     {
-      "rank": 7,
+      "rank": 6,
       "name": "Still A Road Man",
       "artist": "Bunji Garlin",
       "image": "https://i.scdn.co/image/ab67616d0000b27361909b87de3a49d7378fe02d",
@@ -745,7 +736,7 @@
       "badge": null
     },
     {
-      "rank": 8,
+      "rank": 7,
       "name": "97Volts",
       "artist": "P.L.L",
       "image": "https://i.scdn.co/image/ab67616d0000b27393b2d4815311f319377056b3",
@@ -754,16 +745,7 @@
       "badge": null
     },
     {
-      "rank": 9,
-      "name": "UH UH",
-      "artist": "Topboy TGR",
-      "image": "https://i.scdn.co/image/ab67616d0000b273dec8d0d9c5081932c5080df8",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5okZSnmbr2ptJARHJRm5i4",
-      "badge": null
-    },
-    {
-      "rank": 10,
+      "rank": 8,
       "name": "DO YOU DANCE",
       "artist": "Fallon",
       "image": "https://i.scdn.co/image/ab67616d0000b2737e35a1cbe20a154e5b61f87c",
@@ -772,7 +754,7 @@
       "badge": null
     },
     {
-      "rank": 11,
+      "rank": 9,
       "name": "Up To",
       "artist": "Joshii G",
       "image": "https://i.scdn.co/image/ab67616d0000b2738307a36c005a054993b6860e",
@@ -781,7 +763,7 @@
       "badge": null
     },
     {
-      "rank": 12,
+      "rank": 10,
       "name": "NEWBOYJUST",
       "artist": "Daniel Allan",
       "image": "https://i.scdn.co/image/ab67616d0000b273c06e603e5fbdeda3c9875dbc",
@@ -790,7 +772,7 @@
       "badge": null
     },
     {
-      "rank": 13,
+      "rank": 11,
       "name": "Bloqu\u00e9",
       "artist": "Magistral Beats",
       "image": "https://i.scdn.co/image/ab67616d0000b273f9292800e1c2c4d50ed915a9",
@@ -799,7 +781,7 @@
       "badge": null
     },
     {
-      "rank": 14,
+      "rank": 12,
       "name": "CHAL\u00c8",
       "artist": "Malcolm",
       "image": "https://i.scdn.co/image/ab67616d0000b27375c582727a9cb353004dea8f",
@@ -808,7 +790,7 @@
       "badge": null
     },
     {
-      "rank": 15,
+      "rank": 13,
       "name": "Knock It",
       "artist": "V'ghn",
       "image": "https://i.scdn.co/image/ab67616d0000b2736bffee0410703c55cec9116d",
@@ -817,7 +799,7 @@
       "badge": null
     },
     {
-      "rank": 16,
+      "rank": 14,
       "name": "MAMAN M'A DIT NON",
       "artist": "LinLin",
       "image": "https://i.scdn.co/image/ab67616d0000b273bd08ae4aa4631f13a4ca60d4",
@@ -826,7 +808,7 @@
       "badge": null
     },
     {
-      "rank": 17,
+      "rank": 15,
       "name": "UNA MULATA",
       "artist": "Sador",
       "image": "https://i.scdn.co/image/ab67616d0000b27345f26e9f45783111f9e0db2f",
@@ -835,7 +817,7 @@
       "badge": null
     },
     {
-      "rank": 18,
+      "rank": 16,
       "name": "BISOUS",
       "artist": "Fallon",
       "image": "https://i.scdn.co/image/ab67616d0000b27346ecef290002cba00576d87a",
@@ -844,7 +826,7 @@
       "badge": null
     },
     {
-      "rank": 19,
+      "rank": 17,
       "name": "Korra Katara",
       "artist": "Terra D Governor",
       "image": "https://i.scdn.co/image/ab67616d0000b27380809c33aff750971cba75b7",
@@ -853,7 +835,7 @@
       "badge": null
     },
     {
-      "rank": 20,
+      "rank": 18,
       "name": "VALHALLA",
       "artist": "Yo Joshy",
       "image": "https://i.scdn.co/image/ab67616d0000b2731efcae0dc0a83eaab6523246",
@@ -862,7 +844,7 @@
       "badge": null
     },
     {
-      "rank": 21,
+      "rank": 19,
       "name": "Have Insects",
       "artist": "KEKS MAFIA",
       "image": "https://i.scdn.co/image/ab67616d0000b2732181e710a2a64d1bbc54a66a",
@@ -871,7 +853,7 @@
       "badge": null
     },
     {
-      "rank": 22,
+      "rank": 20,
       "name": "ATTITUDE",
       "artist": "MAYLIE",
       "image": "https://i.scdn.co/image/ab67616d0000b2732fea512d58e78fc91c71b7b3",
@@ -880,7 +862,7 @@
       "badge": null
     },
     {
-      "rank": 23,
+      "rank": 21,
       "name": "LET'S MAKE A BABY",
       "artist": "Dcamp",
       "image": "https://i.scdn.co/image/ab67616d0000b273a3c128a104a24f4d1068f433",
@@ -889,7 +871,7 @@
       "badge": null
     },
     {
-      "rank": 24,
+      "rank": 22,
       "name": "TAKE UR TIME",
       "artist": "LESTEF KJF BOYZ",
       "image": "https://i.scdn.co/image/ab67616d0000b273e011499a47865e370c39d638",
@@ -898,12 +880,30 @@
       "badge": null
     },
     {
-      "rank": 25,
+      "rank": 23,
       "name": "After Party",
       "artist": "Theomaa",
       "image": "https://i.scdn.co/image/ab67616d0000b273c8ae4098c4bf5178625e7778",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6K3vqC8YOIZt9O78JqSCz4",
+      "badge": null
+    },
+    {
+      "rank": 24,
+      "name": "JEUNE HOMME",
+      "artist": "Fallon",
+      "image": "https://i.scdn.co/image/ab67616d0000b2737e35a1cbe20a154e5b61f87c",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/6daqKuxMc8UaaH8NYgy560",
+      "badge": null
+    },
+    {
+      "rank": 25,
+      "name": "THE KINGSHILL FREEUP",
+      "artist": "DJMJ \u00d7 MV ON DE KEYS",
+      "image": "https://i.scdn.co/image/ab67616d0000b273f2b5821444035810f011c4b0",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/6SEigAO9wEl4YcrHdCr6eg",
       "badge": null
     }
   ]
