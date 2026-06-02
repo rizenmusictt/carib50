@@ -143,6 +143,18 @@
       min-width: 0;
     }
 
+    /* Interactive Link Styles for Spotify Redirection */
+    .track-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      cursor: pointer;
+    }
+
+    .track-link:hover .track-name {
+      color: var(--accent-green);
+    }
+
     .track-name {
       font-weight: 600;
       font-size: 1.05rem;
@@ -150,6 +162,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       margin-bottom: 4px;
+      transition: color 0.2s ease;
     }
 
     .track-artist {
@@ -306,17 +319,24 @@
       tracks.forEach(track => {
         const isNew = track.history === 'New';
         const badgeClass = isNew ? 'badge-new' : 'badge-stable';
+        
+        // Dynamically wrap text in an anchor if a valid link exists, fallback to a span block if empty
+        const hasUrl = track.url && track.url.trim() !== "";
+        const openTag = hasUrl ? `<a class="track-link" href="${track.url}" target="_blank" rel="noopener noreferrer">` : `<div class="meta-data">`;
+        const closeTag = hasUrl ? `</a>` : `</div>`;
 
         htmlPayload += `
           <div class="track-row">
-            <!-- Left Side: Rank Index, Cover, Titles -->
+            <!-- Left Side: Rank Index, Cover, Titles (Wrapped with external url anchors) -->
             <div class="left-side">
               <span class="rank-num">${track.rank}</span>
               <img class="album-art" src="${track.image || 'https://placehold.co/60'}" alt="${track.name}" loading="lazy">
-              <div class="meta-data">
-                <div class="track-name">${track.name}</div>
-                <div class="track-artist">${track.artist}</div>
-              </div>
+              ${openTag}
+                <div class="meta-data">
+                  <div class="track-name" title="${hasUrl ? 'Open in Spotify' : ''}">${track.name}</div>
+                  <div class="track-artist">${track.artist}</div>
+                </div>
+              ${closeTag}
             </div>
 
             <!-- Center: Custom Web Native Audio Element Trigger -->
@@ -365,7 +385,7 @@
       // Handle active track toggle execution paths
       if (currentAudio && currentButton === button) {
         if (currentAudio.paused) {
-          currentAudio.play();
+          currentAudio.play().catch(err => handleAudioError(err, button));
           button.innerText = "⏸";
         } else {
           currentAudio.pause();
@@ -381,12 +401,11 @@
       currentAudio = new Audio(url);
       currentButton = button;
 
-      currentAudio.play().catch(err => {
-        console.error("Playback blocked or failed:", err);
-        killActiveAudioInstances();
+      currentAudio.play().then(() => {
+        button.innerText = "⏸";
+      }).catch(err => {
+        handleAudioError(err, button);
       });
-      
-      button.innerText = "⏸";
 
       // On-ended hook cleanup garbage collector
       currentAudio.onended = () => {
@@ -394,6 +413,12 @@
         currentAudio = null;
         currentButton = null;
       };
+    }
+
+    function handleAudioError(err, button) {
+      console.error("Playback execution breakdown. Target URL:", currentAudio ? currentAudio.src : 'unknown', "Error Details:", err);
+      alert("Unable to play this preview clip. Check your browser console for security or expiration restrictions.");
+      killActiveAudioInstances();
     }
 
     function killActiveAudioInstances() {
