@@ -21,6 +21,30 @@ GENRE_RULES = {
     "bouyon": 6
 }
 
+# 🎯 GENRE ANCHOR ARTISTS (CORE FIX)
+GENRE_ARTISTS = {
+    "soca": [
+        "Machel Montano", "Kes", "Nailah Blackman", "Skinny Fabulous",
+        "Voice", "Fay-Ann Lyons", "Problem Child", "Lyrikal",
+        "Marzville", "Olatunji", "Lil Rick"
+    ],
+    "dancehall": [
+        "Vybz Kartel", "Popcaan", "Shenseea", "Masicka",
+        "Skillibeng", "Alkaline", "Busy Signal", "Valiant",
+        "Nigy Boy", "Spice"
+    ],
+    "afrobeats": [
+        "Wizkid", "Davido", "Burna Boy", "Rema",
+        "Fireboy DML", "Asake", "Tems", "Omah Lay",
+        "Ayra Starr", "Tiwa Savage"
+    ],
+    "bouyon": [
+        "1T1", "Miimii KDS", "Ridge", "Asa Bantan",
+        "Dirty Dawg Pudaz", "Litleboy", "Signal Band",
+        "Trilla-G", "Quan", "WCK"
+    ]
+}
+
 PLAYLISTS = {
     "soca": ["37i9dQZF1DX0b1h0H4H1vJ"],
     "dancehall": ["37i9dQZF1DXan38dNVDdl4"],
@@ -105,6 +129,19 @@ def badge(d):
     return None
 
 # =========================
+# 🎯 GENRE SCORING BOOST (NEW CORE)
+# =========================
+
+def genre_boost(genre, text):
+    text = text.lower()
+
+    for artist in GENRE_ARTISTS.get(genre, []):
+        if artist.lower() in text:
+            return 1.5  # strong boost
+
+    return 1.0
+
+# =========================
 # SPOTIFY
 # =========================
 
@@ -144,13 +181,16 @@ def get_playlist_tracks(pid, months):
 
 def fallback(genre, months):
     try:
-        res = sp.search(q=genre, type="track", limit=30)
+        res = sp.search(q=f"{genre} music", type="track", limit=50)
     except:
         return []
 
     out = []
 
     for t in res["tracks"]["items"]:
+
+        text = t["name"] + " " + t["artists"][0]["name"]
+
         if not clean(t["name"]):
             continue
 
@@ -167,40 +207,6 @@ def fallback(genre, months):
         })
 
     return out
-
-# =========================
-# YOUTUBE (hidden)
-# =========================
-
-def yt_lookup(key, query):
-    global yt_calls
-
-    if yt_calls >= 40:
-        return None
-
-    if key in yt_cache:
-        return None
-
-    try:
-        search = youtube.search().list(
-            q=query,
-            part="snippet",
-            type="video",
-            maxResults=1
-        ).execute()
-
-        if not search.get("items"):
-            return None
-
-        vid = search["items"][0]["id"]["videoId"]
-
-        yt_cache[key] = vid
-        yt_calls += 1
-
-        return vid
-
-    except HttpError:
-        return None
 
 # =========================
 # ENGINE
@@ -227,15 +233,21 @@ def run():
         tracks = []
 
         for t in raw:
-            k = f"{t['artist']} - {t['name']}"
-            if k in seen:
+            key = f"{t['artist']} - {t['name']}"
+            if key in seen:
                 continue
-            seen.add(k)
+            seen.add(key)
+
+            # 🎯 APPLY GENRE BOOST
+            boost = genre_boost(genre, key)
+
+            t["score_base"] = t["popularity"] * boost
+
             tracks.append(t)
 
-        tracks = sorted(tracks, key=lambda x: x["popularity"], reverse=True)
+        # sort with boost
+        tracks = sorted(tracks, key=lambda x: x["score_base"], reverse=True)
 
-        # GUARANTEE EXACT 25
         tracks = tracks[:TARGET]
 
         ranked = []
@@ -244,36 +256,31 @@ def run():
 
             key = f"{t['artist']} - {t['name']}"
 
-            prev_rank = snapshot.get(genre, {}).get(key, None)
-            current_rank = i + 1
-
-            movement = "new"
+            prev_rank = snapshot.get(genre, {}).get(key)
 
             if prev_rank:
-                if prev_rank > current_rank:
+                if prev_rank > i + 1:
                     movement = "up"
-                elif prev_rank < current_rank:
+                elif prev_rank < i + 1:
                     movement = "down"
                 else:
                     movement = "same"
-
-            yt_lookup(key, f"{t['artist']} {t['name']} official audio")
-
-            score = t["popularity"] * 10
+            else:
+                movement = "new"
 
             ranked.append({
                 "name": t["name"],
                 "artist": t["artist"],
                 "image": t["image"],
                 "badge": t["badge"],
-                "rank": current_rank,
+                "rank": i + 1,
                 "movement": movement,
-                "score": score
+                "score": t["score_base"]
             })
 
         final[genre] = ranked
 
-    # build snapshot (for next week movement tracking)
+    # snapshot update
     new_snapshot = {}
 
     for g, songs in final.items():
@@ -284,92 +291,6 @@ def run():
     save_json(CACHE_FILE, yt_cache)
     save_json(SNAPSHOT_FILE, new_snapshot)
     save_json("data/charts.json", final)
-
-    build_html(final)
-
-# =========================
-# HTML (FIXED - NO RAW CODE BUG)
-# =========================
-
-def build_html(data):
-
-    json_data = json.dumps(data)
-
-    html = f"""
-    <html>
-    <head>
-      <title>Carib25</title>
-      <style>
-        body {{ background:#0f0f0f; color:white; font-family:Arial; }}
-        h1 {{ text-align:center; color:#ffcc00; }}
-        .song {{ display:flex; gap:10px; padding:10px; border-bottom:1px solid #222; align-items:center; }}
-        img {{ width:50px; height:50px; border-radius:4px; }}
-        .badge {{ font-size:11px; color:#ffcc00; }}
-        .up {{ color:#00ff99; }}
-        .down {{ color:#ff4d4d; }}
-        .new {{ color:#4da6ff; }}
-        .score {{ margin-left:auto; color:#00ff99; }}
-        button {{ margin:5px; padding:8px; background:#222; color:white; border:1px solid #333; }}
-      </style>
-    </head>
-
-    <body>
-
-    <h1>Carib25</h1>
-
-    <div style="text-align:center;">
-      <button onclick="show('soca')">Soca</button>
-      <button onclick="show('dancehall')">Dancehall</button>
-      <button onclick="show('afrobeats')">Afrobeats</button>
-      <button onclick="show('bouyon')">Bouyon</button>
-    </div>
-
-    <div id="app"></div>
-
-    <script>
-    const data = {json_data};
-
-    function show(g) {{
-      const app = document.getElementById("app");
-      app.innerHTML = "";
-
-      data[g].forEach(s => {{
-
-        app.innerHTML += `
-          <div class="song">
-
-            <img src="${{s.image || ''}}">
-
-            <div>
-              #${{s.rank}} ${{s.artist}} - ${{s.name}}
-
-              <div class="${{s.movement}}">
-                ${{s.movement === "up" ? "⬆ Rising"
-                  : s.movement === "down" ? "⬇ Falling"
-                  : "🆕 New"}}
-              </div>
-
-              <div class="badge">${{s.badge || ""}}</div>
-            </div>
-
-            <div class="score">
-              ${{Math.round(s.score)}}
-            </div>
-
-          </div>
-        `;
-      }});
-    }}
-
-    show('soca');
-    </script>
-
-    </body>
-    </html>
-    """
-
-    with open("data/index.html", "w") as f:
-        f.write(html)
 
 # =========================
 # RUN
