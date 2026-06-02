@@ -2,6 +2,7 @@ import os
 import json
 import urllib.request
 import urllib.parse
+import re
 from datetime import datetime, timedelta
 
 import spotipy
@@ -57,7 +58,6 @@ AFROBEATS_ARTISTS = [
     "Ayra Starr", "Fireboy DML", "Omah Lay", "Shallipopi", "SeyVez"
 ]
 
-# EXPANDED: Added requested artists to stabilize identification and boundary lines
 BOUYON_ARTISTS = [
     "1T1", "Miimii KDS", "Blackboy",
     "Ridge", "Quan", "Jessie",
@@ -84,22 +84,26 @@ sp = spotipy.Spotify(
 def clean(name):
     return not any(x in name.lower() for x in BLACKLIST)
 
+def clean_string_signature(val):
+    """Generates an alphanumeric signature to prevent feature/title mapping bypasses"""
+    return re.sub(r'[^a-z0-9]', '', val.lower())
+
 def parse_date(date_str):
     if not date_str:
         return None
-    # Strips any trailing whitespace or layout anomalies from Spotify values
     date_str = date_str.strip()
+    
+    # Strict checks against raw fallback years (e.g. "2024", "2025") to stop multi-year leaks
+    if len(date_str) == 4 and date_str.isdigit():
+        return datetime(int(date_str), 1, 1)
+        
     try:
         return datetime.strptime(date_str, "%Y-%m-%d")
     except ValueError:
         try:
             return datetime.strptime(date_str, "%Y-%m")
         except ValueError:
-            try:
-                # Fallback for year-only metadata points
-                return datetime.strptime(date_str, "%Y")
-            except ValueError:
-                return None
+            return None
 
 def within_window(date_str, genre):
     track_date = parse_date(date_str)
@@ -107,7 +111,6 @@ def within_window(date_str, genre):
         return False
 
     limit_months = GENRE_RULES.get(genre, 4)
-    # Strict delta calculation against today's date stamp
     allowed_cutoff = datetime.utcnow() - timedelta(days=limit_months * 30)
     return track_date >= allowed_cutoff
 
@@ -115,13 +118,13 @@ def score_genre(genre, artist, name, all_artists_string=""):
     text = (artist + " " + name + " " + all_artists_string).lower()
     score = 0
 
-    if genre == "soca" and any(a.lower() in text for a in SOCA_ARTISTS): score += 3
-    if genre == "dancehall" and any(a.lower() in text for a in DANCEHALL_ARTISTS): score += 3
-    if genre == "afrobeats" and any(a.lower() in text for a in AFROBEATS_ARTISTS): score += 3
-    if genre == "bouyon" and any(a.lower() in text for a in BOUYON_ARTISTS): score += 3
+    if genre == "soca" and any(a.lower() in text for a in SOCA_ARTISTS): score += 15
+    if genre == "dancehall" and any(a.lower() in text for a in DANCEHALL_ARTISTS): score += 15
+    if genre == "afrobeats" and any(a.lower() in text for a in AFROBEATS_ARTISTS): score += 15
+    if genre == "bouyon" and any(a.lower() in text for a in BOUYON_ARTISTS): score += 15
 
     if genre in text:
-        score += 1
+        score += 5
 
     return score
 
@@ -153,7 +156,6 @@ def get_youtube_views(artist, track_name):
                 return int(video_items[0]["statistics"].get("viewCount", 0))
         return 0
     except Exception as e:
-        print(f" [API Quota/Network Fallback] Defaulting to Spotify popularity for: {artist} - {track_name}")
         return None
 
 # ==========================================
@@ -206,9 +208,9 @@ def get_playlist_tracks(pid):
 def run():
     final = {}
     
-    # Enforced sequential execution order to protect target boundaries
+    # Ordered execution to map protected boundaries smoothly
     ordered_genres = ["soca", "dancehall", "afrobeats", "bouyon"]
-    soca_locked_track_keys = set()
+    soca_locked_titles = set()
 
     for genre in ordered_genres:
         raw = []
@@ -254,64 +256,58 @@ def run():
             seen.add(key)
             tracks.append(t)
 
-        # STEP 3: Strict Timeframe Window Filtering (Calculated dynamically via calendar dates)
+        # STEP 3: Timeframe Window Filtering
         tracks = [t for t in tracks if within_window(t["release"], genre)]
 
-        # STEP 4: Advanced Cross-Genre Bleed & Blacklist Filtering
+        # STEP 4: Scoring and Isolation Logic
         candidates = []
         for t in tracks:
             artist_lower = t["artist"].lower()
             all_artists_lower = t["all_artists"].lower()
-            match_key = f"{t['artist']} - {t['name']}".lower()
+            title_sig = clean_string_signature(t["name"])
 
-            # BOUYON PROTECTION SCHEME
+            # BOUYON EXCLUSION LOGIC
             if genre == "bouyon":
-                # 1. Stop track from passing if it was already caught on the Soca chart
-                if match_key in soca_locked_track_keys:
+                # Check for clean title signature cross-bleed matching
+                if title_sig in soca_locked_titles:
                     continue
                 
-                # 2. Prevent Soca artist leakages unless an explicit Bouyon feature exists
+                # Strip out pure Soca configurations unless protected by an explicit Bouyon artist feature
                 if any(s_art.lower() in all_artists_lower for s_art in SOCA_ARTISTS):
                     if not any(b_art.lower() in all_artists_lower for b_art in BOUYON_ARTISTS):
                         continue
 
-            # AFROBEATS HIP HOP ISOLATION
+            # AFROBEATS STAR FILTERING
             if genre == "afrobeats":
                 if any(bl in artist_lower for bl in AFROBEATS_ARTIST_BLACKLIST):
                     if not any(real_afro.lower() in all_artists_lower for real_afro in AFROBEATS_ARTISTS):
                         continue
 
-            s = score_genre(genre, t["artist"], t["name"], t["all_artists"])
-            t["base_score"] = t["popularity"] * 10 + s * 5
-            candidates.append(t)
-
-        candidates = sorted(candidates, key=lambda x: x["base_score"], reverse=True)[:40]
-
-        # STEP 5: Dual Network Check
-        scored = []
-        for t in candidates:
+            # Normalized Popularity-First Scoring Math Engine
             s = score_genre(genre, t["artist"], t["name"], t["all_artists"])
             yt_views = get_youtube_views(t["artist"], t["name"])
             
             if yt_views is not None:
                 yt_pop_score = min(100, yt_views / 500)
-                combined_pop = (t["popularity"] * 0.5) + (yt_pop_score * 0.5)
-                t["score"] = combined_pop * 10 + s * 5
+                combined_popularity = (t["popularity"] * 0.5) + (yt_pop_score * 0.5)
             else:
-                t["score"] = t["base_score"]
-                
-            scored.append(t)
+                combined_popularity = t["popularity"]
 
-        # STEP 6: Final Sorting & Trimming
-        scored = sorted(scored, key=lambda x: x["score"], reverse=True)
-        final_selection = scored[:TARGET]
+            # Popularity provides the base weight scale; the genre match score functions strictly as a booster
+            t["final_score"] = combined_popularity + s
+            candidates.append(t)
 
-        # Update cross-genre verification flags if executing Soca loops
+        # STEP 5: Sorting & Evaluation Trim
+        # FIX: The list is sorted globally across the ENTIRE harvesting pool, avoiding the pre-slice bug
+        final_sorted = sorted(candidates, key=lambda x: x["final_score"], reverse=True)
+        final_selection = final_sorted[:TARGET]
+
+        # Log selection string definitions if executing Soca processing loops
         if genre == "soca":
             for track in final_selection:
-                soca_locked_track_keys.add(f"{track['artist']} - {track['name']}".lower())
+                soca_locked_titles.add(clean_string_signature(track["name"]))
 
-        # STEP 7: Map Payload Structure
+        # STEP 6: Format Final Response JSON Array Payload Structure
         output = []
         for i, t in enumerate(final_selection):
             output.append({
@@ -325,15 +321,11 @@ def run():
             })
 
         final[genre] = output
-        print(f"[{genre.upper()}] Success: Locked in {len(output)} pristine tracks.")
+        print(f"[{genre.upper()}] Success: Locked in {len(output)} processed tracks.")
 
     os.makedirs("data", exist_ok=True)
     with open("data/charts.json", "w") as f:
         json.dump(final, f, indent=2)
-
-# ==========================================
-# 8. PROCESS ENTRYPOINT
-# ==========================================
 
 if __name__ == "__main__":
     run()
