@@ -300,57 +300,57 @@ def run():
         # ==========================
         elif genre == "bouyon":
 
-    for artist_id in BOUYON_ARTISTS_IDS:
-        candidates += artist_tracks(artist_id)
+            for artist_id in BOUYON_ARTISTS_IDS:
+                candidates += artist_tracks(artist_id)
 
-    for pid in BOUYON_PLAYLISTS:
-        candidates += playlist_tracks(pid)
+            for pid in BOUYON_PLAYLISTS:
+                candidates += playlist_tracks(pid)
 
-    bouyon_queries = [
-        "bouyon",
-        "bouyon 2026",
-        "new bouyon",
-        "top bouyon",
-        "dominica bouyon",
-        "bouyon hits"
-    ]
+            bouyon_queries = [
+                "bouyon",
+                "bouyon 2026",
+                "new bouyon",
+                "top bouyon",
+                "dominica bouyon",
+                "bouyon hits"
+            ]
 
-    for q in bouyon_queries:
+            for q in bouyon_queries:
+        
+                for pid in search_playlists(q):
+                    candidates += playlist_tracks(pid)
 
-        for pid in search_playlists(q):
-            candidates += playlist_tracks(pid)
+            for artist_id in BOUYON_ARTISTS_IDS:
 
-    for artist_id in BOUYON_ARTISTS_IDS:
+                try:
 
-        try:
+                    artist = sp.artist(artist_id)
+                    artist_name = artist["name"]
 
-            artist = sp.artist(artist_id)
-            artist_name = artist["name"]
+                    results = sp.search(
+                        q=f'artist:"{artist_name}"',
+                        type="track",
+                        limit=50
+                    )
+        
+                    for t in results["tracks"]["items"]:
+        
+                        candidates.append({
+                            "id": t["id"],
+                            "name": t["name"],
+                            "artist": t["artists"][0]["name"],
+                            "artists_all": ", ".join(
+                                [a["name"] for a in t["artists"]]
+                            ),
+                            "release": t["album"]["release_date"],
+                            "image": t["album"]["images"][0]["url"]
+                                if t["album"]["images"] else "",
+                            "spotify_url": t["external_urls"]["spotify"],
+                            "popularity": t["popularity"]
+                        })
 
-            results = sp.search(
-                q=f'artist:"{artist_name}"',
-                type="track",
-                limit=50
-            )
-
-            for t in results["tracks"]["items"]:
-
-                candidates.append({
-                    "id": t["id"],
-                    "name": t["name"],
-                    "artist": t["artists"][0]["name"],
-                    "artists_all": ", ".join(
-                        [a["name"] for a in t["artists"]]
-                    ),
-                    "release": t["album"]["release_date"],
-                    "image": t["album"]["images"][0]["url"]
-                        if t["album"]["images"] else "",
-                    "spotify_url": t["external_urls"]["spotify"],
-                    "popularity": t["popularity"]
-                })
-
-        except Exception as e:
-            print(f"Bouyon search error: {e}")
+                except Exception as e:
+                    print(f"Bouyon search error: {e}")
 
         # ==========================
         # OTHER GENRES
