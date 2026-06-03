@@ -2,7 +2,6 @@ import os
 import json
 import urllib.request
 import urllib.parse
-import re
 from datetime import datetime, timedelta
 
 import spotipy
@@ -26,22 +25,43 @@ WINDOWS = {
 BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro", "roadmix"]
 MAINSTREAM_BLACKLIST = ["drake", "don toliver", "chris brown", "justin bieber", "ed sheeran"]
 
-# Genre specific queries
 PLAYLIST_QUERIES = {
     "dancehall": ["2026 dancehall", "new dancehall", "top dancehall"],
-    "afrobeats": ["2026 afrobeats", "new afrobeats", "top afrobeats"],
-    "bouyon": ["bouyon 2026", "new bouyon", "top bouyon"],
-    "soca": ["2026 soca", "new soca", "top soca"]
+    "afrobeats": ["2026 afrobeats", "new afrobeats", "top afrobeats"]
 }
 
 # ==========================================
-# 2. STRICT GENRE LISTS (FOR DISCOVERY)
+# 2. RESTORED USER ASSETS & TARGET ID MAPS
 # ==========================================
 
-SOCA_ARTISTS = [
-    "Machel Montano", "Kes", "Nailah Blackman",
-    "Voice", "Patrice Roberts", "Skinny Fabulous",
-    "Farmer Nappy", "Lyrikal", "Olatunji"
+BOUYON_ARTIST_IDS = [
+    "2eIEzwxBh1vDSSbUfZkeLL",
+    "3Oc7o3kzzpLium0YxZPVri",
+    "29DEO5ubNTmLbFSEZDP2we",
+    "0mpZpEH8VcL0tYoGLhR8sd",
+    "390GislU2lqdtKcuFMIvjK",
+    "6bEej9F7Pkkto542i9mran",
+    "1DpASCaDoS1AAKFHb6uldr",
+    "5Zjgfa0fywmVbwc5dPlScR",
+    "1DaLT7Mgy04h833FKXKGO0"
+]
+
+SOCA_PLAYLISTS = [
+    "1FvkIodyAGsGy0MSMjSnAr",
+    "3ugx3RitHXhWDiGTh7UUu2",
+    "4brkOclzIpXABVHLnesMJt"
+]
+
+SOCA_EXTRA_PLAYLISTS = [
+    "5kCjHM5mKmf7axrWecdkuz",
+    "1IfKtQ9akjh4oO0W3bQ11D",
+    "11unAoPberMGyLiE5yVPER"
+]
+
+BOUYON_PLAYLISTS = [
+    "4aZHZCd0KPtoxAGR8SPqtj",
+    "1DCCA3EVmxIXA4f68vaINS",
+    "27J36rBvTtvAcgeJMoqUrN"
 ]
 
 DANCEHALL_ARTISTS = [
@@ -54,15 +74,6 @@ AFROBEATS_ARTISTS = [
     "Wizkid", "Burna Boy", "Davido",
     "Rema", "Asake", "Tems",
     "Ayra Starr", "Fireboy DML", "Omah Lay", "Shallipopi", "SeyVez"
-]
-
-# Explicitly mapping specific artists to Bouyon to prevent Soca bleed
-BOUYON_ARTISTS = [
-    "1T1", "Miimii KDS", "Blackboy",
-    "Ridge", "Quan", "Jessie",
-    "Triple Kay", "Reo",
-    "Maureen", "Lé Will", "Deuspi", 
-    "O Banga", "Trixx", "Home Grown Studio", "Tydi S"
 ]
 
 # ==========================================
@@ -138,50 +149,94 @@ def get_youtube_views(artist, track_name):
 # 5. DISCOVERY ENGINE (FETCH & FILTER)
 # ==========================================
 
-def discover_tracks(genre, global_bouyon_cache):
+def discover_tracks(genre, global_used_tracks):
     raw_tracks = {}
 
-    # 1. Search by Core Artists
-    artist_list = []
-    if genre == "bouyon": artist_list = BOUYON_ARTISTS
-    elif genre == "soca": artist_list = SOCA_ARTISTS
-    elif genre == "dancehall": artist_list = DANCEHALL_ARTISTS
-    elif genre == "afrobeats": artist_list = AFROBEATS_ARTISTS
-
-    for artist in artist_list:
-        try:
-            res = sp.search(q=f"artist:{artist}", type="track", limit=20)
-            for t in res["tracks"]["items"]:
-                process_track(t, raw_tracks)
-        except Exception:
-            pass
-
-    # 2. Search by Playlists
-    for q in PLAYLIST_QUERIES.get(genre, []):
-        try:
-            res = sp.search(q=q, type="playlist", limit=3)
-            for p in res["playlists"]["items"]:
-                if not p: continue
-                p_tracks = sp.playlist_items(p["id"])
+    # --- BOUYON DISCOVERY ---
+    if genre == "bouyon":
+        for a_id in BOUYON_ARTIST_IDS:
+            try:
+                res = sp.artist_top_tracks(a_id)
+                for t in res["tracks"]:
+                    process_track(t, raw_tracks)
+            except Exception:
+                pass
+        for p_id in BOUYON_PLAYLISTS:
+            try:
+                p_tracks = sp.playlist_items(p_id)
                 for item in p_tracks.get("items", []):
                     if item.get("track"): process_track(item["track"], raw_tracks)
-        except Exception:
-            pass
+            except Exception:
+                pass
 
-    # 3. Filter by Time Window and Genre Rules
+    # --- SOCA DISCOVERY ---
+    elif genre == "soca":
+        all_soca_playlists = SOCA_PLAYLISTS + SOCA_EXTRA_PLAYLISTS
+        for p_id in all_soca_playlists:
+            try:
+                p_tracks = sp.playlist_items(p_id)
+                for item in p_tracks.get("items", []):
+                    if item.get("track"): process_track(item["track"], raw_tracks)
+            except Exception:
+                pass
+
+    # --- DANCEHALL DISCOVERY ---
+    elif genre == "dancehall":
+        for artist in DANCEHALL_ARTISTS:
+            try:
+                res = sp.search(q=f"artist:{artist}", type="track", limit=15)
+                for t in res["tracks"]["items"]:
+                    process_track(t, raw_tracks)
+            except Exception:
+                pass
+        for q in PLAYLIST_QUERIES["dancehall"]:
+            try:
+                res = sp.search(q=q, type="playlist", limit=2)
+                for p in res["playlists"]["items"]:
+                    if not p: continue
+                    p_tracks = sp.playlist_items(p["id"])
+                    for item in p_tracks.get("items", []):
+                        if item.get("track"): process_track(item["track"], raw_tracks)
+            except Exception:
+                pass
+
+    # --- AFROBEATS DISCOVERY ---
+    elif genre == "afrobeats":
+        for artist in AFROBEATS_ARTISTS:
+            try:
+                res = sp.search(q=f"artist:{artist}", type="track", limit=15)
+                for t in res["tracks"]["items"]:
+                    process_track(t, raw_tracks)
+            except Exception:
+                pass
+        for q in PLAYLIST_QUERIES["afrobeats"]:
+            try:
+                res = sp.search(q=q, type="playlist", limit=2)
+                for p in res["playlists"]["items"]:
+                    if not p: continue
+                    p_tracks = sp.playlist_items(p["id"])
+                    for item in p_tracks.get("items", []):
+                        if item.get("track"): process_track(item["track"], raw_tracks)
+            except Exception:
+                pass
+
+    # --- PROCESSING AND FILTERING ---
     filtered = []
     for t_id, t in raw_tracks.items():
+        if t_id in global_used_tracks:
+            continue
+            
         if not within_window(t["release"], genre): continue
         if not clean(t["name"]): continue
 
         all_artists_lower = t["all_artists"].lower()
         
-        # RULE: No Bouyon tracks/artists in Soca
+        # RULE: Explicit Bouyon separation filter for Soca protection using ONLY IDs
         if genre == "soca":
-            if t_id in global_bouyon_cache or any(b.lower() in all_artists_lower for b in BOUYON_ARTISTS):
+            if t["artist_id"] in BOUYON_ARTIST_IDS:
                 continue
 
-        # RULE: Afrobeats mainstream block (Unless Afrobeats artist is featured)
+        # RULE: Afrobeats mainstream filtering blocker
         if genre == "afrobeats":
             if any(m in all_artists_lower for m in MAINSTREAM_BLACKLIST):
                 if not any(a.lower() in all_artists_lower for a in AFROBEATS_ARTISTS):
@@ -189,19 +244,20 @@ def discover_tracks(genre, global_bouyon_cache):
 
         filtered.append(t)
 
-    # 4. Return Top 30 by Raw Spotify Popularity for the Discovery Pool
     filtered.sort(key=lambda x: x["popularity"], reverse=True)
     return filtered[:POOL_SIZE]
 
 def process_track(t, storage_dict):
-    if not t or not t.get("name"): return
+    if not t or not t.get("name") or not t.get("id"): return
     primary_artist = t["artists"][0]["name"] if t["artists"] else "Unknown"
+    primary_artist_id = t["artists"][0]["id"] if t["artists"] else ""
     all_artists = ", ".join([a["name"] for a in t["artists"]])
     
     storage_dict[t["id"]] = {
         "id": t["id"],
         "name": t["name"],
         "artist": primary_artist,
+        "artist_id": primary_artist_id,
         "all_artists": all_artists,
         "release": t["album"]["release_date"],
         "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
@@ -220,32 +276,24 @@ def run():
     rosters = state.get("rosters", {})
     final_charts = {}
     
-    global_bouyon_cache = set()
-
-    ordered_genres = ["bouyon", "soca", "dancehall", "afrobeats"]
+    global_used_tracks = set()
+    ordered_genres = ["bouyon", "dancehall", "soca", "afrobeats"]
 
     for genre in ordered_genres:
         print(f"Executing pipeline for: {genre.upper()}")
         
-        # 1. Discover the Top 30 recent tracks
-        discovered_top_30 = discover_tracks(genre, global_bouyon_cache)
-        
-        if genre == "bouyon":
-            global_bouyon_cache = {t["id"] for t in discovered_top_30}
-
-        # 2. Build the Evaluation Pool
+        discovered_top_30 = discover_tracks(genre, global_used_tracks)
         evaluation_pool = []
         current_roster = rosters.get(genre, [])
         
+        current_roster = [t for t in current_roster if t["id"] not in global_used_tracks]
+        
         if not current_roster:
-            # WEEK 1: Evaluate all 30 discovered tracks
             evaluation_pool = discovered_top_30
         else:
-            # MOVING FORWARD: Keep the 25 current tracks
             evaluation_pool = [t for t in current_roster]
             current_ids = {t["id"] for t in current_roster}
             
-            # Find the top 5 NEW tracks from discovery to challenge them
             challengers_added = 0
             for dt in discovered_top_30:
                 if dt["id"] not in current_ids:
@@ -254,65 +302,9 @@ def run():
                 if challengers_added == CHALLENGERS:
                     break
 
-        # 3. Capture Current Views and Calculate Deltas
         for track in evaluation_pool:
             t_id = track["id"]
             current_yt = get_youtube_views(track["artist"], track["name"])
             current_sp = track["popularity"]
             
-            # Fetch past data, default to current if it's new (Week 1 or new challenger)
-            past_data = history.get(t_id, {"yt": current_yt, "sp": current_sp})
-            
-            # Calculate Velocity (Delta)
-            yt_delta = max(0, current_yt - past_data["yt"])
-            sp_delta = max(0, current_sp - past_data["sp"])
-            
-            # Scale factor to combine 0-100 Spotify popularity with raw YouTube views
-            # 80% YT Delta / 20% Spotify Delta
-            yt_score = yt_delta * 0.8
-            sp_score = (sp_delta * 1000) * 0.2 # Scaled to create meaningful impact
-            
-            track["final_score"] = yt_score + sp_score
-            
-            # Update history cache for next week
-            history[t_id] = {"yt": current_yt, "sp": current_sp}
-
-        # 4. Sort Pool, Drop Lowest 5, Lock Top 25
-        evaluation_pool.sort(key=lambda x: x["final_score"], reverse=True)
-        locked_top_25 = evaluation_pool[:TARGET]
-        
-        # 5. Format Output & Determine Historical Rank
-        output = []
-        past_roster_map = {t["id"]: i+1 for i, t in enumerate(current_roster)}
-        
-        for i, track in enumerate(locked_top_25):
-            old_rank = past_roster_map.get(track["id"])
-            history_display = f"Last Spot: #{old_rank}" if old_rank else "New"
-            
-            output.append({
-                "rank": i + 1,
-                "name": track["name"],
-                "artist": track["artist"],
-                "image": track["image"],
-                "preview": track["preview"],
-                "spotify_url": track["spotify_url"],
-                "history": history_display
-            })
-
-        # Save to memory for file writing
-        rosters[genre] = locked_top_25
-        final_charts[genre] = output
-        print(f"[{genre.upper()}] Locked top 25.")
-
-    # 6. Save State and Outputs
-    state["history"] = history
-    state["rosters"] = rosters
-    save_state(state)
-    
-    with open(CHART_FILE, "w") as f:
-        json.dump(final_charts, f, indent=2)
-        
-    print("Chart pipeline execution complete.")
-
-if __name__ == "__main__":
-    run()
+            past
