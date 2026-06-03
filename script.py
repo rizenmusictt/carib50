@@ -60,4 +60,17 @@ SOCA_ARTIST_IDS = [
     "56BHYURgbka2nQbBy8XZ3x",
     "1qKzKUnuQsjB83hBZffoq0",
     "3uqI1IbL5XKd3Lf8FVSZWH",
-    "27GA6NMM69byd5ankSWsXw
+    "27GA6NMM69byd5ankSWsXw",
+    "4OD7vSNDpVB2VxTbifT8fG",
+    "7ymbjgoFo1FSdcVCKjxQUn",
+    "0KnjqOM3FNDO3SUSKWRDLj"
+]
+
+DANCEHALL_ARTIST_IDS = [
+    "2NUz5P42WqkxilbI8ocN76",
+    "1OFOShsIbhy1l5x73yuVyB",
+    "1fctva4kpRbg2k3v7kwRuS",
+    "08erObvNX7rs7d4pbuaRCQ",
+    "2LIAgeQ5NZurwixfoG3CWZ",
+    "7dvG18F378r7HRxmiHn3ti",
+    "2Gzy8TYJ5xrEM
