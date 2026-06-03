@@ -391,6 +391,70 @@
     "1juUeg0oAfCwO8xWj4rzZg": {
       "yt": 0,
       "sp": 73
+    },
+    "4onsTLPguzjaH4OTrwbOgz": {
+      "yt": 0,
+      "sp": 51
+    },
+    "2TsxB3ShJ2bhtwPKc2opb2": {
+      "yt": 0,
+      "sp": 48
+    },
+    "3pKN61bWnMmYKw42dAJ9SZ": {
+      "yt": 0,
+      "sp": 38
+    },
+    "2VcyupmNVZrfTdSNJZg8SO": {
+      "yt": 0,
+      "sp": 34
+    },
+    "6SEigAO9wEl4YcrHdCr6eg": {
+      "yt": 0,
+      "sp": 34
+    },
+    "6usphpoSCVuYUVSMq8sHkt": {
+      "yt": 0,
+      "sp": 60
+    },
+    "7M0LA37GOq8SAUX4TWWHov": {
+      "yt": 0,
+      "sp": 60
+    },
+    "74My9unxFHLmvw0ezYZTBO": {
+      "yt": 0,
+      "sp": 54
+    },
+    "7ggkVz9pUuJ6w7K7jQisTS": {
+      "yt": 0,
+      "sp": 50
+    },
+    "23asgIQczGVPFN6v9thXwj": {
+      "yt": 0,
+      "sp": 48
+    },
+    "54FEi3GgVDVxPSxGrLlJ11": {
+      "yt": 0,
+      "sp": 41
+    },
+    "09YN1i8XDAfOwifCSmz81L": {
+      "yt": 0,
+      "sp": 40
+    },
+    "3GsXQlYbTRA1jGsilub0Rj": {
+      "yt": 0,
+      "sp": 40
+    },
+    "5xFnqGLySijRJ2q6som381": {
+      "yt": 0,
+      "sp": 79
+    },
+    "13tBZxRsywcJPDo4w7DtEd": {
+      "yt": 0,
+      "sp": 77
+    },
+    "4KIRA3oOWWyYhuQkuoHnFr": {
+      "yt": 0,
+      "sp": 74
     }
   },
   "rosters": {
@@ -791,6 +855,71 @@
         "preview": null,
         "spotify_url": "https://open.spotify.com/track/0qvGRnLdTGshLuXekrWsAb",
         "popularity": 4,
+        "final_score": 0.0
+      },
+      {
+        "id": "7ggkVz9pUuJ6w7K7jQisTS",
+        "name": "Trouble (She Hate Men) - Demo",
+        "artist": "DREJ",
+        "artist_id": "7EmIUQO16ShAglPTjy1vWT",
+        "all_artists": "DREJ",
+        "release": "2026-05-01",
+        "image": "https://i.scdn.co/image/ab67616d0000b27319a3d39471d5d942f5922641",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/7ggkVz9pUuJ6w7K7jQisTS",
+        "popularity": 50,
+        "final_score": 0.0
+      },
+      {
+        "id": "23asgIQczGVPFN6v9thXwj",
+        "name": "Weatherman 3style",
+        "artist": "Jordan English",
+        "artist_id": "7kAGcHkpYvc69uFQ3YZncW",
+        "all_artists": "Jordan English",
+        "release": "2026-02-17",
+        "image": "https://i.scdn.co/image/ab67616d0000b27328597b059ac5517b8bc7935f",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/23asgIQczGVPFN6v9thXwj",
+        "popularity": 48,
+        "final_score": 0.0
+      },
+      {
+        "id": "54FEi3GgVDVxPSxGrLlJ11",
+        "name": "Clock Dat",
+        "artist": "Vybz Kartel",
+        "artist_id": "2NUz5P42WqkxilbI8ocN76",
+        "all_artists": "Vybz Kartel, Yung Bredda",
+        "release": "2026-02-27",
+        "image": "https://i.scdn.co/image/ab67616d0000b27363153cb57b0ec7fcce5bd13e",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/54FEi3GgVDVxPSxGrLlJ11",
+        "popularity": 41,
+        "final_score": 0.0
+      },
+      {
+        "id": "09YN1i8XDAfOwifCSmz81L",
+        "name": "Encore",
+        "artist": "Machel Montano",
+        "artist_id": "6wxP7SSzfvi21Cnl8JicdQ",
+        "all_artists": "Machel Montano",
+        "release": "2026-02-06",
+        "image": "https://i.scdn.co/image/ab67616d0000b27343cc7c3481290c24a5a7c7bb",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/09YN1i8XDAfOwifCSmz81L",
+        "popularity": 40,
+        "final_score": 0.0
+      },
+      {
+        "id": "3GsXQlYbTRA1jGsilub0Rj",
+        "name": "By My Side",
+        "artist": "Fuse ODG",
+        "artist_id": "374sWpAJsbZckf98df2jJJ",
+        "all_artists": "Fuse ODG",
+        "release": "2026-02-13",
+        "image": "https://i.scdn.co/image/ab67616d0000b2739b3dae0ad6b271a21b617019",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/3GsXQlYbTRA1jGsilub0Rj",
+        "popularity": 40,
         "final_score": 0.0
       }
     ],
