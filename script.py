@@ -25,14 +25,13 @@ WINDOWS = {
 BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro", "roadmix"]
 MAINSTREAM_BLACKLIST = ["drake", "don toliver", "chris brown", "justin bieber", "ed sheeran"]
 
-# Dynamic playlist backup queries if specific targets aren't pinned
 PLAYLIST_QUERIES = {
     "dancehall": ["2026 dancehall", "new dancehall", "top dancehall"],
     "afrobeats": ["2026 afrobeats", "new afrobeats", "top afrobeats"]
 }
 
 # ==========================================
-# 2. RESTORED USER ASSETS & TARGET ID MAPS
+# 2. FIXED ARRAYS & EXCLUSIVE ID MAPS
 # ==========================================
 
 BOUYON_ARTIST_IDS = [
@@ -196,7 +195,6 @@ def get_youtube_views(artist, track_name):
 def discover_tracks(genre, global_used_tracks):
     raw_tracks = {}
 
-    # --- BOUYON DISCOVERY ---
     if genre == "bouyon":
         for a_id in BOUYON_ARTIST_IDS:
             try:
@@ -213,7 +211,6 @@ def discover_tracks(genre, global_used_tracks):
             except Exception:
                 pass
 
-    # --- DANCEHALL DISCOVERY ---
     elif genre == "dancehall":
         for a_id in DANCEHALL_ARTIST_IDS:
             try:
@@ -233,7 +230,6 @@ def discover_tracks(genre, global_used_tracks):
             except Exception:
                 pass
 
-    # --- SOCA DISCOVERY ---
     elif genre == "soca":
         for a_id in SOCA_ARTIST_IDS:
             try:
@@ -251,7 +247,6 @@ def discover_tracks(genre, global_used_tracks):
             except Exception:
                 pass
 
-    # --- AFROBEATS DISCOVERY ---
     elif genre == "afrobeats":
         for a_id in AFROBEATS_ARTIST_IDS:
             try:
@@ -271,7 +266,6 @@ def discover_tracks(genre, global_used_tracks):
             except Exception:
                 pass
 
-    # --- PROCESSING AND FILTERING ---
     filtered = []
     for t_id, t in raw_tracks.items():
         if t_id in global_used_tracks:
@@ -282,15 +276,12 @@ def discover_tracks(genre, global_used_tracks):
 
         all_artists_lower = t["all_artists"].lower()
         
-        # RULE: Absolute exclusion of Bouyon IDs from Soca space
         if genre == "soca":
             if t["artist_id"] in BOUYON_ARTIST_IDS:
                 continue
 
-        # RULE: Afrobeats mainstream filtering blocker
         if genre == "afrobeats":
             if any(m in all_artists_lower for m in MAINSTREAM_BLACKLIST):
-                # Only allow if a verified core Afrobeats artist ID is part of the track metadata
                 if t["artist_id"] not in AFROBEATS_ARTIST_IDS:
                     continue
 
@@ -311,79 +302,4 @@ def process_track(t, storage_dict):
         "artist": primary_artist,
         "artist_id": primary_artist_id,
         "all_artists": all_artists,
-        "release": t["album"]["release_date"],
-        "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
-        "preview": t.get("preview_url"),
-        "spotify_url": t["external_urls"]["spotify"],
-        "popularity": t["popularity"]
-    }
-
-# ==========================================
-# 6. SCORING & PIPELINE EXECUTION
-# ==========================================
-
-def run():
-    state = load_state()
-    history = state.get("history", {})
-    rosters = state.get("rosters", {})
-    final_charts = {}
-    
-    global_used_tracks = set()
-    
-    # EXECUTION SEQUENCE: Bouyon -> Dancehall -> Soca -> Afrobeats
-    ordered_genres = ["bouyon", "dancehall", "soca", "afrobeats"]
-
-    for genre in ordered_genres:
-        print(f"Executing pipeline for: {genre.upper()}")
-        
-        discovered_top_30 = discover_tracks(genre, global_used_tracks)
-        evaluation_pool = []
-        current_roster = rosters.get(genre, [])
-        
-        current_roster = [t for t in current_roster if t["id"] not in global_used_tracks]
-        
-        if not current_roster:
-            evaluation_pool = discovered_top_30
-        else:
-            evaluation_pool = [t for t in current_roster]
-            current_ids = {t["id"] for t in current_roster}
-            
-            challengers_added = 0
-            for dt in discovered_top_30:
-                if dt["id"] not in current_ids:
-                    evaluation_pool.append(dt)
-                    challengers_added += 1
-                if challengers_added == CHALLENGERS:
-                    break
-
-        for track in evaluation_pool:
-            t_id = track["id"]
-            current_yt = get_youtube_views(track["artist"], track["name"])
-            current_sp = track["popularity"]
-            
-            past_data = history.get(t_id, {"yt": current_yt, "sp": current_sp})
-            
-            yt_delta = max(0, current_yt - past_data["yt"])
-            sp_delta = max(0, current_sp - past_data["sp"])
-            
-            yt_score = yt_delta * 0.8
-            sp_score = (sp_delta * 1000) * 0.2 
-            
-            track["final_score"] = yt_score + sp_score
-            history[t_id] = {"yt": current_yt, "sp": current_sp}
-
-        evaluation_pool.sort(key=lambda x: x["final_score"], reverse=True)
-        locked_top_25 = evaluation_pool[:TARGET]
-        
-        for locked_track in locked_top_25:
-            global_used_tracks.add(locked_track["id"])
-        
-        output = []
-        past_roster_map = {t["id"]: i+1 for i, t in enumerate(current_roster)}
-        
-        for i, track in enumerate(locked_top_25):
-            old_rank = past_roster_map.get(track["id"])
-            history_display = f"Last Spot: #{old_rank}" if old_rank else "New"
-            
-            output.append({
-                "rank": i + 1,
+        "release": t
