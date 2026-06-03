@@ -25,6 +25,7 @@ WINDOWS = {
 BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro", "roadmix"]
 MAINSTREAM_BLACKLIST = ["drake", "don toliver", "chris brown", "justin bieber", "ed sheeran"]
 
+# Dynamic playlist backup queries if specific targets aren't pinned
 PLAYLIST_QUERIES = {
     "dancehall": ["2026 dancehall", "new dancehall", "top dancehall"],
     "afrobeats": ["2026 afrobeats", "new afrobeats", "top afrobeats"]
@@ -46,6 +47,61 @@ BOUYON_ARTIST_IDS = [
     "1DaLT7Mgy04h833FKXKGO0"
 ]
 
+SOCA_ARTIST_IDS = [
+    "6wxP7SSzfvi21Cnl8JicdQ",
+    "7E6r9S8qCRfZVCjF1A8do6",
+    "0crMctn4iXaE3XCHpeBkOt",
+    "1K23l3n63BTCtIMm0TyS4c",
+    "61buXyJGplh38VDpEaB2ds",
+    "6nPHDCN7qmxO86eN1grP54",
+    "4nLVEYSAcpANC0BV87P4rd",
+    "5WYAHpwcYoSdCz5nXebrKn",
+    "10AVFI86WCq4tNhY31g6FL",
+    "1lE1SGLNabSpBbJB9A9qtU",
+    "56BHYURgbka2nQbBy8XZ3x",
+    "1qKzKUnuQsjB83hBZffoq0",
+    "3uqI1IbL5XKd3Lf8FVSZWH",
+    "27GA6NMM69byd5ankSWsXw",
+    "4OD7vSNDpVB2VxTbifT8fG",
+    "7ymbjgoFo1FSdcVCKjxQUn",
+    "0KnjqOM3FNDO3SUSKWRDLj"
+]
+
+DANCEHALL_ARTIST_IDS = [
+    "2NUz5P42WqkxilbI8ocN76",
+    "1OFOShsIbhy1l5x73yuVyB",
+    "1fctva4kpRbg2k3v7kwRuS",
+    "08erObvNX7rs7d4pbuaRCQ",
+    "2LIAgeQ5NZurwixfoG3CWZ",
+    "7dvG18F378r7HRxmiHn3ti",
+    "2Gzy8TYJ5xrEMDyUjZuDsK",
+    "2v6V75NbousiJwy2HV44VL",
+    "62DmErcU7dqZbJaDqwsqzR",
+    "4ULg9wVZKb01ORw7AIZBDR",
+    "2WyypmYjOdaXg0bXDP67j7",
+    "5FrdcC0audM19v7r1GQx4P",
+    "3nwYsifpwrKmCIpw4i0HDW",
+    "48ZXHIYtqeBiklzhu3lAey",
+    "4SGo67MJz6DdsjzaRZ4OD7",
+    "5FkUhnHQ0KC63549LHHtst",
+    "0eezS9KmhdjGN436RdTIXu",
+    "63o6Z7qrOen7eLbmYOx7gt"
+]
+
+AFROBEATS_ARTIST_IDS = [
+    "5yOvAmpIR7hVxiS6Ls5DPO",
+    "3tVQdUvClmAT7URs9V3rsp",
+    "3a1tBryiczPAZpgoZN9Rzg",
+    "3zaDigUwjHvjOkSn0NDf9x",
+    "2hVWBpjLW4Q7fboYz2pVYK",
+    "3ZpEKRjHaHANcpk10u6Ntq",
+    "5k9IrMHs9Jfpk8A94Ta7nR",
+    "1XavfPKBpNjkOfxHINlMHF",
+    "3SozjO3Lat463tQICI9LcE",
+    "687cZJR45JO7jhk1LHIbgq",
+    "46pWGuE3dSwY3bMMXGBvVS"
+]
+
 SOCA_PLAYLISTS = [
     "1FvkIodyAGsGy0MSMjSnAr",
     "3ugx3RitHXhWDiGTh7UUu2",
@@ -62,18 +118,6 @@ BOUYON_PLAYLISTS = [
     "4aZHZCd0KPtoxAGR8SPqtj",
     "1DCCA3EVmxIXA4f68vaINS",
     "27J36rBvTtvAcgeJMoqUrN"
-]
-
-DANCEHALL_ARTISTS = [
-    "Vybz Kartel", "Popcaan", "Masicka",
-    "Skillibeng", "Shenseea", "Alkaline",
-    "Skeng", "Valiant", "RajahWild"
-]
-
-AFROBEATS_ARTISTS = [
-    "Wizkid", "Burna Boy", "Davido",
-    "Rema", "Asake", "Tems",
-    "Ayra Starr", "Fireboy DML", "Omah Lay", "Shallipopi", "SeyVez"
 ]
 
 # ==========================================
@@ -169,23 +213,12 @@ def discover_tracks(genre, global_used_tracks):
             except Exception:
                 pass
 
-    # --- SOCA DISCOVERY ---
-    elif genre == "soca":
-        all_soca_playlists = SOCA_PLAYLISTS + SOCA_EXTRA_PLAYLISTS
-        for p_id in all_soca_playlists:
-            try:
-                p_tracks = sp.playlist_items(p_id)
-                for item in p_tracks.get("items", []):
-                    if item.get("track"): process_track(item["track"], raw_tracks)
-            except Exception:
-                pass
-
     # --- DANCEHALL DISCOVERY ---
     elif genre == "dancehall":
-        for artist in DANCEHALL_ARTISTS:
+        for a_id in DANCEHALL_ARTIST_IDS:
             try:
-                res = sp.search(q=f"artist:{artist}", type="track", limit=15)
-                for t in res["tracks"]["items"]:
+                res = sp.artist_top_tracks(a_id)
+                for t in res["tracks"]:
                     process_track(t, raw_tracks)
             except Exception:
                 pass
@@ -200,12 +233,30 @@ def discover_tracks(genre, global_used_tracks):
             except Exception:
                 pass
 
+    # --- SOCA DISCOVERY ---
+    elif genre == "soca":
+        for a_id in SOCA_ARTIST_IDS:
+            try:
+                res = sp.artist_top_tracks(a_id)
+                for t in res["tracks"]:
+                    process_track(t, raw_tracks)
+            except Exception:
+                pass
+        all_soca_playlists = SOCA_PLAYLISTS + SOCA_EXTRA_PLAYLISTS
+        for p_id in all_soca_playlists:
+            try:
+                p_tracks = sp.playlist_items(p_id)
+                for item in p_tracks.get("items", []):
+                    if item.get("track"): process_track(item["track"], raw_tracks)
+            except Exception:
+                pass
+
     # --- AFROBEATS DISCOVERY ---
     elif genre == "afrobeats":
-        for artist in AFROBEATS_ARTISTS:
+        for a_id in AFROBEATS_ARTIST_IDS:
             try:
-                res = sp.search(q=f"artist:{artist}", type="track", limit=15)
-                for t in res["tracks"]["items"]:
+                res = sp.artist_top_tracks(a_id)
+                for t in res["tracks"]:
                     process_track(t, raw_tracks)
             except Exception:
                 pass
@@ -231,7 +282,7 @@ def discover_tracks(genre, global_used_tracks):
 
         all_artists_lower = t["all_artists"].lower()
         
-        # RULE: Explicit Bouyon separation filter for Soca protection using ONLY IDs
+        # RULE: Absolute exclusion of Bouyon IDs from Soca space
         if genre == "soca":
             if t["artist_id"] in BOUYON_ARTIST_IDS:
                 continue
@@ -239,7 +290,8 @@ def discover_tracks(genre, global_used_tracks):
         # RULE: Afrobeats mainstream filtering blocker
         if genre == "afrobeats":
             if any(m in all_artists_lower for m in MAINSTREAM_BLACKLIST):
-                if not any(a.lower() in all_artists_lower for a in AFROBEATS_ARTISTS):
+                # Only allow if a verified core Afrobeats artist ID is part of the track metadata
+                if t["artist_id"] not in AFROBEATS_ARTIST_IDS:
                     continue
 
         filtered.append(t)
@@ -277,6 +329,8 @@ def run():
     final_charts = {}
     
     global_used_tracks = set()
+    
+    # EXECUTION SEQUENCE: Bouyon -> Dancehall -> Soca -> Afrobeats
     ordered_genres = ["bouyon", "dancehall", "soca", "afrobeats"]
 
     for genre in ordered_genres:
@@ -307,4 +361,29 @@ def run():
             current_yt = get_youtube_views(track["artist"], track["name"])
             current_sp = track["popularity"]
             
-            past
+            past_data = history.get(t_id, {"yt": current_yt, "sp": current_sp})
+            
+            yt_delta = max(0, current_yt - past_data["yt"])
+            sp_delta = max(0, current_sp - past_data["sp"])
+            
+            yt_score = yt_delta * 0.8
+            sp_score = (sp_delta * 1000) * 0.2 
+            
+            track["final_score"] = yt_score + sp_score
+            history[t_id] = {"yt": current_yt, "sp": current_sp}
+
+        evaluation_pool.sort(key=lambda x: x["final_score"], reverse=True)
+        locked_top_25 = evaluation_pool[:TARGET]
+        
+        for locked_track in locked_top_25:
+            global_used_tracks.add(locked_track["id"])
+        
+        output = []
+        past_roster_map = {t["id"]: i+1 for i, t in enumerate(current_roster)}
+        
+        for i, track in enumerate(locked_top_25):
+            old_rank = past_roster_map.get(track["id"])
+            history_display = f"Last Spot: #{old_rank}" if old_rank else "New"
+            
+            output.append({
+                "rank": i + 1,
