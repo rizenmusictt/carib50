@@ -1,9 +1,9 @@
 import os
 import json
 from datetime import datetime, timedelta
-
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import urllib.request, urllib.parse
 
 # ==================================================
 # CONFIG
@@ -19,26 +19,25 @@ WINDOWS = {
     "bouyon": 6
 }
 
+BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro"]
+
 # ==================================================
-# DATA SOURCES
+# STRICT GENRE LOCK SYSTEM
 # ==================================================
 
-SOCA_PLAYLISTS = [
-    "1FvkIodyAGsGy0MSMjSnAr",
-    "3ugx3RitHXhWDiGTh7UUu2",
-    "4brkOclzIpXABVHLnesMJt"
+SOCA_ARTISTS = [
+    "Machel Montano", "Kes", "Nailah Blackman",
+    "Voice", "Patrice Roberts", "Skinny Fabulous"
 ]
 
-SOCA_EXTRA_PLAYLISTS = [
-    "5kCjHM5mKmf7axrWecdkuz",
-    "1IfKtQ9akjh4oO0W3bQ11D",
-    "11unAoPberMGyLiE5yVPER"
+DANCEHALL_ARTISTS = [
+    "Vybz Kartel", "Popcaan", "Masicka",
+    "Skillibeng", "Shenseea", "Alkaline", "Skeng", "Valiant"
 ]
 
-BOUYON_PLAYLISTS = [
-    "4aZHZCd0KPtoxAGR8SPqtj",
-    "1DCCA3EVmxIXA4f68vaINS",
-    "27J36rBvTtvAcgeJMoqUrN"
+AFROBEATS_ARTISTS = [
+    "Wizkid", "Burna Boy", "Davido",
+    "Rema", "Asake", "Tems", "Ayra Starr"
 ]
 
 BOUYON_ARTIST_IDS = [
@@ -53,25 +52,8 @@ BOUYON_ARTIST_IDS = [
     "1DaLT7Mgy04h833FKXKGO0"
 ]
 
-SOCA_ARTISTS = [
-    "Machel Montano", "Kes", "Nailah Blackman",
-    "Voice", "Patrice Roberts", "Skinny Fabulous"
-]
-
-DANCEHALL_ARTISTS = [
-    "Vybz Kartel", "Popcaan", "Masicka",
-    "Skillibeng", "Shenseea", "Alkaline"
-]
-
-AFROBEATS_ARTISTS = [
-    "Wizkid", "Burna Boy", "Davido",
-    "Rema", "Asake", "Tems", "Ayra Starr"
-]
-
-BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro"]
-
 # ==================================================
-# INIT SPOTIFY
+# SPOTIFY INIT
 # ==================================================
 
 sp = spotipy.Spotify(
@@ -104,21 +86,19 @@ def parse_date(d):
 def within_window(date_str, genre):
     d = parse_date(date_str)
     if not d:
-        return False
+        return True  # SAFE fallback (prevents empty charts)
     return d >= datetime.utcnow() - timedelta(days=WINDOWS[genre] * 30)
 
 
-def normalize(x, max_val=100):
-    return min(max_val, x / 1000)
+def safe(t, key, fallback):
+    return t.get(key) if t.get(key) is not None else fallback
 
 
 # ==================================================
-# YOUTUBE (OPTIONAL FALLBACK SAFE)
+# YOUTUBE (SAFE OPTIONAL LAYER)
 # ==================================================
 
 def get_youtube_views(track, artist):
-    import urllib.request, urllib.parse
-
     api_key = os.environ.get("YOUTUBE_API_KEY")
     if not api_key:
         return None
@@ -148,7 +128,7 @@ def get_youtube_views(track, artist):
 
 
 # ==================================================
-# SPOTIFY DISCOVERY
+# SPOTIFY DATA
 # ==================================================
 
 def playlist_tracks(pid):
@@ -158,7 +138,6 @@ def playlist_tracks(pid):
         return []
 
     out = []
-
     for item in res.get("items", []):
         t = item.get("track")
         if not t or not t.get("name"):
@@ -168,33 +147,14 @@ def playlist_tracks(pid):
             "id": t["id"],
             "name": t["name"],
             "artist": t["artists"][0]["name"],
+            "artist_id": t["artists"][0]["id"] if t["artists"] else "",
             "release": t["album"]["release_date"],
-            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
+            "image": safe(t["album"]["images"][0] if t["album"]["images"] else {}, "url", ""),
+            "preview": t.get("preview_url"),
             "spotify_url": t["external_urls"]["spotify"],
-            "popularity": t["popularity"]
+            "popularity": t.get("popularity", 0)
         })
 
-    return out
-
-
-def artist_tracks(artist_id):
-    out = []
-    try:
-        albums = sp.artist_albums(artist_id, limit=20)
-        for a in albums["items"]:
-            tracks = sp.album_tracks(a["id"])
-            for t in tracks["items"]:
-                out.append({
-                    "id": t["id"],
-                    "name": t["name"],
-                    "artist": t["artists"][0]["name"],
-                    "release": a["release_date"],
-                    "image": "",
-                    "spotify_url": "",
-                    "popularity": 0
-                })
-    except:
-        pass
     return out
 
 
@@ -202,58 +162,79 @@ def artist_tracks(artist_id):
 # LOAD HISTORY
 # ==================================================
 
-def load_json(path):
-    if os.path.exists(path):
-        with open(path, "r") as f:
+def load_history():
+    if os.path.exists("data/history.json"):
+        with open("data/history.json", "r") as f:
             return json.load(f)
-    return {}
+    return {"charts": {}}
 
 
 # ==================================================
-# MAIN ENGINE
+# GENRE FILTERS (HARD LOCK SYSTEM)
+# ==================================================
+
+def genre_allowed(genre, t):
+
+    blob = (t["artist"] + " " + t.get("artist_id", "")).lower()
+
+    if genre == "soca":
+        return not any(a.lower() in blob for a in ["bouyon"])
+
+    if genre == "bouyon":
+        return t.get("artist_id", "") in BOUYON_ARTIST_IDS
+
+    if genre == "dancehall":
+        return True
+
+    if genre == "afrobeats":
+        return True
+
+    return False
+
+
+# ==================================================
+# SCORING ENGINE
+# ==================================================
+
+def score_track(t, history):
+
+    yt_now = get_youtube_views(t["name"], t["artist"])
+    yt_prev = history.get(t["id"], {}).get("views", yt_now or 0)
+
+    yt_gain = max(0, (yt_now or 0) - yt_prev)
+
+    yt_score = min(100, yt_gain / 1000)
+    sp_score = t["popularity"]
+
+    return (0.8 * yt_score) + (0.2 * sp_score), yt_now
+
+
+# ==================================================
+# CORE PROCESSOR
 # ==================================================
 
 def process_genre(genre, history):
 
-    candidates = []
-    swaps = 0
+    raw = []
 
-    # --------------------------
-    # DISCOVERY LAYER
-    # --------------------------
+    # --- discovery (minimal safe version) ---
+    search = sp.search(q=genre, type="track", limit=50)
+    for t in search["tracks"]["items"]:
+        raw.append({
+            "id": t["id"],
+            "name": t["name"],
+            "artist": t["artists"][0]["name"],
+            "artist_id": t["artists"][0]["id"],
+            "release": t["album"]["release_date"],
+            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
+            "preview": t.get("preview_url"),
+            "spotify_url": t["external_urls"]["spotify"],
+            "popularity": t.get("popularity", 0)
+        })
 
-    if genre == "soca":
-        for pid in SOCA_PLAYLISTS + SOCA_EXTRA_PLAYLISTS:
-            candidates += playlist_tracks(pid)
-
-    elif genre == "bouyon":
-        for pid in BOUYON_PLAYLISTS:
-            candidates += playlist_tracks(pid)
-
-        for aid in BOUYON_ARTIST_IDS:
-            candidates += artist_tracks(aid)
-
-    else:
-        # simplified for now (dancehall + afrobeats stable)
-        results = sp.search(q=genre, type="track", limit=50)
-        for t in results["tracks"]["items"]:
-            candidates.append({
-                "id": t["id"],
-                "name": t["name"],
-                "artist": t["artists"][0]["name"],
-                "release": t["album"]["release_date"],
-                "image": t["album"]["images"][0]["url"],
-                "spotify_url": t["external_urls"]["spotify"],
-                "popularity": t["popularity"]
-            })
-
-    # --------------------------
-    # FILTERING
-    # --------------------------
-
+    # --- FILTER ---
     filtered = []
-
-    for t in candidates:
+    for t in raw:
 
         if not clean(t["name"]):
             continue
@@ -261,86 +242,69 @@ def process_genre(genre, history):
         if not within_window(t["release"], genre):
             continue
 
+        if not genre_allowed(genre, t):
+            continue
+
         filtered.append(t)
 
-    # --------------------------
-    # SCORING
-    # --------------------------
-
+    # --- SCORE ---
     scored = []
-
     for t in filtered:
-
-        yt_now = get_youtube_views(t["name"], t["artist"])
-        yt_prev = history.get(t["id"], {}).get("views", yt_now or 0)
-
-        yt_gain = max(0, (yt_now or 0) - yt_prev)
-
-        yt_score = normalize(yt_gain)
-        sp_score = t["popularity"]
-
-        score = (0.8 * yt_score) + (0.2 * sp_score)
+        score, yt_now = score_track(t, history)
 
         t["score"] = score
-        t["current_views"] = yt_now
-
+        t["views"] = yt_now or 0
         scored.append(t)
 
-    # --------------------------
-    # LOAD PREVIOUS TOP 25
-    # --------------------------
+    # --- SORT ---
+    scored = sorted(scored, key=lambda x: x["score"], reverse=True)
 
     prev = history.get("charts", {}).get(genre, [])
 
-    combined = prev + scored
-    combined = sorted(combined, key=lambda x: x["score"], reverse=True)
+    final = []
+    swaps = 0
 
-    # --------------------------
-    # SWAP LOGIC (MAX 5)
-    # --------------------------
+    prev_map = {x["id"]: x for x in prev}
 
-    final = prev.copy()
-
-    for t in combined:
-
-        if swaps >= MAX_SWAPS:
-            break
-
-        if any(x["id"] == t["id"] for x in final):
-            continue
+    # --- SWAP LOGIC ---
+    for t in scored:
 
         if len(final) < TARGET:
             final.append(t)
+            continue
+
+        lowest = min(final, key=lambda x: x["score"])
+
+        if swaps < MAX_SWAPS and t["score"] > lowest["score"]:
+            final.remove(lowest)
+            final.append(t)
             swaps += 1
-        else:
-            lowest = min(final, key=lambda x: x["score"])
 
-            if t["score"] > lowest["score"]:
-                final.remove(lowest)
-                final.append(t)
-                swaps += 1
-
-    # --------------------------
-    # ENSURE 25
-    # --------------------------
-
-    for t in combined:
+    # --- FILL TO 25 ---
+    for t in scored:
         if len(final) >= TARGET:
             break
         if t not in final:
             final.append(t)
 
-    # --------------------------
-    # FRESH TAG
-    # --------------------------
+    # --- ANNOTATE ---
+    output = []
+    for i, t in enumerate(final):
 
-    prev_ids = {x["id"] for x in prev}
+        prev_entry = prev_map.get(t["id"])
 
-    for t in final:
-        if t["id"] not in prev_ids:
-            t["badge"] = "Fresh On De Scene"
+        output.append({
+            "rank": i + 1,
+            "name": t["name"],
+            "artist": t["artist"],
+            "image": t["image"] or "https://placehold.co/300",
+            "preview": t["preview"],
+            "spotify_url": t["spotify_url"],
+            "history": "New" if not prev_entry else f"Last Spot: #{prev_entry.get('rank', '?')}",
+            "badge": "Fresh On De Scene" if not prev_entry else None
+        })
 
-    return final
+    return output
 
 
 # ==================================================
@@ -349,23 +313,19 @@ def process_genre(genre, history):
 
 def run():
 
-    history = load_json("data/history.json")
-    old_charts = history.get("charts", {})
-
-    new_charts = {}
+    history = load_history()
+    new = {}
 
     for genre in ["soca", "dancehall", "afrobeats", "bouyon"]:
-        print(f"Processing {genre}...")
-        new_charts[genre] = process_genre(genre, history)
+        print("Processing:", genre)
+        new[genre] = process_genre(genre, history)
 
     os.makedirs("data", exist_ok=True)
 
-    # save charts
     with open("data/charts.json", "w") as f:
-        json.dump(new_charts, f, indent=2)
+        json.dump(new, f, indent=2)
 
-    # update history
-    history["charts"] = new_charts
+    history["charts"] = new
 
     with open("data/history.json", "w") as f:
         json.dump(history, f, indent=2)
