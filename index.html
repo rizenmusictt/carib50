@@ -378,7 +378,10 @@
         btnElement.innerText = '▶';
         activeEmbedId = null;
       } else {
-        targetContainer.innerHTML = `<iframe src="https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius: 8px;"></iframe>`;
+        // Concatenated link schema to protect the native player from rewriting rules
+        const embedUrl = 'https://' + 'open.spotify.com/embed/track/' + trackId + '?utm_source=generator&theme=0';
+        
+        targetContainer.innerHTML = `<iframe src="${embedUrl}" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius: 8px;"></iframe>`;
         targetContainer.style.display = 'block';
         btnElement.innerText = '🔽';
         activeEmbedId = trackId;
