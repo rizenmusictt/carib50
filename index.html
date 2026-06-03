@@ -1,271 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carib25</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carib50 - Music Charts</title>
+  <style>
+    :root {
+      --bg-color: #0b0c10;
+      --card-bg: #1f2833;
+      --accent-green: #1db954;
+      --accent-hover: #1ed760;
+      --text-main: #ffffff;
+      --text-muted: #c5c6c7;
+      --border-color: #2c3540;
+    }
 
-<style>
-:root {
-  --bg:#0b0c10;
-  --card:#1f2833;
-  --text:#fff;
-  --muted:#b5b5b5;
-  --green:#1db954;
-  --border:#2c3540;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-* { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 20px;
+      -webkit-font-smoothing: antialiased;
+    }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  padding:20px;
-}
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
 
-.container { max-width:900px; margin:auto; }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-header {
-  text-align:center;
-  margin-bottom:25px;
-}
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      font-weight: 800;
+    }
 
-header h1 {
-  font-size:2.5rem;
-  font-weight:900;
-}
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
 
-header p {
-  color:var(--muted);
-}
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 25px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
+    }
 
-.tabs {
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin:20px 0;
-}
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      cursor: pointer;
+      text-transform: capitalize;
+      transition: color 0.2s, border-color 0.2s;
+    }
 
-.tab-btn {
-  background:none;
-  border:none;
-  color:var(--muted);
-  font-weight:600;
-  cursor:pointer;
-  padding:8px 14px;
-}
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
 
-.tab-btn.active {
-  color:var(--green);
-  border-bottom:2px solid var(--green);
-}
+    .tab-btn.active {
+      color: var(--accent-green);
+      border-bottom: 3px solid var(--accent-green);
+    }
 
-.chart {
-  background:var(--card);
-  border-radius:10px;
-  overflow:hidden;
-}
+    .chart-list {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
 
-.row {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:12px 15px;
-  border-bottom:1px solid var(--border);
-  gap:10px;
-}
+    .track-wrapper {
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.2s;
+    }
+    
+    .track-wrapper:last-child {
+      border-bottom: none;
+    }
 
-.row:hover {
-  background:rgba(255,255,255,0.03);
-}
+    .track-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      gap: 15px;
+    }
 
-.left {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex:1;
-  min-width:0;
-}
+    .track-row:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
 
-.rank {
-  display:none; /* removed clutter */
-}
+    .left-side {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-width: 0; 
+    }
 
-.art {
-  width:50px;
-  height:50px;
-  border-radius:5px;
-  object-fit:cover;
-}
+    .rank-num {
+      font-size: 1.25rem;
+      font-weight: 800;
+      min-width: 35px;
+      color: var(--text-muted);
+      text-align: left;
+    }
 
-.meta {
-  min-width:0;
-}
+    .track-wrapper:nth-child(1) .rank-num { color: #ffd700; }
+    .track-wrapper:nth-child(2) .rank-num { color: #c0c0c0; }
+    .track-wrapper:nth-child(3) .rank-num { color: #cd7f32; }
 
-.name {
-  font-weight:600;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
+    .album-art {
+      width: 52px;
+      height: 52px;
+      border-radius: 4px;
+      object-fit: cover;
+      background-color: #111;
+      flex-shrink: 0;
+    }
 
-.artist {
-  font-size:0.85rem;
-  color:var(--muted);
-}
+    .track-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      cursor: pointer;
+      min-width: 0;
+    }
 
-.movement {
-  min-width:120px;
-  text-align:right;
-  font-weight:600;
-  font-size:0.85rem;
-}
+    .track-link:hover .track-name {
+      color: var(--accent-green);
+      text-decoration: underline;
+    }
 
-.movement.up { color:#4ade80; }
-.movement.down { color:#f87171; }
-.movement.same { color:var(--muted); }
-.movement.new { color:#fbbf24; }
+    .track-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+      transition: color 0.2s ease;
+    }
 
-button.play {
-  background:var(--green);
-  border:none;
-  color:#fff;
-  padding:8px 10px;
-  border-radius:20px;
-  cursor:pointer;
-  font-size:12px;
-}
+    .track-artist {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-/* MODAL */
-.modal {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.8);
-  justify-content:center;
-  align-items:center;
-}
+    .player-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-.modal-content {
-  width:90%;
-  max-width:420px;
-}
+    .play-btn {
+      background-color: var(--accent-green);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      line-height: 1;
+      transition: transform 0.1s, background-color 0.2s;
+    }
 
-.close {
-  text-align:right;
-  margin-bottom:10px;
-  cursor:pointer;
-  color:#fff;
-}
-</style>
+    .play-btn:hover {
+      transform: scale(1.06);
+      background-color: var(--accent-hover);
+    }
+
+    .right-side {
+      text-align: right;
+      min-width: 115px;
+      flex-shrink: 0;
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .badge-new {
+      background-color: rgba(74, 222, 128, 0.12);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.25);
+    }
+
+    .badge-stable {
+      background-color: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .iframe-container {
+      display: none;
+      width: 100%;
+      padding: 0 20px 14px 20px;
+    }
+
+    .error-msg {
+      padding: 40px;
+      text-align: center;
+      color: #ff6b6b;
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      header h1 { font-size: 2rem; }
+      .track-row { padding: 10px 12px; gap: 10px; }
+      .right-side { min-width: 95px; }
+      .status-badge { font-size: 0.75rem; padding: 4px 8px; }
+      .rank-num { min-width: 25px; font-size: 1.1rem; }
+      .iframe-container { padding: 0 12px 10px 12px; }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+  <div class="container">
+    <header>
+      <h1>CARIB50</h1>
+      <p>Top 25 Sound System Velocity Charts</p>
+    </header>
 
-<header>
-  <h1>CARIB25</h1>
-  <p>The Top 25 Songs This Week</p>
-</header>
+    <nav class="tabs" id="genreTabs">
+      <button class="tab-btn active" onclick="switchGenre('soca')">Soca</button>
+      <button class="tab-btn" onclick="switchGenre('dancehall')">Dancehall</button>
+      <button class="tab-btn" onclick="switchGenre('afrobeats')">Afrobeats</button>
+      <button class="tab-btn" onclick="switchGenre('bouyon')">Bouyon</button>
+    </nav>
 
-<nav class="tabs">
-  <button class="tab-btn active" onclick="switchGenre('soca')">Soca</button>
-  <button class="tab-btn" onclick="switchGenre('dancehall')">Dancehall</button>
-  <button class="tab-btn" onclick="switchGenre('afrobeats')">Afrobeats</button>
-  <button class="tab-btn" onclick="switchGenre('bouyon')">Bouyon</button>
-</nav>
-
-<div class="chart" id="chart"></div>
-
-</div>
-
-<!-- SPOTIFY MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <div class="close" onclick="closeModal()">✕</div>
-    <iframe id="frame" width="100%" height="380"
-      frameborder="0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-    </iframe>
+    <main class="chart-list" id="chartContainer">
+      </main>
   </div>
-</div>
 
-<script>
+  <script>
+    let chartDatabase = null;
+    let currentGenre = 'soca';
+    let activeEmbedId = null;
 
-let db = {};
-let genre = "soca";
+    async function initChartEngine() {
+      const container = document.getElementById('chartContainer');
+      try {
+        const response = await fetch('data/charts.json');
+        if (!response.ok) throw new Error('Data file mapping access failed');
+        
+        chartDatabase = await response.json();
+        renderGenreTracks(currentGenre);
+      } catch (err) {
+        console.error("Initialization error:", err);
+        container.innerHTML = `<div class="error-msg">Failed to load chart database records. Verify that script.py has run successfully.</div>`;
+      }
+    }
 
-async function load() {
-  const res = await fetch("data/charts.json");
-  db = await res.json();
-  render();
-}
+    function renderGenreTracks(genre) {
+      const container = document.getElementById('chartContainer');
+      if (!chartDatabase || !chartDatabase[genre]) {
+        container.innerHTML = `<div class="error-msg">No tracks found for genre: ${genre}</div>`;
+        return;
+      }
 
-function render() {
-  const c = document.getElementById("chart");
-  const list = db[genre];
+      const tracks = chartDatabase[genre];
+      let htmlPayload = '';
 
-  if (!list) return;
+      tracks.forEach(track => {
+        const isNew = track.history === 'New';
+        const badgeClass = isNew ? 'badge-new' : 'badge-stable';
+        
+        const hasUrl = track.spotify_url && track.spotify_url.trim() !== "";
+        const openTag = hasUrl ? `<a class="track-link" href="${track.spotify_url}" target="_blank" rel="noopener noreferrer">` : `<div class="meta-data">`;
+        const closeTag = hasUrl ? `</a>` : `</div>`;
 
-  c.innerHTML = "";
+        htmlPayload += `
+          <div class="track-wrapper">
+            <div class="track-row">
+              <div class="left-side">
+                <span class="rank-num">${track.rank}</span>
+                <img class="album-art" src="${track.image || 'https://placehold.co/60'}" alt="${track.name}" loading="lazy">
+                ${openTag}
+                  <div class="meta-data">
+                    <div class="track-name" title="${hasUrl ? 'Open in Spotify' : ''}">${track.name}</div>
+                    <div class="track-artist">${track.artist}</div>
+                  </div>
+                ${closeTag}
+              </div>
 
-  list.forEach(t => {
+              <div class="player-controls">
+                <button class="play-btn" id="btn-${track.id}" onclick="toggleSpotifyEmbed('${track.id}', this)" title="Expand Player">
+                  ▶
+                </button>
+              </div>
 
-    let cls = "same";
-    if (t.movement?.includes("▲")) cls = "up";
-    if (t.movement?.includes("▼")) cls = "down";
-    if (t.movement?.includes("Fresh")) cls = "new";
+              <div class="right-side">
+                <span class="status-badge ${badgeClass}">
+                  ${track.history}
+                </span>
+              </div>
+            </div>
+            <div class="iframe-container" id="embed-${track.id}"></div>
+          </div>
+        `;
+      });
 
-    const row = document.createElement("div");
-    row.className = "row";
+      container.innerHTML = htmlPayload;
+      activeEmbedId = null;
+    }
 
-    row.innerHTML = `
-      <div class="left">
-        <img class="art" src="${t.image}" />
-        <div class="meta">
-          <div class="name">${t.name}</div>
-          <div class="artist">${t.artist}</div>
-        </div>
-      </div>
+    function switchGenre(selectedGenre) {
+      if (currentGenre === selectedGenre) return;
+      currentGenre = selectedGenre;
+      
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        if (btn.innerText.toLowerCase() === selectedGenre) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
 
-      <button class="play" onclick="openSpotify('${t.spotify_id}')">
-        ▶ Listen
-      </button>
+      renderGenreTracks(selectedGenre);
+    }
 
-      <div class="movement ${cls}">
-        ${t.movement}
-      </div>
-    `;
+    function toggleSpotifyEmbed(trackId, btnElement) {
+      const targetContainer = document.getElementById(`embed-${trackId}`);
+      
+      // Close currently active embed if it's different from the one clicked
+      if (activeEmbedId && activeEmbedId !== trackId) {
+        const oldContainer = document.getElementById(`embed-${activeEmbedId}`);
+        const oldBtn = document.getElementById(`btn-${activeEmbedId}`);
+        if (oldContainer) {
+          oldContainer.innerHTML = '';
+          oldContainer.style.display = 'none';
+        }
+        if (oldBtn) oldBtn.innerText = '▶';
+      }
 
-    c.appendChild(row);
-  });
-}
+      // Toggle the clicked embed
+      if (targetContainer.style.display === 'block') {
+        targetContainer.innerHTML = '';
+        targetContainer.style.display = 'none';
+        btnElement.innerText = '▶';
+        activeEmbedId = null;
+      } else {
+        targetContainer.innerHTML = `<iframe src="https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius: 8px;"></iframe>`;
+        targetContainer.style.display = 'block';
+        btnElement.innerText = '🔽';
+        activeEmbedId = trackId;
+      }
+    }
 
-function switchGenre(g) {
-  genre = g;
-  document.querySelectorAll(".tab-btn").forEach(b => {
-    b.classList.toggle("active", b.innerText.toLowerCase() === g);
-  });
-  render();
-}
-
-function openSpotify(id) {
-  document.getElementById("frame").src =
-    `https://open.spotify.com/embed/track/${id}`;
-
-  document.getElementById("modal").style.display = "flex";
-}
-
-function closeModal() {
-  document.getElementById("modal").style.display = "none";
-  document.getElementById("frame").src = "";
-}
-
-window.onload = load;
-
-</script>
-
+    window.addEventListener('DOMContentLoaded', initChartEngine);
+  </script>
 </body>
 </html>
