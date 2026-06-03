@@ -300,23 +300,11 @@ def run():
         # ==========================
         elif genre == "bouyon":
 
-    # --------------------------------
-    # 1. ARTIST IDS (highest priority)
-    # --------------------------------
-
     for artist_id in BOUYON_ARTISTS_IDS:
         candidates += artist_tracks(artist_id)
 
-    # --------------------------------
-    # 2. KNOWN BOUYON PLAYLISTS
-    # --------------------------------
-
     for pid in BOUYON_PLAYLISTS:
         candidates += playlist_tracks(pid)
-
-    # --------------------------------
-    # 3. DISCOVER MORE PLAYLISTS
-    # --------------------------------
 
     bouyon_queries = [
         "bouyon",
@@ -332,16 +320,11 @@ def run():
         for pid in search_playlists(q):
             candidates += playlist_tracks(pid)
 
-    # --------------------------------
-    # 4. ARTIST NAME SEARCH BACKUP
-    # --------------------------------
-
     for artist_id in BOUYON_ARTISTS_IDS:
 
         try:
 
             artist = sp.artist(artist_id)
-
             artist_name = artist["name"]
 
             results = sp.search(
@@ -366,8 +349,8 @@ def run():
                     "popularity": t["popularity"]
                 })
 
-        except:
-            pass
+        except Exception as e:
+            print(f"Bouyon search error: {e}")
 
         # ==========================
         # OTHER GENRES
