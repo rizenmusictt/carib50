@@ -24,12 +24,16 @@ WINDOWS = {
     "bouyon": 6
 }
 
-BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro", "edit"]
+BLACKLIST = ["mix", "dj", "set", "live", "radio", "intro", "edit","instrumental","version"]
 
 SOCA_PLAYLISTS = [
     "1FvkIodyAGsGy0MSMjSnAr",
     "3ugx3RitHXhWDiGTh7UUu2",
-    "4brkOclzIpXABVHLnesMJt"
+    "4brkOclzIpXABVHLnesMJt",
+    "5kCjHM5mKmf7axrWecdkuz",
+    "1IfKtQ9akjh4oO0W3bQ11D",
+    "11unAoPberMGyLiE5yVPER",
+    
 ]
 
 SOCA_ARTISTS = [
@@ -48,9 +52,22 @@ AFROBEATS_ARTISTS = [
     "Rema", "Asake", "Tems", "Ayra Starr"
 ]
 
-BOUYON_ARTISTS = [
-    "1T1", "Miimii KDS", "Blackboy",
-    "Quan", "Jessie", "Reo", "Triple Kay", "Lé Will", "Deuspi"
+BOUYON_ARTISTS_IDS = [
+    "2eIEzwxBh1vDSSbUfZkeLL",  # Jessie
+    "3Oc7o3kzzpLium0YxZPVri", #Ridge
+    "29DEO5ubNTmLbFSEZDP2we", #1T1
+    "0mpZpEH8VcL0tYoGLhR8sd", #Miimii KDS
+    "390GislU2lqdtKcuFMIvjK", #Blackboy
+    "6bEej9F7Pkkto542i9mran", #Quan
+    "1DpASCaDoS1AAKFHb6uldr", #Litleboy
+    "5Zjgfa0fywmVbwc5dPlScR", #Trilla-G
+    "1DaLT7Mgy04h833FKXKGO0" #Le Will & Deuspi
+]
+BOUYON_PLAYLISTS = [
+    "4aZHZCd0KPtoxAGR8SPqtj",
+    "1DCCA3EVmxIXA4f68vaINS",
+    "27J36rBvTtvAcgeJMoqUrN"
+    
 ]
 
 # ==================================================
@@ -148,7 +165,45 @@ def playlist_tracks(pid):
         })
 
     return out
+def artist_tracks(artist_id):
 
+    tracks = []
+
+    try:
+        albums = sp.artist_albums(
+            artist_id,
+            album_type="album,single",
+            limit=50
+        )
+
+        for album in albums["items"]:
+
+            try:
+                album_tracks = sp.album_tracks(album["id"])
+
+                for t in album_tracks["items"]:
+
+                    tracks.append({
+                        "id": t["id"],
+                        "name": t["name"],
+                        "artist": t["artists"][0]["name"],
+                        "artists_all": ", ".join(
+                            [a["name"] for a in t["artists"]]
+                        ),
+                        "release": album["release_date"],
+                        "image": album["images"][0]["url"]
+                            if album["images"] else "",
+                        "spotify_url": t["external_urls"]["spotify"],
+                        "popularity": 0
+                    })
+
+            except:
+                continue
+
+    except:
+        pass
+
+    return tracks
 # ==================================================
 # YOUTUBE
 # ==================================================
@@ -216,7 +271,8 @@ def run():
                 "2026 soca hits",
                 "new soca",
                 "trinidad soca",
-                "power soca"
+                "power soca",
+                "groovy soca"
             ]:
                 for pid in search_playlists(q):
                     candidates += playlist_tracks(pid)
@@ -244,37 +300,74 @@ def run():
         # ==========================
         elif genre == "bouyon":
 
-            for a in BOUYON_ARTISTS:
-                try:
-                    res = sp.search(q=a, type="track", limit=50)
+    # --------------------------------
+    # 1. ARTIST IDS (highest priority)
+    # --------------------------------
 
-                    for t in res["tracks"]["items"]:
-                        if not t:
-                            continue
+    for artist_id in BOUYON_ARTISTS_IDS:
+        candidates += artist_tracks(artist_id)
 
-                        all_artists = " ".join([x["name"].lower() for x in t["artists"]])
+    # --------------------------------
+    # 2. KNOWN BOUYON PLAYLISTS
+    # --------------------------------
 
-                        # STRICT: must include real bouyon artist
-                        if a.lower() not in all_artists:
-                            continue
+    for pid in BOUYON_PLAYLISTS:
+        candidates += playlist_tracks(pid)
 
-                        name = t["name"].lower()
-                        if "ridgeclub" in name:
-                            continue
+    # --------------------------------
+    # 3. DISCOVER MORE PLAYLISTS
+    # --------------------------------
 
-                        candidates.append({
-                            "id": t["id"],
-                            "name": t["name"],
-                            "artist": t["artists"][0]["name"],
-                            "artists_all": ", ".join([x["name"] for x in t["artists"]]),
-                            "release": t["album"]["release_date"],
-                            "image": t["album"]["images"][0]["url"] if t["album"]["images"] else "",
-                            "spotify_url": t["external_urls"]["spotify"],
-                            "popularity": t["popularity"]
-                        })
+    bouyon_queries = [
+        "bouyon",
+        "bouyon 2026",
+        "new bouyon",
+        "top bouyon",
+        "dominica bouyon",
+        "bouyon hits"
+    ]
 
-                except:
-                    pass
+    for q in bouyon_queries:
+
+        for pid in search_playlists(q):
+            candidates += playlist_tracks(pid)
+
+    # --------------------------------
+    # 4. ARTIST NAME SEARCH BACKUP
+    # --------------------------------
+
+    for artist_id in BOUYON_ARTISTS_IDS:
+
+        try:
+
+            artist = sp.artist(artist_id)
+
+            artist_name = artist["name"]
+
+            results = sp.search(
+                q=f'artist:"{artist_name}"',
+                type="track",
+                limit=50
+            )
+
+            for t in results["tracks"]["items"]:
+
+                candidates.append({
+                    "id": t["id"],
+                    "name": t["name"],
+                    "artist": t["artists"][0]["name"],
+                    "artists_all": ", ".join(
+                        [a["name"] for a in t["artists"]]
+                    ),
+                    "release": t["album"]["release_date"],
+                    "image": t["album"]["images"][0]["url"]
+                        if t["album"]["images"] else "",
+                    "spotify_url": t["external_urls"]["spotify"],
+                    "popularity": t["popularity"]
+                })
+
+        except:
+            pass
 
         # ==========================
         # OTHER GENRES
