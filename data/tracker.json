@@ -455,6 +455,26 @@
     "4KIRA3oOWWyYhuQkuoHnFr": {
       "yt": 0,
       "sp": 74
+    },
+    "0gbQV6yrXqHamXlWP8Toh9": {
+      "yt": 0,
+      "sp": 36
+    },
+    "4igoKw4qDHk4h9i31BiAX6": {
+      "yt": 0,
+      "sp": 36
+    },
+    "3q3odJCJCPaMuCxwgEqvAl": {
+      "yt": 0,
+      "sp": 36
+    },
+    "1e8fCTKx2eB8tiOZtOSqyo": {
+      "yt": 0,
+      "sp": 34
+    },
+    "0bJX0zjuFpgK8EG78igMLJ": {
+      "yt": 0,
+      "sp": 34
     }
   },
   "rosters": {
@@ -920,6 +940,71 @@
         "preview": null,
         "spotify_url": "https://open.spotify.com/track/3GsXQlYbTRA1jGsilub0Rj",
         "popularity": 40,
+        "final_score": 0.0
+      },
+      {
+        "id": "0gbQV6yrXqHamXlWP8Toh9",
+        "name": "iPhone",
+        "artist": "Haile",
+        "artist_id": "48Zl8yw6YhIsymNwvNMlnM",
+        "all_artists": "Haile, V'ghn",
+        "release": "2026-04-08",
+        "image": "https://i.scdn.co/image/ab67616d0000b27378666e52ed0cc84609c3a56c",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/0gbQV6yrXqHamXlWP8Toh9",
+        "popularity": 36,
+        "final_score": 0.0
+      },
+      {
+        "id": "4igoKw4qDHk4h9i31BiAX6",
+        "name": "Woul\u00e9",
+        "artist": "O Banga",
+        "artist_id": "6QrYnnAGIoj3SqFsCwrhFZ",
+        "all_artists": "O Banga, JESSIE",
+        "release": "2026-05-07",
+        "image": "https://i.scdn.co/image/ab67616d0000b2736f9d08c77f01f46ffdffa03e",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/4igoKw4qDHk4h9i31BiAX6",
+        "popularity": 36,
+        "final_score": 0.0
+      },
+      {
+        "id": "3q3odJCJCPaMuCxwgEqvAl",
+        "name": "SOCA TEA",
+        "artist": "Mastaa T",
+        "artist_id": "4ukw97lFJErNJ3ffRo6BTf",
+        "all_artists": "Mastaa T",
+        "release": "2026-05-03",
+        "image": "https://i.scdn.co/image/ab67616d0000b273dd32a163bebcccf78796944d",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/3q3odJCJCPaMuCxwgEqvAl",
+        "popularity": 36,
+        "final_score": 0.0
+      },
+      {
+        "id": "1e8fCTKx2eB8tiOZtOSqyo",
+        "name": "Side to Side",
+        "artist": "Sackie",
+        "artist_id": "2fZJnsBgeBQfyjpdLAa6yh",
+        "all_artists": "Sackie",
+        "release": "2026-02-26",
+        "image": "https://i.scdn.co/image/ab67616d0000b273fec3be8ce5576b063974eb39",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/1e8fCTKx2eB8tiOZtOSqyo",
+        "popularity": 34,
+        "final_score": 0.0
+      },
+      {
+        "id": "0bJX0zjuFpgK8EG78igMLJ",
+        "name": "Moi",
+        "artist": "Tydi S",
+        "artist_id": "0ObRlKClJBnDmiEfxbiGBn",
+        "all_artists": "Tydi S",
+        "release": "2026-04-08",
+        "image": "https://i.scdn.co/image/ab67616d0000b273801909b67a0fca61ba9ec709",
+        "preview": null,
+        "spotify_url": "https://open.spotify.com/track/0bJX0zjuFpgK8EG78igMLJ",
+        "popularity": 34,
         "final_score": 0.0
       }
     ],
