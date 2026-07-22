@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carib50 - Music Charts</title>
+  <title>Carib 25 - Top Trending Songs Weekly in the Caribbean</title>
   <style>
     :root {
       --bg-color: #0b0c10;
@@ -48,7 +48,8 @@
 
     header p {
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: 1.1rem;
+      font-weight: 500;
     }
 
     .tabs {
@@ -199,15 +200,26 @@
 
     .right-side {
       text-align: right;
-      min-width: 115px;
+      min-width: 125px;
       flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .views-count {
+      font-size: 0.82rem;
+      color: var(--accent-green);
+      font-weight: 700;
+      letter-spacing: 0.3px;
     }
 
     .status-badge {
       display: inline-block;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      padding: 5px 12px;
+      padding: 4px 10px;
       border-radius: 20px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -243,8 +255,9 @@
       body { padding: 12px; }
       header h1 { font-size: 2rem; }
       .track-row { padding: 10px 12px; gap: 10px; }
-      .right-side { min-width: 95px; }
-      .status-badge { font-size: 0.75rem; padding: 4px 8px; }
+      .right-side { min-width: 100px; }
+      .views-count { font-size: 0.75rem; }
+      .status-badge { font-size: 0.7rem; padding: 3px 6px; }
       .rank-num { min-width: 25px; font-size: 1.1rem; }
       .iframe-container { padding: 0 12px 10px 12px; }
     }
@@ -254,8 +267,8 @@
 
   <div class="container">
     <header>
-      <h1>CARIB50</h1>
-      <p>Top 25 Sound System Velocity Charts</p>
+      <h1>Carib 25</h1>
+      <p>Top Trending Songs Weekly in the Caribbean</p>
     </header>
 
     <nav class="tabs" id="genreTabs">
@@ -266,7 +279,7 @@
     </nav>
 
     <main class="chart-list" id="chartContainer">
-      </main>
+    </main>
   </div>
 
   <script>
@@ -306,6 +319,18 @@
         const openTag = hasUrl ? `<a class="track-link" href="${track.spotify_url}" target="_blank" rel="noopener noreferrer">` : `<div class="meta-data">`;
         const closeTag = hasUrl ? `</a>` : `</div>`;
 
+        // Check for view gain / play count data dynamically
+        const viewsRaw = track.views_gained ?? track.views ?? track.weekly_views ?? track.score ?? track.play_count;
+        let viewsHtml = '';
+        if (viewsRaw !== undefined && viewsRaw !== null) {
+          const num = Number(viewsRaw);
+          if (!isNaN(num) && num > 0) {
+            viewsHtml = `<span class="views-count">+${num.toLocaleString()} views</span>`;
+          } else if (typeof viewsRaw === 'string' && viewsRaw.length > 0) {
+            viewsHtml = `<span class="views-count">${viewsRaw}</span>`;
+          }
+        }
+
         htmlPayload += `
           <div class="track-wrapper">
             <div class="track-row">
@@ -327,6 +352,7 @@
               </div>
 
               <div class="right-side">
+                ${viewsHtml}
                 <span class="status-badge ${badgeClass}">
                   ${track.history}
                 </span>
@@ -378,7 +404,6 @@
         btnElement.innerText = '▶';
         activeEmbedId = null;
       } else {
-        // Concatenated link schema to protect the native player from rewriting rules
         const embedUrl = 'https://' + 'open.spotify.com/embed/track/' + trackId + '?utm_source=generator&theme=0';
         
         targetContainer.innerHTML = `<iframe src="${embedUrl}" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius: 8px;"></iframe>`;
