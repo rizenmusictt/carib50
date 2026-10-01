@@ -42,16 +42,6 @@
     },
     {
       "rank": 5,
-      "id": "1hBObue9D10xYDhdg5bvXZ",
-      "name": "Boyz in the hood",
-      "artist": "Shannon",
-      "image": "https://i.scdn.co/image/ab67616d0000b27335e841552142134a603035e5",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/1hBObue9D10xYDhdg5bvXZ",
-      "history": "Last Spot: #5"
-    },
-    {
-      "rank": 6,
       "id": "6VQUpa7xzfKxFC9otdb51L",
       "name": "Je Pars",
       "artist": "N'Ken",
@@ -59,6 +49,16 @@
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6VQUpa7xzfKxFC9otdb51L",
       "history": "Last Spot: #6"
+    },
+    {
+      "rank": 6,
+      "id": "05QhrCScAoHiQ3JzSELoBu",
+      "name": "Elastic Girl",
+      "artist": "1T1",
+      "image": "https://i.scdn.co/image/ab67616d0000b273eb8be5cc4855f260b502a8fa",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/05QhrCScAoHiQ3JzSELoBu",
+      "history": "New"
     },
     {
       "rank": 7,
@@ -78,17 +78,17 @@
       "image": "https://i.scdn.co/image/ab67616d0000b27333d8982d00fb98957d2f705f",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/5xTZLkS9R6j8el4Z41Aoqi",
-      "history": "New"
+      "history": "Last Spot: #8"
     },
     {
       "rank": 9,
-      "id": "6jpFUrJeLRcQN1Ek8AnQe9",
-      "name": "Bod\u00e9",
-      "artist": "DJ SKYCEE",
-      "image": "https://i.scdn.co/image/ab67616d0000b27382cf362cd594d8759fd84c9f",
+      "id": "1hBObue9D10xYDhdg5bvXZ",
+      "name": "Boyz in the hood",
+      "artist": "Shannon",
+      "image": "https://i.scdn.co/image/ab67616d0000b27335e841552142134a603035e5",
       "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6jpFUrJeLRcQN1Ek8AnQe9",
-      "history": "Last Spot: #8"
+      "spotify_url": "https://open.spotify.com/track/1hBObue9D10xYDhdg5bvXZ",
+      "history": "Last Spot: #5"
     },
     {
       "rank": 10,
@@ -98,70 +98,80 @@
       "image": "https://i.scdn.co/image/ab67616d0000b2738c26819051bc1ae5c121737e",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6sqxKANt9VUAFdkxaeK3dn",
-      "history": "Last Spot: #9"
+      "history": "Last Spot: #10"
     },
     {
       "rank": 11,
+      "id": "6jpFUrJeLRcQN1Ek8AnQe9",
+      "name": "Bod\u00e9",
+      "artist": "DJ SKYCEE",
+      "image": "https://i.scdn.co/image/ab67616d0000b27382cf362cd594d8759fd84c9f",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/6jpFUrJeLRcQN1Ek8AnQe9",
+      "history": "Last Spot: #9"
+    },
+    {
+      "rank": 12,
       "id": "4GWszbYT8dxWulYXzUfjHZ",
       "name": "D\u00e9ni\u00e8 chans",
       "artist": "L\u00e9 Will & Deuspi",
       "image": "https://i.scdn.co/image/ab67616d0000b273d04877aa212b0dbd3753cdbb",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/4GWszbYT8dxWulYXzUfjHZ",
-      "history": "Last Spot: #10"
+      "history": "Last Spot: #11"
     },
     {
-      "rank": 12,
+      "rank": 13,
       "id": "14RzTUhINEVroWjR1YBDJg",
       "name": "Danger",
       "artist": "Merveille",
       "image": "https://i.scdn.co/image/ab67616d0000b273116909dd0145c50e566eef54",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/14RzTUhINEVroWjR1YBDJg",
-      "history": "Last Spot: #11"
+      "history": "Last Spot: #12"
     },
     {
-      "rank": 13,
+      "rank": 14,
       "id": "6SEigAO9wEl4YcrHdCr6eg",
       "name": "THE KINGSHILL FREEUP",
       "artist": "DJMJ \u00d7 MV ON DE KEYS",
       "image": "https://i.scdn.co/image/ab67616d0000b273f2b5821444035810f011c4b0",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6SEigAO9wEl4YcrHdCr6eg",
-      "history": "Last Spot: #15"
+      "history": "Last Spot: #13"
     },
     {
-      "rank": 14,
+      "rank": 15,
       "id": "79E9dqefdHBKzDMBDdSlYZ",
       "name": "Coming",
       "artist": "Miimii KDS",
       "image": "https://i.scdn.co/image/ab67616d0000b273e94c4b4a40824965c8701bb1",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/79E9dqefdHBKzDMBDdSlYZ",
-      "history": "Last Spot: #12"
+      "history": "Last Spot: #14"
     },
     {
-      "rank": 15,
+      "rank": 16,
       "id": "36VaBBg3HXKcbWLWzTR7AB",
       "name": "Coming",
       "artist": "Miimii KDS",
       "image": "https://i.scdn.co/image/ab67616d0000b273d686eeebe928d64bc953d606",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/36VaBBg3HXKcbWLWzTR7AB",
-      "history": "Last Spot: #13"
+      "history": "Last Spot: #15"
     },
     {
-      "rank": 16,
+      "rank": 17,
       "id": "2VbSOGBmQeIj4iHEFXdVwd",
       "name": "Flap Flap",
       "artist": "Maureen",
       "image": "https://i.scdn.co/image/ab67616d0000b273390eb77af0d49b02a79955a6",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/2VbSOGBmQeIj4iHEFXdVwd",
-      "history": "Last Spot: #14"
+      "history": "Last Spot: #16"
     },
     {
-      "rank": 17,
+      "rank": 18,
       "id": "6CvAo4C0ESzcCaisR8SZa0",
       "name": "Cry Me A River",
       "artist": "Real Reel",
@@ -171,37 +181,47 @@
       "history": "Last Spot: #17"
     },
     {
-      "rank": 18,
+      "rank": 19,
       "id": "3fGykIjhYTPbvQJzUeQ1Cq",
       "name": "WITH SOME BOYZ",
       "artist": "Lucky lukee",
       "image": "https://i.scdn.co/image/ab67616d0000b27380e287112a0329c10e582428",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3fGykIjhYTPbvQJzUeQ1Cq",
-      "history": "Last Spot: #16"
+      "history": "Last Spot: #18"
     },
     {
-      "rank": 19,
+      "rank": 20,
       "id": "6fFrQ8ABH6hdU0p4wUCz2u",
       "name": "Chappa",
       "artist": "Real Reel",
       "image": "https://i.scdn.co/image/ab67616d0000b273a538626207c731f6e9b69fb8",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6fFrQ8ABH6hdU0p4wUCz2u",
-      "history": "Last Spot: #18"
+      "history": "Last Spot: #19"
     },
     {
-      "rank": 20,
+      "rank": 21,
       "id": "0Y2Vy40JDAFdwnQayArkWu",
       "name": "Yabadabadou",
       "artist": "L\u00e9 Will & Deuspi",
       "image": "https://i.scdn.co/image/ab67616d0000b273d04877aa212b0dbd3753cdbb",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/0Y2Vy40JDAFdwnQayArkWu",
-      "history": "Last Spot: #19"
+      "history": "Last Spot: #20"
     },
     {
-      "rank": 21,
+      "rank": 22,
+      "id": "4ka9AdDmR7TofBIxFTBv2d",
+      "name": "Criminal",
+      "artist": "L\u00e9 Will & Deuspi",
+      "image": "https://i.scdn.co/image/ab67616d0000b273d04877aa212b0dbd3753cdbb",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/4ka9AdDmR7TofBIxFTBv2d",
+      "history": "Last Spot: #23"
+    },
+    {
+      "rank": 23,
       "id": "382mRqpXr3GmI8un52Ylox",
       "name": "I Like Outside",
       "artist": "Trilla-G",
@@ -211,34 +231,14 @@
       "history": "Last Spot: #21"
     },
     {
-      "rank": 22,
+      "rank": 24,
       "id": "1JzffVnvbByA3LGBY4cOlJ",
       "name": "Gang Shit",
       "artist": "L\u00e9 Will & Deuspi",
       "image": "https://i.scdn.co/image/ab67616d0000b273d04877aa212b0dbd3753cdbb",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/1JzffVnvbByA3LGBY4cOlJ",
-      "history": "Last Spot: #20"
-    },
-    {
-      "rank": 23,
-      "id": "4ka9AdDmR7TofBIxFTBv2d",
-      "name": "Criminal",
-      "artist": "L\u00e9 Will & Deuspi",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d04877aa212b0dbd3753cdbb",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/4ka9AdDmR7TofBIxFTBv2d",
       "history": "Last Spot: #22"
-    },
-    {
-      "rank": 24,
-      "id": "6yVfAJFJCrDDIyLmVDPTho",
-      "name": "Calendar Riddim 2025",
-      "artist": "Shelly",
-      "image": "https://i.scdn.co/image/ab67616d0000b273ff0d4dd70114759b1a8daa1e",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/6yVfAJFJCrDDIyLmVDPTho",
-      "history": "Last Spot: #23"
     },
     {
       "rank": 25,
@@ -254,43 +254,43 @@
   "dancehall": [
     {
       "rank": 1,
-      "id": "60L2FqkzM2yYMxVvyFOZbu",
-      "name": "Gyal Good",
-      "artist": "Alkaline",
-      "image": "https://i.scdn.co/image/ab67616d0000b273198fb05418e9fede43800181",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/60L2FqkzM2yYMxVvyFOZbu",
-      "history": "Last Spot: #21"
-    },
-    {
-      "rank": 2,
       "id": "1clVoGCwPJ9mnfw9P91tRs",
       "name": "Vancleef Pt 2",
       "artist": "Malie Donn",
       "image": "https://i.scdn.co/image/ab67616d0000b27380e55864fe42c5529ae70fe4",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/1clVoGCwPJ9mnfw9P91tRs",
-      "history": "Last Spot: #3"
+      "history": "Last Spot: #2"
     },
     {
-      "rank": 3,
+      "rank": 2,
       "id": "6bjkO1d4c5lt6iBlvUxZHe",
       "name": "Van Cleef",
       "artist": "Malie Donn",
       "image": "https://i.scdn.co/image/ab67616d0000b27302d43ebec5b2e6acea0dc4f3",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6bjkO1d4c5lt6iBlvUxZHe",
-      "history": "Last Spot: #4"
+      "history": "Last Spot: #3"
     },
     {
-      "rank": 4,
+      "rank": 3,
       "id": "2nOXbX3xbgDSwmun51UDN4",
       "name": "Honor Roll (feat. Kraff Gad)",
       "artist": "Masicka",
       "image": "https://i.scdn.co/image/ab67616d0000b273288d7c2a57134f2eaf4c049c",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/2nOXbX3xbgDSwmun51UDN4",
-      "history": "Last Spot: #5"
+      "history": "Last Spot: #4"
+    },
+    {
+      "rank": 4,
+      "id": "5hVt9i2AV0LMbxldseAf3a",
+      "name": "Life Still a Gwaan",
+      "artist": "Popcaan",
+      "image": "https://i.scdn.co/image/ab67616d0000b273bf7fa4773b374880505fa95c",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5hVt9i2AV0LMbxldseAf3a",
+      "history": "Last Spot: #7"
     },
     {
       "rank": 5,
@@ -300,7 +300,7 @@
       "image": "https://i.scdn.co/image/ab67616d0000b2738fa5003688e272b203a400e7",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3n9KcMNRaUluDxwKzZAVA8",
-      "history": "Last Spot: #8"
+      "history": "Last Spot: #5"
     },
     {
       "rank": 6,
@@ -310,196 +310,196 @@
       "image": "https://i.scdn.co/image/ab67616d0000b2734e7b79d695d60e49c91fbe7f",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3SiemSa4vSJs3535LZTZnA",
-      "history": "Last Spot: #9"
+      "history": "Last Spot: #6"
     },
     {
       "rank": 7,
-      "id": "5hVt9i2AV0LMbxldseAf3a",
-      "name": "Life Still a Gwaan",
-      "artist": "Popcaan",
-      "image": "https://i.scdn.co/image/ab67616d0000b273bf7fa4773b374880505fa95c",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5hVt9i2AV0LMbxldseAf3a",
-      "history": "Last Spot: #10"
-    },
-    {
-      "rank": 8,
       "id": "3qnRhjylqgWO7fIYpz8Gy0",
       "name": "1 Psalm (feat. Damian \"Jr. Gong\" Marley)",
       "artist": "Masicka",
       "image": "https://i.scdn.co/image/ab67616d0000b273288d7c2a57134f2eaf4c049c",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3qnRhjylqgWO7fIYpz8Gy0",
-      "history": "Last Spot: #11"
+      "history": "Last Spot: #8"
     },
     {
-      "rank": 9,
+      "rank": 8,
       "id": "28EwZlymHtjFKzcqGaQKGs",
       "name": "Like How Yuh Feel",
       "artist": "Aidonia",
       "image": "https://i.scdn.co/image/ab67616d0000b273bebed30c1ad70139b7f410db",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/28EwZlymHtjFKzcqGaQKGs",
-      "history": "Last Spot: #13"
+      "history": "Last Spot: #9"
     },
     {
-      "rank": 10,
+      "rank": 9,
       "id": "5EJIznVELUzwHmEEAylB0M",
       "name": "Slip & Slide",
       "artist": "Masicka",
       "image": "https://i.scdn.co/image/ab67616d0000b2730366310bea47fb21bad40b5e",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/5EJIznVELUzwHmEEAylB0M",
-      "history": "Last Spot: #12"
+      "history": "Last Spot: #10"
     },
     {
-      "rank": 11,
+      "rank": 10,
       "id": "5QNkPqJgBEVWp8cOvYnudA",
       "name": "Boasty",
       "artist": "Masicka",
       "image": "https://i.scdn.co/image/ab67616d0000b273f6768c7f20bfd3ea66be11fd",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/5QNkPqJgBEVWp8cOvYnudA",
-      "history": "Last Spot: #14"
+      "history": "Last Spot: #11"
     },
     {
-      "rank": 12,
+      "rank": 11,
       "id": "6a2bbkZZmaRulYMHyxrGhZ",
       "name": "16",
       "artist": "Squash",
       "image": "https://i.scdn.co/image/ab67616d0000b2739097b9c2e9877b054c3d7258",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6a2bbkZZmaRulYMHyxrGhZ",
-      "history": "Last Spot: #15"
+      "history": "Last Spot: #12"
     },
     {
-      "rank": 13,
+      "rank": 12,
       "id": "74My9unxFHLmvw0ezYZTBO",
       "name": "WUL UP",
       "artist": "Armanii",
       "image": "https://i.scdn.co/image/ab67616d0000b273300ee86a77617ed5e03322f9",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/74My9unxFHLmvw0ezYZTBO",
-      "history": "Last Spot: #16"
+      "history": "Last Spot: #13"
     },
     {
-      "rank": 14,
+      "rank": 13,
       "id": "5GXyaAB474gIHxHtGdqsSF",
       "name": "Distant Lover",
       "artist": "JIHYO",
       "image": "https://i.scdn.co/image/ab67616d0000b273985c0f1e7b704daec610909d",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/5GXyaAB474gIHxHtGdqsSF",
-      "history": "Last Spot: #6"
+      "history": "Last Spot: #14"
     },
     {
-      "rank": 15,
-      "id": "23AGyyhElbi76BoI8J1DEM",
-      "name": "RoTATe wiTh aMeRiCa FOsTeR, sKiLLiBeNg aNd bEAM",
-      "artist": "Major Lazer",
-      "image": "https://i.scdn.co/image/ab67616d0000b27372824cea6df2a3c09f39770e",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/23AGyyhElbi76BoI8J1DEM",
-      "history": "Last Spot: #17"
-    },
-    {
-      "rank": 16,
-      "id": "3wARNOXPa2RTE8tkmZ7pLV",
-      "name": "BAD & BBC RICH",
-      "artist": "Mavado",
-      "image": "https://i.scdn.co/image/ab67616d0000b273af7022ad490096ab82291806",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3wARNOXPa2RTE8tkmZ7pLV",
-      "history": "Last Spot: #19"
-    },
-    {
-      "rank": 17,
+      "rank": 14,
       "id": "71jJryaQacdkuDoULpvS9F",
       "name": "My Turn",
       "artist": "Valiant",
       "image": "https://i.scdn.co/image/ab67616d0000b273f38f17a38ec846ca83ff7cc5",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/71jJryaQacdkuDoULpvS9F",
-      "history": "Last Spot: #18"
+      "history": "Last Spot: #17"
     },
     {
-      "rank": 18,
+      "rank": 15,
+      "id": "3wARNOXPa2RTE8tkmZ7pLV",
+      "name": "BAD & BBC RICH",
+      "artist": "Mavado",
+      "image": "https://i.scdn.co/image/ab67616d0000b273af7022ad490096ab82291806",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/3wARNOXPa2RTE8tkmZ7pLV",
+      "history": "Last Spot: #16"
+    },
+    {
+      "rank": 16,
+      "id": "23AGyyhElbi76BoI8J1DEM",
+      "name": "RoTATe wiTh aMeRiCa FOsTeR, sKiLLiBeNg aNd bEAM",
+      "artist": "Major Lazer",
+      "image": "https://i.scdn.co/image/ab67616d0000b27372824cea6df2a3c09f39770e",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/23AGyyhElbi76BoI8J1DEM",
+      "history": "Last Spot: #15"
+    },
+    {
+      "rank": 17,
       "id": "6usphpoSCVuYUVSMq8sHkt",
       "name": "Gwan So",
       "artist": "Blaiz Fayah",
       "image": "https://i.scdn.co/image/ab67616d0000b2739facb090e45e310db14f0da3",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6usphpoSCVuYUVSMq8sHkt",
-      "history": "Last Spot: #20"
+      "history": "Last Spot: #18"
     },
     {
-      "rank": 19,
+      "rank": 18,
       "id": "5MyZtmzX0ocYc1vQ6srOug",
       "name": "Crown Jewel",
       "artist": "Kraff Gad",
       "image": "https://i.scdn.co/image/ab67616d0000b273eaef2fc7ec64dade2a48e195",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/5MyZtmzX0ocYc1vQ6srOug",
-      "history": "Last Spot: #22"
+      "history": "Last Spot: #19"
     },
     {
-      "rank": 20,
+      "rank": 19,
       "id": "3vohqCtAozZw4ifTAtwbxu",
       "name": "PONGO",
       "artist": "Rvssian",
       "image": "https://i.scdn.co/image/ab67616d0000b273471929d6440ffcce9fbcd9e2",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3vohqCtAozZw4ifTAtwbxu",
-      "history": "Last Spot: #24"
+      "history": "Last Spot: #20"
     },
     {
-      "rank": 21,
+      "rank": 20,
       "id": "5Htf9Mp2cagtcHfpnsO54R",
       "name": "Masterpiece",
       "artist": "Kes",
       "image": "https://i.scdn.co/image/ab67616d0000b273eca00e8af07580a4218024d3",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/5Htf9Mp2cagtcHfpnsO54R",
-      "history": "Last Spot: #23"
+      "history": "Last Spot: #21"
     },
     {
-      "rank": 22,
-      "id": "66wdUEnKRH807QA6xWQThB",
-      "name": "TAKE NOBODY (featuring J Hus & Skillibeng)",
-      "artist": "JAE5",
-      "image": "https://i.scdn.co/image/ab67616d0000b273b7c0812cfb60f73331b84ff2",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/66wdUEnKRH807QA6xWQThB",
-      "history": "New"
-    },
-    {
-      "rank": 23,
+      "rank": 21,
       "id": "11Aw02MJGBUKgDAjVdVsyf",
       "name": "WORLD CLASS",
       "artist": "Armanii",
       "image": "https://i.scdn.co/image/ab67616d0000b273bb385a1c7c606c7d5cc367d2",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/11Aw02MJGBUKgDAjVdVsyf",
-      "history": "Last Spot: #25"
+      "history": "Last Spot: #23"
     },
     {
-      "rank": 24,
-      "id": "5H0LVrinhgaMToeemK6gSE",
-      "name": "addicted to you",
-      "artist": "djcassuk",
-      "image": "https://i.scdn.co/image/ab67616d0000b27347c18251aeb59664a3f36f15",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5H0LVrinhgaMToeemK6gSE",
-      "history": "New"
-    },
-    {
-      "rank": 25,
+      "rank": 22,
       "id": "3311IthbC1sdLW8J4GW7Xf",
       "name": "Stay For The Night",
       "artist": "Vybz Kartel",
       "image": "https://i.scdn.co/image/ab67616d0000b2734e7b79d695d60e49c91fbe7f",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3311IthbC1sdLW8J4GW7Xf",
+      "history": "Last Spot: #25"
+    },
+    {
+      "rank": 23,
+      "id": "5H0LVrinhgaMToeemK6gSE",
+      "name": "addicted to you",
+      "artist": "djcassuk",
+      "image": "https://i.scdn.co/image/ab67616d0000b27347c18251aeb59664a3f36f15",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5H0LVrinhgaMToeemK6gSE",
+      "history": "Last Spot: #24"
+    },
+    {
+      "rank": 24,
+      "id": "66wdUEnKRH807QA6xWQThB",
+      "name": "TAKE NOBODY (featuring J Hus & Skillibeng)",
+      "artist": "JAE5",
+      "image": "https://i.scdn.co/image/ab67616d0000b273b7c0812cfb60f73331b84ff2",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/66wdUEnKRH807QA6xWQThB",
+      "history": "Last Spot: #22"
+    },
+    {
+      "rank": 25,
+      "id": "63raMnrTzrCKwl2BPZreg8",
+      "name": "Moneygram",
+      "artist": "Digga",
+      "image": "https://i.scdn.co/image/ab67616d0000b273ef72b63f30dc9bd7ade0d00d",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/63raMnrTzrCKwl2BPZreg8",
       "history": "New"
     }
   ],
@@ -522,7 +522,7 @@
       "image": "https://i.scdn.co/image/ab67616d0000b2732a3ccb979b0a84f4f1f5c0a5",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/2B6dGcR2VL5jO4vWiwUYLC",
-      "history": "New"
+      "history": "Last Spot: #2"
     },
     {
       "rank": 3,
@@ -532,7 +532,7 @@
       "image": "https://i.scdn.co/image/ab67616d0000b273f1cc68b27f9a8de79079b62e",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3JbFgdrziPQVqMZ1PCbKbw",
-      "history": "New"
+      "history": "Last Spot: #3"
     },
     {
       "rank": 4,
@@ -552,27 +552,27 @@
       "image": "https://i.scdn.co/image/ab67616d0000b273732f0bc19efedd98603c2af4",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/7gFJJ4Ae6RvDXvuHmDxVkf",
-      "history": "Last Spot: #2"
+      "history": "Last Spot: #5"
     },
     {
       "rank": 6,
-      "id": "23asgIQczGVPFN6v9thXwj",
-      "name": "Weatherman 3style",
-      "artist": "Jordan English",
-      "image": "https://i.scdn.co/image/ab67616d0000b27328597b059ac5517b8bc7935f",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/23asgIQczGVPFN6v9thXwj",
-      "history": "Last Spot: #3"
-    },
-    {
-      "rank": 7,
       "id": "5XIMfSaCOBvR8tRnl6Xd3x",
       "name": "Lemme Waist It",
       "artist": "Hollywood HP",
       "image": "https://i.scdn.co/image/ab67616d0000b2734133c657aa31103815a97983",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/5XIMfSaCOBvR8tRnl6Xd3x",
-      "history": "Last Spot: #5"
+      "history": "Last Spot: #7"
+    },
+    {
+      "rank": 7,
+      "id": "23asgIQczGVPFN6v9thXwj",
+      "name": "Weatherman 3style",
+      "artist": "Jordan English",
+      "image": "https://i.scdn.co/image/ab67616d0000b27328597b059ac5517b8bc7935f",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/23asgIQczGVPFN6v9thXwj",
+      "history": "Last Spot: #6"
     },
     {
       "rank": 8,
@@ -582,37 +582,37 @@
       "image": "https://i.scdn.co/image/ab67616d0000b273e9ad60664a6d18814d2217c0",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/7niFlAWhX20Wl0M74yjTnY",
-      "history": "New"
+      "history": "Last Spot: #8"
     },
     {
       "rank": 9,
-      "id": "23hPXsACn8jDjKcdKvpyGy",
-      "name": "Party Time",
-      "artist": "Problem Child",
-      "image": "https://i.scdn.co/image/ab67616d0000b27365207072a56405012530e4cc",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/23hPXsACn8jDjKcdKvpyGy",
-      "history": "Last Spot: #6"
-    },
-    {
-      "rank": 10,
       "id": "3q3odJCJCPaMuCxwgEqvAl",
       "name": "SOCA TEA",
       "artist": "Mastaa T",
       "image": "https://i.scdn.co/image/ab67616d0000b273dd32a163bebcccf78796944d",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3q3odJCJCPaMuCxwgEqvAl",
-      "history": "Last Spot: #7"
+      "history": "Last Spot: #10"
     },
     {
-      "rank": 11,
+      "rank": 10,
       "id": "3nrK3NTVyphp4qVQTgCnHn",
       "name": "Honey",
       "artist": "Father Philis",
       "image": "https://i.scdn.co/image/ab67616d0000b2739797cc67be27909bae463ba0",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3nrK3NTVyphp4qVQTgCnHn",
-      "history": "Last Spot: #8"
+      "history": "Last Spot: #11"
+    },
+    {
+      "rank": 11,
+      "id": "23hPXsACn8jDjKcdKvpyGy",
+      "name": "Party Time",
+      "artist": "Problem Child",
+      "image": "https://i.scdn.co/image/ab67616d0000b27365207072a56405012530e4cc",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/23hPXsACn8jDjKcdKvpyGy",
+      "history": "Last Spot: #9"
     },
     {
       "rank": 12,
@@ -622,66 +622,66 @@
       "image": "https://i.scdn.co/image/ab67616d0000b273f254b09194dd0247341fc48b",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/4ll1TBFA25YK3rrzs6bh4r",
-      "history": "Last Spot: #10"
+      "history": "Last Spot: #12"
     },
     {
       "rank": 13,
+      "id": "22Ja0ADBNuRxkFdxSjF7pB",
+      "name": "Take My Time",
+      "artist": "Mical Teja",
+      "image": "https://i.scdn.co/image/ab67616d0000b2730713c7a569e50d709d2e5d57",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/22Ja0ADBNuRxkFdxSjF7pB",
+      "history": "New"
+    },
+    {
+      "rank": 14,
       "id": "0CvKSapEIwokRMIDC9bWHb",
       "name": "Rule You",
       "artist": "Colton T",
       "image": "https://i.scdn.co/image/ab67616d0000b2734e8d27c51317c789150c6ecf",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/0CvKSapEIwokRMIDC9bWHb",
-      "history": "Last Spot: #9"
+      "history": "Last Spot: #13"
     },
     {
-      "rank": 14,
+      "rank": 15,
       "id": "4Nc0jbbokqQfXLYmOCRhvo",
       "name": "Rosalie",
       "artist": "Problem Child",
       "image": "https://i.scdn.co/image/ab67616d0000b273d942fbf3b0d18ea2306b16fc",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/4Nc0jbbokqQfXLYmOCRhvo",
-      "history": "Last Spot: #11"
+      "history": "Last Spot: #14"
     },
     {
-      "rank": 15,
+      "rank": 16,
       "id": "1yw5nSA69VSTTAtbOo9Evj",
       "name": "Ching Ching",
       "artist": "Jagwa De Champ",
       "image": "https://i.scdn.co/image/ab67616d0000b2734e71f8f70e998e154a10d49b",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/1yw5nSA69VSTTAtbOo9Evj",
-      "history": "Last Spot: #12"
+      "history": "Last Spot: #15"
     },
     {
-      "rank": 16,
+      "rank": 17,
       "id": "30FSWRBqB2iW2j4jmW4ArH",
       "name": "Pull D Pin",
       "artist": "Machel Montano",
       "image": "https://i.scdn.co/image/ab67616d0000b27343cc7c3481290c24a5a7c7bb",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/30FSWRBqB2iW2j4jmW4ArH",
-      "history": "Last Spot: #14"
+      "history": "Last Spot: #16"
     },
     {
-      "rank": 17,
+      "rank": 18,
       "id": "2svZtSrEDgzy1FTN4CGZif",
       "name": "Donut",
       "artist": "Kalvis",
       "image": "https://i.scdn.co/image/ab67616d0000b273938495a73b375da9226900e0",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/2svZtSrEDgzy1FTN4CGZif",
-      "history": "Last Spot: #13"
-    },
-    {
-      "rank": 18,
-      "id": "7x6L5RYgBNVWTGhrImJ00w",
-      "name": "Coulda Been Us",
-      "artist": "Hey Choppi",
-      "image": "https://i.scdn.co/image/ab67616d0000b273026d55839495ceee7b2fad04",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/7x6L5RYgBNVWTGhrImJ00w",
       "history": "Last Spot: #17"
     },
     {
@@ -692,7 +692,7 @@
       "image": "https://i.scdn.co/image/ab67616d0000b273f1f84d6c776da3bd45b21663",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/1FaIgqpQVkLt8dkeeviS1j",
-      "history": "Last Spot: #15"
+      "history": "Last Spot: #19"
     },
     {
       "rank": 20,
@@ -702,57 +702,57 @@
       "image": "https://i.scdn.co/image/ab67616d0000b273527048afe349f8b29651335b",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6cjJrsGckkftWE8daRPDIb",
-      "history": "Last Spot: #16"
+      "history": "Last Spot: #20"
     },
     {
       "rank": 21,
+      "id": "7x6L5RYgBNVWTGhrImJ00w",
+      "name": "Coulda Been Us",
+      "artist": "Hey Choppi",
+      "image": "https://i.scdn.co/image/ab67616d0000b273026d55839495ceee7b2fad04",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/7x6L5RYgBNVWTGhrImJ00w",
+      "history": "Last Spot: #18"
+    },
+    {
+      "rank": 22,
+      "id": "42dCOXD6m1Fq6SqkxYnDI4",
+      "name": "Worst Behavior",
+      "artist": "Kimi",
+      "image": "https://i.scdn.co/image/ab67616d0000b27367469a6ac1a765ced3eb3b16",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/42dCOXD6m1Fq6SqkxYnDI4",
+      "history": "New"
+    },
+    {
+      "rank": 23,
       "id": "6CpcjTqOZhQQQlYL4sPlCq",
       "name": "1Up",
       "artist": "Jus Jay King",
       "image": "https://i.scdn.co/image/ab67616d0000b27343277f763f5071c40e5499c7",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6CpcjTqOZhQQQlYL4sPlCq",
-      "history": "Last Spot: #18"
+      "history": "Last Spot: #21"
     },
     {
-      "rank": 22,
+      "rank": 24,
       "id": "5oQ9GouOhI0WXisWT6PZvK",
       "name": "Alcohol",
       "artist": "L Pank",
       "image": "https://i.scdn.co/image/ab67616d0000b273ab9c50236f2191f48d3c3103",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/5oQ9GouOhI0WXisWT6PZvK",
-      "history": "Last Spot: #19"
+      "history": "Last Spot: #22"
     },
     {
-      "rank": 23,
-      "id": "3pz5L0mBoM0QKByZwz7m3c",
-      "name": "Ting Go Happen",
-      "artist": "Skinny Fabulous",
-      "image": "https://i.scdn.co/image/ab67616d0000b273c82d8d84aea1bd081987e296",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3pz5L0mBoM0QKByZwz7m3c",
-      "history": "Last Spot: #21"
-    },
-    {
-      "rank": 24,
+      "rank": 25,
       "id": "3GsXQlYbTRA1jGsilub0Rj",
       "name": "By My Side",
       "artist": "Fuse ODG",
       "image": "https://i.scdn.co/image/ab67616d0000b2739b3dae0ad6b271a21b617019",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3GsXQlYbTRA1jGsilub0Rj",
-      "history": "Last Spot: #20"
-    },
-    {
-      "rank": 25,
-      "id": "0iyBDFslBYaWjiPrJYSthh",
-      "name": "Active &",
-      "artist": "Jordan English",
-      "image": "https://i.scdn.co/image/ab67616d0000b273ae7f993c04246470d85c16c3",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/0iyBDFslBYaWjiPrJYSthh",
-      "history": "Last Spot: #22"
+      "history": "Last Spot: #24"
     }
   ],
   "afrobeats": [
@@ -764,67 +764,67 @@
       "image": "https://i.scdn.co/image/ab67616d0000b27303cadf1b3fe324c1dc710ed4",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/0kosUz0jePvjiz4ctmR6wL",
-      "history": "Last Spot: #20"
+      "history": "Last Spot: #1"
     },
     {
       "rank": 2,
+      "id": "3jucj0h0tajme6rUEadmWN",
+      "name": "SHE DID IT AGAIN (feat. Zara Larsson)",
+      "artist": "Tyla",
+      "image": "https://i.scdn.co/image/ab67616d0000b2731b3b814c3566db921e34acd4",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/3jucj0h0tajme6rUEadmWN",
+      "history": "New"
+    },
+    {
+      "rank": 3,
+      "id": "5WTj1jVzufTuSzFMyjy60M",
+      "name": "Back Outside",
+      "artist": "BNXN",
+      "image": "https://i.scdn.co/image/ab67616d0000b2734a088f73affacb2ff9e2ca18",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5WTj1jVzufTuSzFMyjy60M",
+      "history": "Last Spot: #25"
+    },
+    {
+      "rank": 4,
       "id": "6c2ZcdXHkEFdsNArdJXrHX",
       "name": "Mi Chico - Official - Jason Derulo x Melody",
       "artist": "DJ Goja",
       "image": "https://i.scdn.co/image/ab67616d0000b273a1eddd41334d7100b94e602a",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6c2ZcdXHkEFdsNArdJXrHX",
-      "history": "Last Spot: #18"
-    },
-    {
-      "rank": 3,
-      "id": "2ZIry1Xixcqw4IJExyEKDz",
-      "name": "SHE DID IT AGAIN (feat. Zara Larsson)",
-      "artist": "Tyla",
-      "image": "https://i.scdn.co/image/ab67616d0000b273441fbf593020d8e56eca0fdb",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/2ZIry1Xixcqw4IJExyEKDz",
-      "history": "Last Spot: #19"
-    },
-    {
-      "rank": 4,
-      "id": "3tENXWy5Yf1iJJV4EYqZh1",
-      "name": "MY HEALER",
-      "artist": "Seyi Vibez",
-      "image": "https://i.scdn.co/image/ab67616d0000b2738f6024e39ecb4400270552cf",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3tENXWy5Yf1iJJV4EYqZh1",
-      "history": "Last Spot: #24"
+      "history": "Last Spot: #2"
     },
     {
       "rank": 5,
-      "id": "1TglprKNjHw9rmTNgVZpUu",
-      "name": "I Know Who I Be",
-      "artist": "Davido",
-      "image": "https://i.scdn.co/image/ab67616d0000b27306a99d1efeda0e4566bbfb92",
+      "id": "1qObCJRmQydvmwO6Z0BMbK",
+      "name": "TEA",
+      "artist": "Rema",
+      "image": "https://i.scdn.co/image/ab67616d0000b273fb053c289f43a1baa247e1b5",
       "preview": null,
-      "spotify_url": "https://open.spotify.com/track/1TglprKNjHw9rmTNgVZpUu",
-      "history": "Last Spot: #23"
-    },
-    {
-      "rank": 6,
-      "id": "5Ca1fyuX04EKHCc8Cnb791",
-      "name": "Eja Meja (feat. Asake)",
-      "artist": "BNXN",
-      "image": "https://i.scdn.co/image/ab67616d0000b2739a7fa1aa096871716cda8bdc",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5Ca1fyuX04EKHCc8Cnb791",
+      "spotify_url": "https://open.spotify.com/track/1qObCJRmQydvmwO6Z0BMbK",
       "history": "New"
     },
     {
-      "rank": 7,
-      "id": "5KX0YeCNKaOc3XhhDHi3mI",
-      "name": "Wa",
-      "artist": "Asake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
+      "rank": 6,
+      "id": "7vn1jku0IydU4cVGm5C9lF",
+      "name": "THAT GIRL",
+      "artist": "Tyla",
+      "image": "https://i.scdn.co/image/ab67616d0000b273f9940b597844080b55f1bd5a",
       "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5KX0YeCNKaOc3XhhDHi3mI",
-      "history": "Last Spot: #25"
+      "spotify_url": "https://open.spotify.com/track/7vn1jku0IydU4cVGm5C9lF",
+      "history": "Last Spot: #24"
+    },
+    {
+      "rank": 7,
+      "id": "4iJJOsuXC9Y3Xp3wrmfl24",
+      "name": "Heaven Baby (feat. ZAYN)",
+      "artist": "Ayra Starr",
+      "image": "https://i.scdn.co/image/ab67616d0000b2734457e5b19771c406c6edad32",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/4iJJOsuXC9Y3Xp3wrmfl24",
+      "history": "New"
     },
     {
       "rank": 8,
@@ -834,177 +834,177 @@
       "image": "https://i.scdn.co/image/ab67616d0000b273b1356b443072b4f8615af24d",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3AcgT1ZcF0e9YknCUD269u",
-      "history": "Last Spot: #4"
+      "history": "Last Spot: #8"
     },
     {
       "rank": 9,
-      "id": "4Q7QOaKlr9qGTYkdNqgWxk",
-      "name": "CHANEL",
-      "artist": "Tyla",
-      "image": "https://i.scdn.co/image/ab67616d0000b273f9940b597844080b55f1bd5a",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/4Q7QOaKlr9qGTYkdNqgWxk",
-      "history": "Last Spot: #1"
-    },
-    {
-      "rank": 10,
       "id": "37BTNKEaW6aUvsKH3O2UUt",
       "name": "B4 B4 (with Mayorkun & FOLA)",
       "artist": "Davido",
       "image": "https://i.scdn.co/image/ab67616d0000b2730e2b0b3bdb38eeddcf7481fe",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/37BTNKEaW6aUvsKH3O2UUt",
-      "history": "Last Spot: #5"
+      "history": "Last Spot: #10"
     },
     {
-      "rank": 11,
+      "rank": 10,
       "id": "5u4rozuOBse9MgrAzGspQy",
       "name": "Forgiveness",
       "artist": "Asake",
       "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/5u4rozuOBse9MgrAzGspQy",
-      "history": "Last Spot: #6"
+      "history": "Last Spot: #11"
     },
     {
-      "rank": 12,
-      "id": "36PS8XCemqmPvigIL8S40B",
-      "name": "MCBH",
-      "artist": "Asake",
-      "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/36PS8XCemqmPvigIL8S40B",
-      "history": "Last Spot: #8"
-    },
-    {
-      "rank": 13,
+      "rank": 11,
       "id": "20KiwQQUDsuzAC8AZQJq26",
       "name": "WORSHIP",
       "artist": "Asake",
       "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/20KiwQQUDsuzAC8AZQJq26",
-      "history": "Last Spot: #2"
-    },
-    {
-      "rank": 14,
-      "id": "7aCW8Q337ACIFUmziqKGQd",
-      "name": "Elumelu",
-      "artist": "Young Jonn",
-      "image": "https://i.scdn.co/image/ab67616d0000b2739b2fda0d48eb15f81c15b0b6",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/7aCW8Q337ACIFUmziqKGQd",
-      "history": "Last Spot: #12"
-    },
-    {
-      "rank": 15,
-      "id": "3LBZWdxMKp0dHCbaRJB82d",
-      "name": "IS IT LOVE",
-      "artist": "Tyla",
-      "image": "https://i.scdn.co/image/ab67616d0000b273da5397bde10ea77dca0c3d00",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3LBZWdxMKp0dHCbaRJB82d",
       "history": "Last Spot: #13"
     },
     {
-      "rank": 16,
+      "rank": 12,
+      "id": "2ZIry1Xixcqw4IJExyEKDz",
+      "name": "SHE DID IT AGAIN (feat. Zara Larsson)",
+      "artist": "Tyla",
+      "image": "https://i.scdn.co/image/ab67616d0000b273441fbf593020d8e56eca0fdb",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/2ZIry1Xixcqw4IJExyEKDz",
+      "history": "Last Spot: #3"
+    },
+    {
+      "rank": 13,
+      "id": "1TglprKNjHw9rmTNgVZpUu",
+      "name": "I Know Who I Be",
+      "artist": "Davido",
+      "image": "https://i.scdn.co/image/ab67616d0000b27306a99d1efeda0e4566bbfb92",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/1TglprKNjHw9rmTNgVZpUu",
+      "history": "Last Spot: #5"
+    },
+    {
+      "rank": 14,
       "id": "6JVQBlA628faJmvQbeyBHT",
       "name": "Chanel (feat. Asake)",
       "artist": "Blaqbonez",
       "image": "https://i.scdn.co/image/ab67616d0000b273b07b7cd48080a222a8429816",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/6JVQBlA628faJmvQbeyBHT",
-      "history": "Last Spot: #14"
+      "history": "Last Spot: #16"
     },
     {
-      "rank": 17,
-      "id": "3Yh9cNUxHN0bvkWBQ2QVdK",
-      "name": "As We Get High (feat. Omah Lay & BEAM)",
-      "artist": "bees & honey",
-      "image": "https://i.scdn.co/image/ab67616d0000b2739f3d0559abeec0c0d60acdb2",
+      "rank": 15,
+      "id": "3tENXWy5Yf1iJJV4EYqZh1",
+      "name": "MY HEALER",
+      "artist": "Seyi Vibez",
+      "image": "https://i.scdn.co/image/ab67616d0000b2738f6024e39ecb4400270552cf",
       "preview": null,
-      "spotify_url": "https://open.spotify.com/track/3Yh9cNUxHN0bvkWBQ2QVdK",
-      "history": "New"
+      "spotify_url": "https://open.spotify.com/track/3tENXWy5Yf1iJJV4EYqZh1",
+      "history": "Last Spot: #4"
     },
     {
-      "rank": 18,
-      "id": "5PU6gIDtiehjkK1iKWU4KR",
-      "name": "FRE$H",
-      "artist": "Victony",
-      "image": "https://i.scdn.co/image/ab67616d0000b273a05fb0f5a67090d2d08e7e98",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5PU6gIDtiehjkK1iKWU4KR",
-      "history": "Last Spot: #15"
-    },
-    {
-      "rank": 19,
+      "rank": 16,
       "id": "2DgmLCX1ojv7lE6xk2PD0H",
       "name": "THAT GIRL!",
       "artist": "Darkoo",
       "image": "https://i.scdn.co/image/ab67616d0000b273a97549613fb7f87cb4d6af66",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/2DgmLCX1ojv7lE6xk2PD0H",
-      "history": "Last Spot: #16"
+      "history": "Last Spot: #19"
     },
     {
-      "rank": 20,
+      "rank": 17,
       "id": "3ozNRKWMwoVDoFSsamwJ5e",
       "name": "Already Falling",
       "artist": "Davido",
       "image": "https://i.scdn.co/image/ab67616d0000b2730e2b0b3bdb38eeddcf7481fe",
       "preview": null,
       "spotify_url": "https://open.spotify.com/track/3ozNRKWMwoVDoFSsamwJ5e",
-      "history": "Last Spot: #17"
+      "history": "Last Spot: #20"
     },
     {
-      "rank": 21,
-      "id": "2aLQ89nVUJgLjn3tlmjaxN",
-      "name": "Oh No",
-      "artist": "Rema",
-      "image": "https://i.scdn.co/image/ab67616d0000b273a9ce410b4847747f5dbb1373",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/2aLQ89nVUJgLjn3tlmjaxN",
-      "history": "New"
-    },
-    {
-      "rank": 22,
-      "id": "38Mnfr1l5t2kckdzoJuXTl",
-      "name": "treat u right",
-      "artist": "FOLA",
-      "image": "https://i.scdn.co/image/ab67616d0000b273900e9812c8d6ed75328cd8be",
-      "preview": null,
-      "spotify_url": "https://open.spotify.com/track/38Mnfr1l5t2kckdzoJuXTl",
-      "history": "Last Spot: #3"
-    },
-    {
-      "rank": 23,
-      "id": "7hiRlw64LXcHpGAVJ6eUzv",
-      "name": "Gratitude",
+      "rank": 18,
+      "id": "5KX0YeCNKaOc3XhhDHi3mI",
+      "name": "Wa",
       "artist": "Asake",
       "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
       "preview": null,
-      "spotify_url": "https://open.spotify.com/track/7hiRlw64LXcHpGAVJ6eUzv",
+      "spotify_url": "https://open.spotify.com/track/5KX0YeCNKaOc3XhhDHi3mI",
       "history": "Last Spot: #7"
     },
     {
-      "rank": 24,
-      "id": "7vn1jku0IydU4cVGm5C9lF",
-      "name": "THAT GIRL",
+      "rank": 19,
+      "id": "3Yh9cNUxHN0bvkWBQ2QVdK",
+      "name": "As We Get High (feat. Omah Lay & BEAM)",
+      "artist": "bees & honey",
+      "image": "https://i.scdn.co/image/ab67616d0000b2739f3d0559abeec0c0d60acdb2",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/3Yh9cNUxHN0bvkWBQ2QVdK",
+      "history": "Last Spot: #17"
+    },
+    {
+      "rank": 20,
+      "id": "5Ca1fyuX04EKHCc8Cnb791",
+      "name": "Eja Meja (feat. Asake)",
+      "artist": "BNXN",
+      "image": "https://i.scdn.co/image/ab67616d0000b2739a7fa1aa096871716cda8bdc",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5Ca1fyuX04EKHCc8Cnb791",
+      "history": "Last Spot: #6"
+    },
+    {
+      "rank": 21,
+      "id": "4Q7QOaKlr9qGTYkdNqgWxk",
+      "name": "CHANEL",
       "artist": "Tyla",
       "image": "https://i.scdn.co/image/ab67616d0000b273f9940b597844080b55f1bd5a",
       "preview": null,
-      "spotify_url": "https://open.spotify.com/track/7vn1jku0IydU4cVGm5C9lF",
+      "spotify_url": "https://open.spotify.com/track/4Q7QOaKlr9qGTYkdNqgWxk",
       "history": "Last Spot: #9"
     },
     {
-      "rank": 25,
-      "id": "5WTj1jVzufTuSzFMyjy60M",
-      "name": "Back Outside",
-      "artist": "BNXN",
-      "image": "https://i.scdn.co/image/ab67616d0000b2734a088f73affacb2ff9e2ca18",
+      "rank": 22,
+      "id": "36PS8XCemqmPvigIL8S40B",
+      "name": "MCBH",
+      "artist": "Asake",
+      "image": "https://i.scdn.co/image/ab67616d0000b273d9cd09fb89c473c2e6ce70b1",
       "preview": null,
-      "spotify_url": "https://open.spotify.com/track/5WTj1jVzufTuSzFMyjy60M",
-      "history": "Last Spot: #10"
+      "spotify_url": "https://open.spotify.com/track/36PS8XCemqmPvigIL8S40B",
+      "history": "Last Spot: #12"
+    },
+    {
+      "rank": 23,
+      "id": "7aCW8Q337ACIFUmziqKGQd",
+      "name": "Elumelu",
+      "artist": "Young Jonn",
+      "image": "https://i.scdn.co/image/ab67616d0000b2739b2fda0d48eb15f81c15b0b6",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/7aCW8Q337ACIFUmziqKGQd",
+      "history": "Last Spot: #14"
+    },
+    {
+      "rank": 24,
+      "id": "3LBZWdxMKp0dHCbaRJB82d",
+      "name": "IS IT LOVE",
+      "artist": "Tyla",
+      "image": "https://i.scdn.co/image/ab67616d0000b273da5397bde10ea77dca0c3d00",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/3LBZWdxMKp0dHCbaRJB82d",
+      "history": "Last Spot: #15"
+    },
+    {
+      "rank": 25,
+      "id": "5PU6gIDtiehjkK1iKWU4KR",
+      "name": "FRE$H",
+      "artist": "Victony",
+      "image": "https://i.scdn.co/image/ab67616d0000b273a05fb0f5a67090d2d08e7e98",
+      "preview": null,
+      "spotify_url": "https://open.spotify.com/track/5PU6gIDtiehjkK1iKWU4KR",
+      "history": "Last Spot: #18"
     }
   ]
 }
